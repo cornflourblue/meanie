@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8" />
+    <title>MEAN Blog</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/app-dist/app.css" rel="stylesheet" />
+
+    <base href="/" />
+</head>
+<body class="container">
+    <!-- header -->
+    <header>
+        <ul class="nav nav-tabs">
+            <li><a ui-sref="home">Home</a></li>
+            <li><a ui-sref="test">Test</a></li>
+        </ul>
+    </header>
+
+    <!-- main -->
+    <main ui-view></main>
+
+    <!-- footer -->
+    <footer></footer>
+
+    <!-- external scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
+    <!-- application scripts -->
+    <script src="/app-dist/app.min.js"></script>
+</body>
+</html>
