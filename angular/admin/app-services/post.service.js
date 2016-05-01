@@ -6,34 +6,36 @@
         .factory('PostService', Service);
 
     function Service($http, $q) {
+        var apiUrl = '/api/posts';
         var service = {};
 
         service.GetAll = GetAll;
         service.GetById = GetById;
-        service.Create = Create;
-        service.Update = Update;
+        service.Save = Save;
         service.Delete = Delete;
 
         return service;
 
         function GetAll() {
-            return $http.get('/api/posts').then(handleSuccess, handleError);
+            return $http.get(apiUrl).then(handleSuccess, handleError);
         }
 
         function GetById(_id) {
-            return $http.get('/api/posts/' + _id).then(handleSuccess, handleError);
+            return $http.get(apiUrl + '/' + _id).then(handleSuccess, handleError);
         }
 
-        function Create(post) {
-            return $http.post('/api/posts', post).then(handleSuccess, handleError);
-        }
-
-        function Update(post) {
-            return $http.put('/api/posts/' + post._id, post).then(handleSuccess, handleError);
+        function Save(post) {
+            if (post._id) {
+                // update
+                return $http.put(apiUrl + '/' + post._id, post).then(handleSuccess, handleError);
+            } else {
+                // create
+                return $http.post(apiUrl, post).then(handleSuccess, handleError);
+            }
         }
 
         function Delete(_id) {
-            return $http.delete('/api/posts/' + _id).then(handleSuccess, handleError);
+            return $http.delete(apiUrl + '/' + _id).then(handleSuccess, handleError);
         }
 
         // private functions

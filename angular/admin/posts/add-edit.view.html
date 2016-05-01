@@ -1,0 +1,21 @@
+﻿<div class="account-index">
+    <h1>Post Details</h1>
+    <div class="row">
+        <div class="col-sm-4">
+            <form method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control" ng-model="vm.post.title" required />
+                </div>
+                <div class="form-group">
+                    <label for="body">Body</label>
+                    <textarea id="body" class="form-control" ng-model="vm.post.body" required></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="vm.savePost()">Save</button>
+                    <button class="btn btn-danger" ng-click="vm.deletePost()" ng-show="vm.post._id">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

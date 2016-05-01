@@ -2,20 +2,21 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>MEAN Blog</title>
+    <title>MEANie</title>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <link href="app-dist/app.css" rel="stylesheet" />
 </head>
-<body class="container">
+<body>
     <!-- header -->
     <header>
         <ul class="nav nav-tabs">
-            <li ng-class="{active: activeTab === 'home'}"><a ui-sref="home">Home</a></li>
-            <li ng-class="{active: activeTab === 'posts'}"><a ui-sref="posts">Posts</a></li>
-            <li ng-class="{active: activeTab === 'account'}"><a ui-sref="account">Account</a></li>
+            <li ng-class="{active: activeTab === 'home'}"><a href="#/">Home</a></li>
+            <li ng-class="{active: activeTab === 'posts'}"><a href="#/posts">Posts</a></li>
+            <li ng-class="{active: activeTab === 'account'}"><a href="#/account">Account</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
         </ul>
+        <div class="logo">MEANie</div>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
         </div>

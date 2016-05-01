@@ -39,7 +39,7 @@ function authenticate(username, password) {
 function getAll() {
     var deferred = Q.defer();
 
-    db.users.find(function (err, users) {
+    db.users.find().toArray(function (err, users) {
         if (err) deferred.reject(err);
 
         // return users (without hashed passwords)

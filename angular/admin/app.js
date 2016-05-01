@@ -13,21 +13,35 @@
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'home/index.html',
+                templateUrl: 'home/index.view.html',
                 controller: 'Home.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'home' }
             })
             .state('posts', {
                 url: '/posts',
-                templateUrl: 'posts/index.html',
+                templateUrl: 'posts/index.view.html',
                 controller: 'Posts.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'posts' }
+            })
+            .state('posts-add', {
+                url: '/posts/add',
+                templateUrl: 'posts/add-edit.view.html',
+                controller: 'Posts.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'posts' }
+            })
+            .state('posts-edit', {
+                url: '/posts/edit/:_id',
+                templateUrl: 'posts/add-edit.view.html',
+                controller: 'Posts.AddEditController',
                 controllerAs: 'vm',
                 data: { activeTab: 'posts' }
             })
             .state('account', {
                 url: '/account',
-                templateUrl: 'account/index.html',
+                templateUrl: 'account/index.view.html',
                 controller: 'Account.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'account' }

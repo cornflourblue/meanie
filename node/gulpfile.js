@@ -18,7 +18,7 @@ gulp.task('less', function () {
             .pipe(less())
             .pipe(autoprefixer())
             .pipe(minifyCSS())
-            .pipe(gulp.dest(basePath + '/app-dist/'));
+            .pipe(gulp.dest(basePath + '/' + app + '/app-dist/'));
     }
 });
 

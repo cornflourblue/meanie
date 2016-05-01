@@ -1,7 +1,73 @@
-﻿body {
+﻿h1 {
+    font-size: 28px;
+    font-weight: normal;
+}
+
+body {
     padding: 20px 0;
 }
 
+header {
+    .nav {
+        li:first-child {
+            margin-left: 20px;
+        }
+    }
+
+    .logo {
+        position: absolute; 
+        top: 12px;
+        right: 30px; 
+        font-size: 30px;
+    }
+}
+
+main {
+    padding: 0 20px 20px 20px;
+}
+
 .flash-message {
-    margin-top: 20px;
+    margin: 20px 20px 0 20px;
+}
+
+.index-header {
+    h1 {
+        float: left;
+    }
+
+    .buttons {
+        float: right;
+        margin-top: 13px;
+    }
+}
+
+.posts-index {
+    .posts-table {
+        th {
+            white-space: nowrap;
+        }
+
+        td {
+            vertical-align: middle
+        }
+
+        td.action-icons {
+            white-space: nowrap;
+            text-align: right;
+
+            .btn {
+                padding: 0;
+                width: 26px;
+                height: 26px;
+                line-height: 26px;
+            }
+        }
+    }
+}
+
+/* Bootstrap Overrides */
+.nav-tabs > li.active > a, 
+.nav-tabs > li.active > a:focus, 
+.nav-tabs > li.active > a:hover {
+    cursor: pointer;
 }

@@ -22,6 +22,7 @@ app.use(function (req, res, next) {
 
 // api routes
 app.use('/api/users', require('./controllers/api/users.controller'));
+app.use('/api/posts', require('./controllers/api/posts.controller'));
 
 // make JWT token available to angular app
 app.get('/token', function (req, res) { 

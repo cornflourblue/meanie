@@ -13,6 +13,12 @@
         initController();
 
         function initController() {
+            vm.loading = true;
+            PostService.GetAll()
+                .then(function (posts) {
+                    vm.loading = false;
+                    vm.posts = posts;
+                });
         }
     }
 
