@@ -5,7 +5,7 @@
         .module('app')
         .controller('Posts.AddEditController', Controller);
 
-    function Controller($stateParams, PostService, FlashService) {
+    function Controller($stateParams, $location, PostService, AlertService) {
         var vm = this;
 
         vm.post = {};
@@ -28,20 +28,22 @@
         function savePost() {
             PostService.Save(vm.post)
                 .then(function () {
-                    FlashService.Success('Post saved');
+                    AlertService.Success('Post saved', true);
+                    $location.path('/posts');
                 })
                 .catch(function (error) {
-                    FlashService.Error(error);
+                    AlertService.Error(error);
                 });
         }
 
         function deletePost() {
             PostService.Delete(vm.post._id)
                 .then(function () {
-                    FlashService.Success('Post deleted');
+                    AlertService.Success('Post deleted', true);
+                    $location.path('/posts');
                 })
                 .catch(function (error) {
-                    FlashService.Error(error);
+                    AlertService.Error(error);
                 });
         }
     }

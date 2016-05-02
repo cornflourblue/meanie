@@ -1,19 +1,36 @@
 ﻿<div class="account-index">
     <h1>Post Details</h1>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <form method="post">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" class="form-control" ng-model="vm.post.title" required />
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" class="form-control" ng-model="vm.post.title" required />
+                    <label for="summary">Summary</label>
+                    <textarea id="summary" class="form-control" ng-model="vm.post.summary" rows="4"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="body">Body</label>
-                    <textarea id="body" class="form-control" ng-model="vm.post.body" required></textarea>
+                    <textarea id="body" class="form-control" ng-model="vm.post.body" wysiwyg></textarea>
                 </div>
+                <div class="row">
+                    <div class="col-sm-3 form-group">
+                        <label for="publish-date">Publish Date</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input type="text" id="publish-date" class="form-control" ng-model="vm.post.publishDate" datepicker />
+                        </div>
+                    </div>
+                </div>
+                <hr />
                 <div class="form-group">
-                    <button class="btn btn-primary" ng-click="vm.savePost()">Save</button>
-                    <button class="btn btn-danger" ng-click="vm.deletePost()" ng-show="vm.post._id">Delete</button>
+                    <a class="btn btn-primary" ng-click="vm.savePost()">Save</a>
+                    <a class="btn btn-default" href="#/posts">Cancel</a>
+                    <a class="btn btn-danger" ng-click="vm.deletePost()" ng-show="vm.post._id">Delete</a>
                 </div>
             </form>
         </div>

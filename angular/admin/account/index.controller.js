@@ -5,7 +5,7 @@
         .module('app')
         .controller('Account.IndexController', Controller);
 
-    function Controller($window, UserService, FlashService) {
+    function Controller($window, UserService, AlertService) {
         var vm = this;
 
         vm.user = null;
@@ -24,10 +24,10 @@
         function saveUser() {
             UserService.Update(vm.user)
                 .then(function () {
-                    FlashService.Success('User updated');
+                    AlertService.Success('User updated');
                 })
                 .catch(function (error) {
-                    FlashService.Error(error);
+                    AlertService.Error(error);
                 });
         }
 
@@ -38,7 +38,7 @@
                     $window.location = '/login';
                 })
                 .catch(function (error) {
-                    FlashService.Error(error);
+                    AlertService.Error(error);
                 });
         }
     }

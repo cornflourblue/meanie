@@ -3,7 +3,7 @@
 
     angular
         .module('app')
-        .factory('FlashService', Service);
+        .factory('AlertService', Service);
 
     function Service($rootScope) {
         var service = {};
