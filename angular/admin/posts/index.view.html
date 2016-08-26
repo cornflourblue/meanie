@@ -20,8 +20,8 @@
             <td>{{post.title}}</td>
             <td>{{post.Author}}</td>
             <td>{{post.tags}}</td>
-            <td>{{post.publishDate}}</td>
-            <td class="text-center"><i class="glyphicon glyphicon-ok" /></td>
+            <td>{{post.publishDate | date:'dd/MM/yyyy'}}</td>
+            <td class="text-center"><i ng-if="post.publish" class="glyphicon glyphicon-ok" /></td>
             <td class="action-icons">
                 <a href="#/posts/edit/{{post._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
                 <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>

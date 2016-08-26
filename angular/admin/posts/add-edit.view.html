@@ -1,12 +1,16 @@
-﻿<div class="account-index">
+﻿<div>
     <h1>Post Details</h1>
     <div class="row">
         <div class="col-sm-8">
-            <form method="post">
+            <form ng-if="!vm.loading">
                 <div class="row">
                     <div class="col-sm-6 form-group">
                         <label for="title">Title</label>
                         <input type="text" id="title" class="form-control" ng-model="vm.post.title" required />
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label for="title">Author</label>
+                        <input type="text" class="form-control" disabled value="{{vm.author.username}}" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -15,7 +19,11 @@
                 </div>
                 <div class="form-group">
                     <label for="body">Body</label>
-                    <textarea id="body" class="form-control" ng-model="vm.post.body" wysiwyg></textarea>
+                    <textarea class="form-control" ng-model="vm.post.body" wysiwyg></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">Tags</label>
+                    <input type="text" id="tags" class="form-control" ng-model="vm.post.tags" required />
                 </div>
                 <div class="row">
                     <div class="col-sm-3 form-group">
@@ -25,6 +33,11 @@
                             <input type="text" id="publish-date" class="form-control" ng-model="vm.post.publishDate" datepicker />
                         </div>
                     </div>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="vm.post.publish"> Publish
+                    </label>
                 </div>
                 <hr />
                 <div class="form-group">

@@ -7,6 +7,7 @@ var userService = require('services/user.service');
 // routes
 router.post('/authenticate', authenticateUser);
 router.get('/current', jwt, getCurrentUser);
+router.get('/:_id', jwt, getById);
 router.put('/:_id', jwt, updateUser);
 router.delete('/:_id', jwt, deleteUser);
 
@@ -30,6 +31,20 @@ function authenticateUser(req, res) {
 
 function getCurrentUser(req, res) {
     userService.getById(req.user.sub)
+        .then(function (user) {
+            if (user) {
+                res.send(user);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getById(req, res) {
+    userService.getById(req.params._id)
         .then(function (user) {
             if (user) {
                 res.send(user);
