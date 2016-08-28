@@ -5,7 +5,7 @@
         .module('app')
         .controller('Posts.AddEditController', Controller);
 
-    function Controller($stateParams, $location, PostService, AlertService, UserService) {
+    function Controller($stateParams, $location, PostService, AlertService) {
         var vm = this;
 
         vm.post = {};
@@ -23,17 +23,6 @@
                     .then(function (post) {
                         vm.loading -= 1;
                         vm.post = post;
-
-                        if (vm.post.authorId) {
-                            vm.loading += 1;
-                            // get author for display
-                            UserService.GetById(vm.post.authorId)
-                                .then(function (user) {
-                                    console.log('user', user);
-                                    vm.loading -= 1;
-                                    vm.author = user;
-                                });
-                        }
                     });
             } else {
                 // initialise with defaults
@@ -41,14 +30,6 @@
                     publishDate: moment().format(),
                     publish: true
                 };
-
-                // set author as current user
-                vm.loading += 1;
-                UserService.GetCurrent().then(function (user) {
-                    vm.loading -= 1;
-                    vm.author = user;
-                    vm.post.authorId = vm.author._id;
-                });
             }
         }
 

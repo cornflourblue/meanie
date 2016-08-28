@@ -9,6 +9,9 @@
         return {
             require: 'ngModel',
             link: function (scope, element, attr, ngModel) {
+                // add class for custom styling
+                element.addClass('datepicker');
+
                 // enable jquery ui datepicker
                 element.datepicker({ dateFormat: "dd/mm/yy" });
 

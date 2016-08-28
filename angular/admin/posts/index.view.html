@@ -10,7 +10,6 @@
     <table class="posts-table table table-striped">
         <tr>
             <th>Title</th>
-            <th>Author</th>
             <th>Tags</th>
             <th>Publish Date</th>
             <th class="text-center">Published</th>
@@ -18,82 +17,11 @@
         </tr>
         <tr ng-repeat="post in vm.posts">
             <td>{{post.title}}</td>
-            <td>{{post.Author}}</td>
             <td>{{post.tags}}</td>
             <td>{{post.publishDate | date:'dd/MM/yyyy'}}</td>
             <td class="text-center"><i ng-if="post.publish" class="glyphicon glyphicon-ok" /></td>
             <td class="action-icons">
                 <a href="#/posts/edit/{{post._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-            </td>
-        </tr>
-    </table>
-
-
-
-
-    <table class="posts-table table table-striped">
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Tags</th>
-            <th>Publish Date</th>
-            <th class="text-center">Published</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>AngularJS JWT Authentication Example & Tutorial</td>
-            <td>Jason Watmore</td>
-            <td>AngularJS, Angular UI Router, Login, JWT, Authentication and Authorization</td>
-            <td>05 Apr 2016</td>
-            <td class="text-center"><i class="glyphicon glyphicon-ok" /></td>
-            <td class="action-icons">
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td>AngularJS - UTC to Local Date Time Filter</td>
-            <td>Jason Watmore</td>
-            <td>AngularJS, ASP.NET Web API</td>
-            <td>31 Mar 2016</td>
-            <td class="text-center"><i class="glyphicon glyphicon-ok" /></td>
-            <td class="action-icons">
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td>CSS3 - Sticky Header on Scroll Example</td>
-            <td>Jason Watmore</td>
-            <td>CSS3, HTML5, JavaScript, jQuery</td>
-            <td>09 Feb 2016</td>
-            <td></td>
-            <td class="action-icons">
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td>AngularJS - Pagination Example with Logic like Google</td>
-            <td>Jason Watmore</td>
-            <td>AngularJS, Pagination, Bootstrap, JavaScript</td>
-            <td>31 Jan 2016</td>
-            <td class="text-center"><i class="glyphicon glyphicon-ok" /></td>
-            <td class="action-icons">
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
-            </td>
-        </tr>
-        <tr>
-            <td>Angular ngAnimate Tutorial with UI Router</td>
-            <td>Jason Watmore</td>
-            <td>AngularJS, ngAnimate, Angular UI Router</td>
-            <td>20 Jan 2016</td>
-            <td class="text-center"><i class="glyphicon glyphicon-ok" /></td>
-            <td class="action-icons">
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
-                <a href="#" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"></i></a>
             </td>
         </tr>
     </table>

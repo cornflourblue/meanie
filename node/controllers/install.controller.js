@@ -29,7 +29,7 @@ router.post('/', function (req, res) {
             return res.redirect('/login');
         })
         .catch(function (err) {
-            return res.render('install', { error: 'An error occurred' });
+            return res.render('install', { error: err });
         });
 });
 

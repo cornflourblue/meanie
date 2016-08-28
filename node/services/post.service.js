@@ -19,7 +19,7 @@ function getAll() {
     var deferred = Q.defer();
 
     db.posts.find().toArray(function (err, posts) {
-        if (err) deferred.reject(err);
+        if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(posts);
     });
@@ -31,7 +31,7 @@ function getById(_id) {
     var deferred = Q.defer();
 
     db.posts.findById(_id, function (err, post) {
-        if (err) deferred.reject(err);
+        if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(post);
     });
@@ -45,7 +45,7 @@ function create(postParam) {
     db.posts.insert(
         postParam,
         function (err, doc) {
-            if (err) deferred.reject(err);
+            if (err) deferred.reject(err.name + ': ' + err.message);
 
             deferred.resolve();
         });
@@ -63,7 +63,7 @@ function update(_id, postParam) {
         { _id: mongo.helper.toObjectID(_id) },
         { $set: set },
         function (err, doc) {
-            if (err) deferred.reject(err);
+            if (err) deferred.reject(err.name + ': ' + err.message);
 
             deferred.resolve();
         });
@@ -77,7 +77,7 @@ function _delete(_id) {
     db.posts.remove(
         { _id: mongo.helper.toObjectID(_id) },
         function (err) {
-            if (err) deferred.reject(err);
+            if (err) deferred.reject(err.name + ': ' + err.message);
 
             deferred.resolve();
         });

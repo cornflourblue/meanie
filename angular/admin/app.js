@@ -8,16 +8,9 @@
 
     function config($locationProvider, $stateProvider, $urlRouterProvider) {
         // default route
-        $urlRouterProvider.otherwise("/");
+        $urlRouterProvider.otherwise("/posts");
 
         $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: 'home/index.view.html',
-                controller: 'Home.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'home' }
-            })
             .state('posts', {
                 url: '/posts',
                 templateUrl: 'posts/index.view.html',

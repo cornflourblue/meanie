@@ -22,7 +22,7 @@ function authenticate(username, password) {
     var deferred = Q.defer();
 
     db.users.findOne({ username: username }, function (err, user) {
-        if (err) deferred.reject(err);
+        if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (user && bcrypt.compareSync(password, user.hash)) {
             // authentication successful
@@ -40,7 +40,7 @@ function getAll() {
     var deferred = Q.defer();
 
     db.users.find().toArray(function (err, users) {
-        if (err) deferred.reject(err);
+        if (err) deferred.reject(err.name + ': ' + err.message);
 
         // return users (without hashed passwords)
         users = _.map(users, function (user) {
@@ -57,7 +57,7 @@ function getById(_id) {
     var deferred = Q.defer();
 
     db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err);
+        if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (user) {
             // return user (without hashed password)
@@ -78,7 +78,7 @@ function create(userParam) {
     db.users.findOne(
         { username: userParam.username },
         function (err, user) {
-            if (err) deferred.reject(err);
+            if (err) deferred.reject(err.name + ': ' + err.message);
 
             if (user) {
                 // username already exists
@@ -98,7 +98,7 @@ function create(userParam) {
         db.users.insert(
             user,
             function (err, doc) {
-                if (err) deferred.reject(err);
+                if (err) deferred.reject(err.name + ': ' + err.message);
 
                 deferred.resolve();
             });
@@ -112,14 +112,14 @@ function update(_id, userParam) {
 
     // validation
     db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err);
+        if (err) deferred.reject(err.name + ': ' + err.message);
 
         if (user.username !== userParam.username) {
             // username has changed so check if the new username is already taken
             db.users.findOne(
                 { username: userParam.username },
                 function (err, user) {
-                    if (err) deferred.reject(err);
+                    if (err) deferred.reject(err.name + ': ' + err.message);
 
                     if (user) {
                         // username already exists
@@ -136,8 +136,6 @@ function update(_id, userParam) {
     function updateUser() {
         // fields to update
         var set = {
-            firstName: userParam.firstName,
-            lastName: userParam.lastName,
             username: userParam.username,
         };
 
@@ -150,7 +148,7 @@ function update(_id, userParam) {
             { _id: mongo.helper.toObjectID(_id) },
             { $set: set },
             function (err, doc) {
-                if (err) deferred.reject(err);
+                if (err) deferred.reject(err.name + ': ' + err.message);
 
                 deferred.resolve();
             });
@@ -165,7 +163,7 @@ function _delete(_id) {
     db.users.remove(
         { _id: mongo.helper.toObjectID(_id) },
         function (err) {
-            if (err) deferred.reject(err);
+            if (err) deferred.reject(err.name + ': ' + err.message);
 
             deferred.resolve();
         });
