@@ -1,11 +1,12 @@
 ﻿var config = require('config.json');
+var _ = require('lodash');
 var express = require('express');
 var jwt = require('express-jwt')({ secret: config.secret });
 var router = express.Router();
 var postService = require('services/post.service');
 
 // routes
-router.get('/', jwt, getAll);
+router.get('/', getAll);
 router.get('/:_id', jwt, getById);
 router.post('/', jwt, create);
 router.put('/:_id', jwt, update);
@@ -16,7 +17,12 @@ module.exports = router;
 function getAll(req, res) {
     postService.getAll()
         .then(function (posts) {
-            res.send(posts);
+            // if admin user is logged in return all posts, otherwise return only published posts
+            if (req.session.token) {
+                res.send(posts);
+            } else {
+                res.send(_.filter(posts, { 'publish': true }));
+            }
         })
         .catch(function (err) {
             res.status(400).send(err);

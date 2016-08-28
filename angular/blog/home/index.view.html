@@ -1,1 +1,11 @@
-﻿<h1>Welcome to the MEAN Blog!</h1>
+﻿<div class="home-page">
+    <h1>MEANie - The MEAN Stack Blog</h1>
+    <div ng-repeat="post in vm.posts" class="row">
+        <div class="col-sm-8">
+            <h2 class="post-title">
+                <a href="#">{{post.title}}</a>
+            </h2>
+            <div class="post-summary">{{post.summary}}</div>
+        </div>
+    </div>
+</div>
