@@ -14,11 +14,11 @@ gulp.task('less', function () {
     compileLess('blog');
 
     function compileLess(app) {
-        return gulp.src(basePath + '/' + app + '/app-content/app.less')
+        return gulp.src(basePath + '/' + app + '/_content/app.less')
             .pipe(less())
             .pipe(autoprefixer())
             .pipe(minifyCSS())
-            .pipe(gulp.dest(basePath + '/' + app + '/app-dist/'));
+            .pipe(gulp.dest(basePath + '/' + app + '/_dist/'));
     }
 });
 
@@ -27,11 +27,11 @@ gulp.task('scripts', function () {
     compileScripts('blog');
 
     function compileScripts(app) {
-        return gulp.src([basePath + '/' + app + '/**/*.js', '!' + basePath + '/' + app + '/app-dist/**/*.js'])
+        return gulp.src([basePath + '/' + app + '/**/*.js', '!' + basePath + '/' + app + '/_dist/**/*.js'])
             .pipe(ngAnnotate())
             .pipe(uglify())
             .pipe(concat('app.min.js'))
-            .pipe(gulp.dest(basePath + '/' + app + '/app-dist'));
+            .pipe(gulp.dest(basePath + '/' + app + '/_dist'));
     }
 });
 
@@ -40,8 +40,8 @@ gulp.task('watch', function () {
     setupWatches('blog');
 
     function setupWatches(app) {
-        gulp.watch(basePath + '/' + app + '/app-content/*.less', ['less']);
-        gulp.watch([basePath + '/' + app + '/**/*.js', '!' + basePath + '/' + app + '/app-dist/**/*.js'], ['scripts']);
+        gulp.watch(basePath + '/' + app + '/_content/*.less', ['less']);
+        gulp.watch([basePath + '/' + app + '/**/*.js', '!' + basePath + '/' + app + '/_dist/**/*.js'], ['scripts']);
     }
 });
 

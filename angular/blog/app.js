@@ -19,10 +19,10 @@
                 controller: 'Home.IndexController',
                 controllerAs: 'vm'
             })
-            .state('test', {
-                url: '/test',
-                templateUrl: 'test/index.view.html',
-                controller: 'Test.IndexController',
+            .state('post details', {
+                url: '/posts/:year/:month/:day/:slug',
+                templateUrl: 'posts/details.view.html',
+                controller: 'Posts.DetailsController',
                 controllerAs: 'vm'
             });
     }

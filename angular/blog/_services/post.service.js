@@ -10,7 +10,7 @@
         var service = {};
 
         service.GetAll = GetAll;
-        service.GetById = GetById;
+        service.GetByUrl = GetByUrl;
 
         return service;
 
@@ -18,8 +18,8 @@
             return $http.get(apiUrl).then(handleSuccess, handleError);
         }
 
-        function GetById(_id) {
-            return $http.get(apiUrl + '/' + _id).then(handleSuccess, handleError);
+        function GetByUrl(url) {
+            return $http.get(apiUrl + '/' + url).then(handleSuccess, handleError);
         }
 
         // private functions

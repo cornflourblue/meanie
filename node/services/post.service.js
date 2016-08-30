@@ -8,6 +8,7 @@ db.bind('posts');
 var service = {};
 
 service.getAll = getAll;
+service.getByUrl = getByUrl;
 service.getById = getById;
 service.create = create;
 service.update = update;
@@ -22,6 +23,21 @@ function getAll() {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(posts);
+    });
+
+    return deferred.promise;
+}
+
+function getByUrl(year, month, day, slug) {
+    var deferred = Q.defer();
+
+    db.posts.findOne({
+        publishDate: new Date(year, month - 1, day).toISOString(),
+        slug: slug
+    }, function (err, post) {
+        if (err) deferred.reject(err.name + ': ' + err.message);
+
+        deferred.resolve(post);
     });
 
     return deferred.promise;

@@ -7,6 +7,7 @@ var postService = require('services/post.service');
 
 // routes
 router.get('/', getAll);
+router.get('/:year/:month/:day/:slug', getByUrl);
 router.get('/:_id', jwt, getById);
 router.post('/', jwt, create);
 router.put('/:_id', jwt, update);
@@ -22,6 +23,21 @@ function getAll(req, res) {
                 res.send(posts);
             } else {
                 res.send(_.filter(posts, { 'publish': true }));
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getByUrl(req, res) {
+    postService.getByUrl(req.params.year, req.params.month, req.params.day, req.params.slug)
+        .then(function (post) {
+            // return post if it's published or the admin is logged in
+            if (post.publish || req.session.token) {
+                res.send(post);
+            } else {
+                res.status(404).send('Not found');
             }
         })
         .catch(function (err) {

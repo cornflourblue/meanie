@@ -21,13 +21,15 @@
                             { name: 'document', items: ['Source'] },
                         ],
                         removePlugins: 'elementspath',
-                        resize_enabled: false
+                        resize_enabled: false,
+                        allowedContent: true
                     };
                 } else {
                     // regular editor
                     editorOptions = {
                         filebrowserImageUploadUrl: '/api/files/upload',
-                        removeButtons: 'About,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Save,CreateDiv,Language,BidiLtr,BidiRtl,Flash,Iframe,addFile,Styles'
+                        removeButtons: 'About,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Save,CreateDiv,Language,BidiLtr,BidiRtl,Flash,Iframe,addFile,Styles',
+                        allowedContent: true
                     };
                 }
 

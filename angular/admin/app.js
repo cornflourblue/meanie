@@ -18,14 +18,14 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'posts' }
             })
-            .state('posts-add', {
+            .state('posts/add', {
                 url: '/posts/add',
                 templateUrl: 'posts/add-edit.view.html',
                 controller: 'Posts.AddEditController',
                 controllerAs: 'vm',
                 data: { activeTab: 'posts' }
             })
-            .state('posts-edit', {
+            .state('posts/edit', {
                 url: '/posts/edit/:_id',
                 templateUrl: 'posts/add-edit.view.html',
                 controller: 'Posts.AddEditController',
