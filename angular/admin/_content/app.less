@@ -7,9 +7,13 @@ h1 {
 
 body {
     padding: 20px 0;
+    max-width: 1200px;
+    margin: auto;
 }
 
 header {
+    position: relative;
+
     .nav {
         li:first-child {
             margin-left: 20px;
@@ -18,8 +22,8 @@ header {
 
     .logo {
         position: absolute; 
-        top: 12px;
-        right: 30px; 
+        top: 0;
+        right: 20px; 
         font-size: 30px;
     }
 }
@@ -47,31 +51,28 @@ main {
     }
 }
 
-/* POSTS INDEX
------------------------------------------ */
-.posts-index {
-    .posts-table {
-        th {
-            white-space: nowrap;
-        }
+.table {
+    th {
+        white-space: nowrap;
+    }
 
-        td {
-            vertical-align: middle
-        }
+    td {
+        vertical-align: middle
+    }
 
-        td.action-icons {
-            white-space: nowrap;
-            text-align: right;
+    td.action-icons {
+        white-space: nowrap;
+        text-align: right;
 
-            .btn {
-                padding: 0;
-                width: 26px;
-                height: 26px;
-                line-height: 26px;
-            }
+        .btn {
+            padding: 0;
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
         }
     }
 }
+
 
 /* BOOTSTRAP OVERRIDES
 ----------------------------------------- */

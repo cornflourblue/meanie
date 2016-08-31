@@ -1,0 +1,24 @@
+﻿<div class="pages-index">
+    <div class="index-header">
+        <h1>Pages</h1>
+        <div class="buttons">
+            <a href="#/pages/add" class="btn btn-default">
+                <i class="glyphicon glyphicon-plus"></i> New Page
+            </a>
+        </div>
+    </div>
+    <table class="pages-table table table-striped">
+        <tr>
+            <th>Title</th>
+            <th class="text-center">Published</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="page in vm.pages">
+            <td>{{page.title}}</td>
+            <td class="text-center"><i ng-if="page.publish" class="glyphicon glyphicon-ok" /></td>
+            <td class="action-icons">
+                <a href="#/pages/edit/{{page._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+            </td>
+        </tr>
+    </table>
+</div>

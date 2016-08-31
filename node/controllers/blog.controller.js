@@ -4,6 +4,7 @@ var moment = require('moment');
 var path = require('path');
 var router = express.Router();
 var postService = require('services/post.service');
+var pageService = require('services/page.service');
 var indexPath = path.resolve('../angular/blog/index');
 
 // home route
@@ -17,7 +18,7 @@ router.get('/', function (req, res, next) {
 
             // add urls to post objects for links in the view
             vm.posts.forEach(function (post) {
-                post.url = '/posts/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
+                post.url = '/post/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
             });
 
             res.render(indexPath, vm);
@@ -30,7 +31,7 @@ router.get('/', function (req, res, next) {
 });
 
 // post details route
-router.get('/posts/:year/:month/:day/:slug', function (req, res, next) {
+router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
     var vm = { templateUrl: 'posts/details.view.server-side.html' };
 
     postService.getByUrl(req.params.year, req.params.month, req.params.day, req.params.slug)
@@ -48,7 +49,26 @@ router.get('/posts/:year/:month/:day/:slug', function (req, res, next) {
         });
 });
 
+// page details route
+router.get('/page/:slug', function (req, res, next) {
+    var vm = { templateUrl: 'pages/details.view.server-side.html' };
+
+    pageService.getBySlug(req.params.slug)
+        .then(function (page) {
+            if (!page) return res.status(404).send('Not found');
+
+            vm.page = page;
+
+            res.render(indexPath, vm);
+        })
+        .catch(function (err) {
+            vm.error = err;
+
+            res.render(indexPath, vm);
+        });
+});
+
 // serve blog front end files from root path '/'
-router.use('/', express.static('../angular/blog', { redirect: false }));
+router.use('/', express.static('../angular/blog'));
 
 module.exports = router;

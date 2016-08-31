@@ -20,9 +20,15 @@
                 controllerAs: 'vm'
             })
             .state('post-details', {
-                url: '/posts/:year/:month/:day/:slug',
+                url: '/post/:year/:month/:day/:slug',
                 templateUrl: 'posts/details.view.html',
                 controller: 'Posts.DetailsController',
+                controllerAs: 'vm'
+            })
+            .state('page-details', {
+                url: '/page/:slug',
+                templateUrl: 'pages/details.view.html',
+                controller: 'Pages.DetailsController',
                 controllerAs: 'vm'
             });
     }

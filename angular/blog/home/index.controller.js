@@ -21,7 +21,7 @@
 
                     // add urls to post objects for links in the view
                     angular.forEach(vm.posts, function (post) {
-                        post.url = '/posts/' + $filter('date')(post.publishDate, 'yyyy/MM/dd') + '/' + post.slug;
+                        post.url = '/post/' + $filter('date')(post.publishDate, 'yyyy/MM/dd') + '/' + post.slug;
                     });
                 });
         }

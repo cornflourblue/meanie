@@ -32,6 +32,27 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'posts' }
             })
+            .state('pages', {
+                url: '/pages',
+                templateUrl: 'pages/index.view.html',
+                controller: 'Pages.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'pages' }
+            })
+            .state('pages/add', {
+                url: '/pages/add',
+                templateUrl: 'pages/add-edit.view.html',
+                controller: 'Pages.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'pages' }
+            })
+            .state('pages/edit', {
+                url: '/pages/edit/:_id',
+                templateUrl: 'pages/add-edit.view.html',
+                controller: 'Pages.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'pages' }
+            })
             .state('account', {
                 url: '/account',
                 templateUrl: 'account/index.view.html',
