@@ -14,12 +14,25 @@
         }
     }
 
-    function Controller() {
+    function Controller(PostService) {
         var vm = this;
+
+        vm.tags = [];
 
         initController();
 
         function initController() {
+            PostService.GetAll()
+                .then(function (posts) {
+                    // get unique array of all tags
+                    vm.tags = _.chain(posts)
+                        .pluck('tags')
+                        .flatten()
+                        .uniq()
+                        .sort()
+                        .filter(function (el) { return el; }) // remove undefined/null values
+                        .value();
+                });
         }
     }
 })();

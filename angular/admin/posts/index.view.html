@@ -17,7 +17,7 @@
         </tr>
         <tr ng-repeat="post in vm.posts">
             <td>{{post.title}}</td>
-            <td>{{post.tags}}</td>
+            <td>{{post.tags | csv}}</td>
             <td>{{post.publishDate | date:'dd/MM/yyyy'}}</td>
             <td class="text-center"><i ng-if="post.publish" class="glyphicon glyphicon-ok" /></td>
             <td class="action-icons">

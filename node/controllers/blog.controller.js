@@ -50,6 +50,11 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
         });
 });
 
+// posts for tag route
+router.get('/posts/tag/:tag', function (req, res, next) {
+    res.render(indexPath);
+});
+
 // posts for month route
 router.get('/posts/:year/:month', function (req, res, next) {
     res.render(indexPath);

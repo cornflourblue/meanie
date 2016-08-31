@@ -1,0 +1,10 @@
+﻿<h1>Posts tagged: {{vm.tag}}</h1>
+<div ng-repeat="post in vm.posts" class="row">
+    <div class="col-sm-8">
+        <h2 class="post-title">
+            <a href="{{post.url}}">{{post.title}}</a>
+        </h2>
+        <div class="publish-date">{{post.publishDate | date:'MMMM dd yyyy'}}</div>
+        <div class="post-summary">{{post.summary}}</div>
+    </div>
+</div>

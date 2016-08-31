@@ -25,6 +25,12 @@
                 controller: 'Posts.DetailsController',
                 controllerAs: 'vm'
             })
+            .state('posts-for-tag', {
+                url: '/posts/tag/:tag',
+                templateUrl: 'posts/tag.view.html',
+                controller: 'Posts.TagController',
+                controllerAs: 'vm'
+            })
             .state('posts-for-month', {
                 url: '/posts/:year/:month',
                 templateUrl: 'posts/month.view.html',
