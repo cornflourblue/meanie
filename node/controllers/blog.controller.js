@@ -19,6 +19,7 @@ router.get('/', function (req, res, next) {
             // add urls to post objects for links in the view
             vm.posts.forEach(function (post) {
                 post.url = '/post/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
+                post.publishDateFormatted = moment(post.publishDate).format('MMMM DD YYYY');
             });
 
             res.render(indexPath, vm);
@@ -47,6 +48,11 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
 
             res.render(indexPath, vm);
         });
+});
+
+// posts for month route
+router.get('/posts/:year/:month', function (req, res, next) {
+    res.render(indexPath);
 });
 
 // page details route

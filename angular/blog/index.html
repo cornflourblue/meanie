@@ -18,18 +18,48 @@
     <header>
         <ul class="nav nav-tabs">
             <li><a href="/">Home</a></li>
+            <li><a href="/page/code-snippets">Code Snippets</a></li>
+            <li><a href="/archive">Archive</a></li>
+            <li><a href="/contact">Contact</a></li>
         </ul>
     </header>
 
     <!-- main -->
-    <main ui-view>
-        <div ng-non-bindable>
-            <%- include(locals.templateUrl) %>
-        </div>
+    <main ui-view class="container">
+        <% if(locals.templateUrl) { %>
+            <div ng-non-bindable>
+                <%- include(locals.templateUrl) %>
+            </div>
+        <% } %>
 	</main>
 
     <!-- footer -->
-    <footer></footer>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>About me</h4>
+                    <p>I'm a web developer in Sydney Australia and the owner of <a href="https://www.pointblankdevelopment.com.au" target="_blank">Point Blank Development</a>, I've been building websites and web applications in Sydney since 1998.</p>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Month List</h4>
+                    <month-list></month-list>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Tag cloud</h4>
+                    <tag-list></tag-list>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center copyright">
+            &copy; 2016 JasonWatmore.com
+            &nbsp;-&nbsp;
+            Powered by <a href="https://pointblankdevelopment.com.au" target="_blank">Point Blank Development</a>
+        </div>
+    </footer>
+
+    <!-- underscore -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
     <!-- angular -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>

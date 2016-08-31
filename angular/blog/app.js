@@ -25,6 +25,12 @@
                 controller: 'Posts.DetailsController',
                 controllerAs: 'vm'
             })
+            .state('posts-for-month', {
+                url: '/posts/:year/:month',
+                templateUrl: 'posts/month.view.html',
+                controller: 'Posts.MonthController',
+                controllerAs: 'vm'
+            })
             .state('page-details', {
                 url: '/page/:slug',
                 templateUrl: 'pages/details.view.html',
@@ -33,6 +39,7 @@
             });
     }
 
-    function run() {
+    function run($rootScope) {
+        $rootScope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     }
 })();
