@@ -19,7 +19,7 @@
                 controller: 'Home.IndexController',
                 controllerAs: 'vm'
             })
-            .state('post details', {
+            .state('post-details', {
                 url: '/posts/:year/:month/:day/:slug',
                 templateUrl: 'posts/details.view.html',
                 controller: 'Posts.DetailsController',

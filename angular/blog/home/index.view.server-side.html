@@ -1,0 +1,14 @@
+﻿<% // rendered server-side for SEO %>
+<div class="home-page">
+    <h1>MEANie - The MEAN Stack Blog</h1>
+    <% posts.forEach(function(post){ %>
+        <div class="row">
+            <div class="col-sm-8">
+                <h2 class="post-title">
+                    <a href="<%= post.url %>"><%= post.title %></a>
+                </h2>
+                <div class="post-summary"><%= post.summary %></div>
+            </div>
+        </div>
+    <% }) %>
+</div>

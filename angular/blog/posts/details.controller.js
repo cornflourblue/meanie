@@ -5,7 +5,7 @@
         .module('app')
         .controller('Posts.DetailsController', Controller);
 
-    function Controller($stateParams, $sce, PostService) {
+    function Controller($rootScope, $stateParams, $sce, PostService) {
         var vm = this;
 
         initController();
@@ -18,6 +18,8 @@
                 .then(function (post) {
                     vm.loading -= 1;
                     vm.post = post;
+
+                    $rootScope.title = vm.post.title;
 
                     // enable html binding
                     vm.post.body = $sce.trustAsHtml(vm.post.body);

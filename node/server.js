@@ -1,12 +1,18 @@
 ﻿require('rootpath')();
 var express = require('express');
+var ejs = require('ejs');
 var app = express();
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var config = require('config.json');
 
-app.set('view engine', 'ejs');
+// enable ejs templates to have .html extension
+app.engine('html', ejs.renderFile);
+app.set('view engine', 'html');
+
+// set default views folder
 app.set('views', __dirname + '/views');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
