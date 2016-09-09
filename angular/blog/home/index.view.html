@@ -1,12 +1,2 @@
-﻿<div class="home-page">
-    <h1>MEANie - The MEAN Stack Blog</h1>
-    <div ng-repeat="post in vm.posts" class="row">
-        <div class="col-sm-8">
-            <h2 class="post-title">
-                <a href="{{post.url}}">{{post.title}}</a>
-            </h2>
-            <div class="publish-date">{{post.publishDate | date:'MMMM dd yyyy'}}</div>
-            <div class="post-summary">{{post.summary}}</div>
-        </div>
-    </div>
-</div>
+﻿<h1>MEANie - The MEAN Stack Blog</h1>
+<%- include('../_partials/post-list.html') %>
