@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style type="text/css">
+        body {
+            padding-top: 100px;
+        }
+
+        .form-container {
+            width: 400px;
+            margin: auto;
+        }
+
+        .credits {
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Install</h2>
+        <% if(locals.error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+        <% if(locals.success) { %>
+        <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Admin Username</label>
+                <input type="text" name="username" id="username" value="<%= locals.username || '' %>" class="form-control" autofocus />
+            </div>
+            <div class="form-group">
+                <label for="password">Admin Password</label>
+                <input type="password" name="password" id="password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create User</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
