@@ -12,7 +12,7 @@ function send(req, res) {
     // email data and options
     var mailOptions = {
         from: req.body.email,
-        to: 'jason@pointblankdevelopment.com.au',
+        to: config.contactEmail,
         subject: req.body.subject,
         text: req.body.message
     };
