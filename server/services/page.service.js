@@ -1,6 +1,7 @@
 ﻿var config = require('config.json');
 var _ = require('lodash');
 var Q = require('q');
+var slugify = require('helpers/slugify');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('pages');
@@ -57,6 +58,9 @@ function getById(_id) {
 function create(pageParam) {
     var deferred = Q.defer();
 
+    // generate slug from title if empty
+    pageParam.slug = pageParam.slug || slugify(pageParam.title);
+
     db.pages.insert(
         pageParam,
         function (err, doc) {
@@ -70,6 +74,9 @@ function create(pageParam) {
 
 function update(_id, pageParam) {
     var deferred = Q.defer();
+
+    // generate slug from title if empty
+    pageParam.slug = pageParam.slug || slugify(pageParam.title);
 
     // fields to update
     var set = _.omit(pageParam, '_id');

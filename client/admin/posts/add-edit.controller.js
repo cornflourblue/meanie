@@ -5,7 +5,7 @@
         .module('app')
         .controller('Posts.AddEditController', Controller);
 
-    function Controller($stateParams, $location, $filter, PostService, AlertService) {
+    function Controller($stateParams, $location, PostService, AlertService) {
         var vm = this;
 
         vm.post = {};
@@ -34,7 +34,6 @@
         }
 
         function savePost() {
-            vm.post.slug = $filter('slugify')(vm.post.title);
             PostService.Save(vm.post)
                 .then(function () {
                     AlertService.Success('Post saved', true);

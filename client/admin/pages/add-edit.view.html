@@ -8,6 +8,11 @@
                     <input type="text" id="title" class="form-control" ng-model="vm.page.title" required />
                 </div>
                 <div class="form-group">
+                    <label for="slug">Slug</label>
+                    <input type="text" id="slug" class="form-control" ng-model="vm.page.slug" />
+                    <a class="generate-slug" ng-click="vm.page.slug = (vm.page.title | slugify)">Generate from title</a>
+                </div>
+                <div class="form-group">
                     <label for="description">Description</label>
                     <textarea id="description" class="form-control" ng-model="vm.page.description" rows="4"></textarea>
                 </div>

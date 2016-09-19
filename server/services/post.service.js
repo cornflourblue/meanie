@@ -1,6 +1,7 @@
 ﻿var config = require('config.json');
 var _ = require('lodash');
 var Q = require('q');
+var slugify = require('helpers/slugify');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('posts');
@@ -19,7 +20,7 @@ module.exports = service;
 function getAll() {
     var deferred = Q.defer();
 
-    db.posts.find().toArray(function (err, posts) {
+    db.posts.find().sort({ publishDate: -1 }).toArray(function (err, posts) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(posts);
@@ -32,7 +33,7 @@ function getByUrl(year, month, day, slug) {
     var deferred = Q.defer();
 
     db.posts.findOne({
-        publishDate: new Date(year, month - 1, day).toISOString(),
+        publishDate: year + '-' + month + '-' + day,
         slug: slug
     }, function (err, post) {
         if (err) deferred.reject(err.name + ': ' + err.message);
@@ -58,6 +59,9 @@ function getById(_id) {
 function create(postParam) {
     var deferred = Q.defer();
 
+    // generate slug from title if empty
+    postParam.slug = postParam.slug || slugify(postParam.title);
+
     db.posts.insert(
         postParam,
         function (err, doc) {
@@ -71,6 +75,9 @@ function create(postParam) {
 
 function update(_id, postParam) {
     var deferred = Q.defer();
+
+    // generate slug from title if empty
+    postParam.slug = postParam.slug || slugify(postParam.title);
 
     // fields to update
     var set = _.omit(postParam, '_id');

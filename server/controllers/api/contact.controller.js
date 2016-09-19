@@ -21,6 +21,7 @@ function send(req, res) {
     var transporter = nodemailer.createTransport();
     transporter.sendMail(mailOptions, function (err) {
         if (err) {
+            console.log('error sending email', err);
             return res.status(400).send(err);
         }
 

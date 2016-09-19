@@ -13,16 +13,18 @@
         initController();
 
         function initController() {
+            
         };
 
         function submit() {
+            vm.error = null;
             vm.loading = true;
             ContactService.Send(vm)
                 .then(function () {
-                    console.log('contact success');
+                    $location.path('/contact-thanks');
                 })
                 .catch(function (error) {
-                    console.log('contact failed');
+                    vm.error = 'Error: ' + error;
                 })
                 .finally(function () {
                     vm.loading = false;

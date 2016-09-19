@@ -53,6 +53,27 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'pages' }
             })
+            .state('redirects', {
+                url: '/redirects',
+                templateUrl: 'redirects/index.view.html',
+                controller: 'Redirects.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'redirects' }
+            })
+            .state('redirects/add', {
+                url: '/redirects/add',
+                templateUrl: 'redirects/add-edit.view.html',
+                controller: 'Redirects.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'redirects' }
+            })
+            .state('redirects/edit', {
+                url: '/redirects/edit/:_id',
+                templateUrl: 'redirects/add-edit.view.html',
+                controller: 'Redirects.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'redirects' }
+            })
             .state('account', {
                 url: '/account',
                 templateUrl: 'account/index.view.html',

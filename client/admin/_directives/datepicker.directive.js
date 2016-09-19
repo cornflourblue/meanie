@@ -15,20 +15,20 @@
                 // enable jquery ui datepicker
                 element.datepicker({ dateFormat: "dd/mm/yy" });
 
-                // convert utc date to local for display
-                ngModel.$formatters.push(function (utcDate) {
-                    if (!utcDate)
+                // convert to dd/mm/yyyy for display
+                ngModel.$formatters.push(function (date) {
+                    if (!date)
                         return;
 
-                    return $filter('date')(utcDate, 'dd/MM/yyyy');
+                    return moment(date).format('DD/MM/YYYY');
                 });
 
-                // convert local date to utc for storage
-                ngModel.$parsers.push(function (localDate) {
-                    if (!localDate)
+                // convert to yyyy-mm-dd for storage
+                ngModel.$parsers.push(function (date) {
+                    if (!date)
                         return;
 
-                    return moment(localDate, 'DD/MM/YYYY').utc().toISOString();
+                    return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
                 });
             }
         };

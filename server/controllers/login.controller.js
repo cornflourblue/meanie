@@ -1,7 +1,7 @@
 ﻿var express = require('express');
 var router = express.Router();
 var request = require('request');
-var config = require('config.json');
+var userService = require('services/user.service');
 
 router.get('/', function (req, res) {
     // log user out
@@ -15,27 +15,24 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    // authenticate using api to maintain clean separation between layers
-    request.post({
-        url: config.apiUrl + '/users/authenticate',
-        form: req.body,
-        json: true
-    }, function (error, response, body) {
-        if (error) {
-            return res.render('login/index', { error: 'An error occurred' });
-        }
+    userService.authenticate(req.body.username, req.body.password)
+        .then(function (token) {
+            // authentication is successful if the token parameter has a value
+            if (token) {
+                // save JWT token in the session to make it available to the angular app
+                req.session.token = token;
 
-        if (!body.token) {
-            return res.render('login/index', { error: body, username: req.body.username });
-        }
-
-        // save JWT token in the session to make it available to the angular app
-        req.session.token = body.token;
-
-        // redirect to returnUrl
-        var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/admin';
-        res.redirect(returnUrl);
-    });
+                // redirect to returnUrl
+                var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/admin';
+                return res.redirect(returnUrl);
+            } else {
+                return res.render('login/index', { error: 'Username or password is incorrect', username: req.body.username });
+            }
+        })
+        .catch(function (err) {
+            console.log('error on login', err);
+            return res.render('login/index', { error: err });
+        });
 });
 
 module.exports = router;

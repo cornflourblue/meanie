@@ -1,2 +1,16 @@
-﻿<h1><%= locals.post.title %></h1>
-<div ng-non-bindable><%- locals.post.body %></div>
+﻿<div class="post-details">
+    <div class="container">
+        <div class="publish-date"><%= locals.post.publishDateFormatted %></div>
+        <h1><%= locals.post.title %></h1>
+        <div ng-non-bindable><%- locals.post.body %></div>
+
+        <div class="post-footer">
+            <% if(locals.tags && locals.tags.length) { %>
+                <p>
+                    Tags: 
+                    <%- locals.tags.map(function(tag) { return '<a href="/posts/tag/' + tag.slug + '">' + tag.text + '</a>'; }).join(', ') %>
+                </p>
+            <% } %>
+        </div>
+    </div>
+</div>

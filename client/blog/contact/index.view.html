@@ -1,40 +1,45 @@
-﻿<h1>Contact Me</h1>
-<div class="row">
-    <div class="col-sm-6">
-        <form name="f" ng-submit="f.$valid && vm.submit()" novalidate>
-            <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.name.$invalid }">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" class="form-control" ng-model="vm.name" required />
-                <div ng-messages="f.$submitted && f.name.$error" class="help-block">
-                    <div ng-message="required">Name is required</div>
-                </div>
+﻿<div class="page-details">
+    <div class="container">
+        <h1>Contact Me</h1>
+        <div class="row">
+            <div class="col-sm-6">
+                <form name="f" ng-submit="f.$valid && vm.submit()" novalidate>
+                    <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.name.$invalid }">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" class="form-control" ng-model="vm.name" required />
+                        <div ng-messages="f.$submitted && f.name.$error" class="help-block ng-cloak">
+                            <div ng-message="required">Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.email.$invalid }">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" ng-model="vm.email" required />
+                        <div ng-messages="f.$submitted && f.email.$error" class="help-block ng-cloak">
+                            <div ng-message="required">Email is required</div>
+                            <div ng-message="email">Email is invalid</div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.subject.$invalid }">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-control" ng-model="vm.subject" required />
+                        <div ng-messages="f.$submitted && f.subject.$error" class="help-block ng-cloak">
+                            <div ng-message="required">Subject is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.message.$invalid }">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" class="form-control" ng-model="vm.message" required></textarea>
+                        <div ng-messages="f.$submitted && f.message.$error" class="help-block ng-cloak">
+                            <div ng-message="required">Message is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button ng-disabled="vm.loading" class="btn btn-primary">Submit</button>
+                        <img ng-if="vm.loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                    </div>
+                </form>
+                <div ng-if="vm.error" class="alert alert-danger ng-cloak">{{vm.error}}</div>
             </div>
-            <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.email.$invalid }">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control" ng-model="vm.email" required />
-                <div ng-messages="f.$submitted && f.email.$error" class="help-block">
-                    <div ng-message="required">Email is required</div>
-                    <div ng-message="email">Email is invalid</div>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.subject.$invalid }">
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" name="subject" class="form-control" ng-model="vm.subject" required />
-                <div ng-messages="f.$submitted && f.subject.$error" class="help-block">
-                    <div ng-message="required">Subject is required</div>
-                </div>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error': f.$submitted && f.message.$invalid }">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" class="form-control" ng-model="vm.message" required></textarea>
-                <div ng-messages="f.$submitted && f.message.$error" class="help-block">
-                    <div ng-message="required">Message is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <button ng-disabled="vm.loading" class="btn btn-primary">Submit</button>
-                <img ng-if="vm.loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>

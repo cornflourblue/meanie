@@ -3,15 +3,46 @@ var _ = require('lodash');
 var moment = require('moment');
 var path = require('path');
 var router = express.Router();
-var postService = require('services/post.service');
+var config = require('config.json');
 var pageService = require('services/page.service');
+var postService = require('services/post.service');
+var redirectService = require('services/redirect.service');
+var slugify = require('helpers/slugify');
+var pager = require('helpers/pager');
 
 var basePath = path.resolve('../client/blog');
 var indexPath = basePath + '/index';
 
-// base middleware function to add common viewmodel data
+/* MIDDLEWARE
+---------------------------------------*/
+
+// check for redirects
+router.use(function (req, res, next) {
+    redirectService.getByFrom(req.url.toLowerCase())
+        .then(function (redirect) {
+            if (redirect) {
+                // 301 redirect to new url
+                res.redirect(301, redirect.to);
+            } else {
+                // continue
+                next();
+            }
+        })
+        .catch(function (err) {
+            vm.error = err;
+            res.render(indexPath, vm);
+        });
+});
+
+// add posts, years and tags to vm
 router.use(function (req, res, next) {
     var vm = req.vm = {};
+
+    // site title
+    vm.siteTitle = config.siteTitle;
+
+    // default meta title
+    vm.metaTitle = config.siteTitle;
 
     postService.getAll()
         .then(function (posts) {
@@ -23,7 +54,7 @@ router.use(function (req, res, next) {
                 post.url = '/post/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
                 post.publishDateFormatted = moment(post.publishDate).format('MMMM DD YYYY');
             });
-            
+
             loadYears();
             loadTags();
 
@@ -81,6 +112,12 @@ router.use(function (req, res, next) {
 
 // home route
 router.get('/', function (req, res, next) {
+    var vm = req.vm;
+
+    var currentPage = req.query.page || 1;
+    vm.pager = pager(vm.posts.length, currentPage);
+    vm.posts = vm.posts.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+
     render('home/index.view.html', req, res);
 });
 
@@ -92,7 +129,18 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
         .then(function (post) {
             if (!post) return res.status(404).send('Not found');
 
+            post.url = '/post/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
+            post.publishDateFormatted = moment(post.publishDate).format('MMMM DD YYYY');
             vm.post = post;
+
+            // add tags and tag slugs to viewmodel
+            vm.tags = _.map(post.tags, function (tag) {
+                return { text: tag, slug: slugify(tag) };
+            });
+
+            // meta tags
+            vm.metaTitle = vm.post.title + ' | ' + config.siteTitle;
+            vm.metaDescription = vm.post.summary;
 
             render('posts/details.view.html', req, res);
         })
@@ -119,6 +167,10 @@ router.get('/posts/tag/:tag', function (req, res, next) {
                 // set vm.tag and title here to get the un-slugified version for display
                 vm.tag = tag;
                 tagFound = true;
+
+                // meta tags
+                vm.metaTitle = 'Posts tagged "' + vm.tag + '"' + ' | ' + config.siteTitle;
+                vm.metaDescription = 'Posts tagged "' + vm.tag + '"' + ' | ' + config.siteTitle;
             }
         });
 
@@ -140,6 +192,10 @@ router.get('/posts/:year/:month', function (req, res, next) {
         return moment(post.publishDate).format('YYYYMM') === req.params.year + req.params.month;
     });
 
+    // meta tags
+    vm.metaTitle = 'Posts for ' + vm.monthName + ' ' + vm.year + ' | ' + config.siteTitle;
+    vm.metaDescription = 'Posts for ' + vm.monthName + ' ' + vm.year + ' | ' + config.siteTitle;
+
     render('posts/month.view.html', req, res);
 });
 
@@ -153,6 +209,10 @@ router.get('/page/:slug', function (req, res, next) {
 
             vm.page = page;
 
+            // meta tags
+            vm.metaTitle = vm.page.title + ' | ' + config.siteTitle;
+            vm.metaDescription = vm.page.description + ' | ' + config.siteTitle;
+
             render('pages/details.view.html', req, res);
         })
         .catch(function (err) {
@@ -163,16 +223,40 @@ router.get('/page/:slug', function (req, res, next) {
 
 // archive route
 router.get('/archive', function (req, res, next) {
+    var vm = req.vm;
+
+    // meta tags
+    vm.metaTitle = 'Archive' + ' | ' + config.siteTitle;
+    vm.metaDescription = 'Archive' + ' | ' + config.siteTitle;
+
     render('archive/index.view.html', req, res);
 });
 
-// archive route
+// contact route
 router.get('/contact', function (req, res, next) {
+    var vm = req.vm;
+
+    // meta tags
+    vm.metaTitle = 'Contact Me' + ' | ' + config.siteTitle;
+    vm.metaDescription = 'Contact Me' + ' | ' + config.siteTitle;
+
     render('contact/index.view.html', req, res);
 });
 
-// static route for '/_dist' directory
+// contact thanks route
+router.get('/contact-thanks', function (req, res, next) {
+    var vm = req.vm;
+
+    // meta tags
+    vm.metaTitle = 'Contact Me' + ' | ' + config.siteTitle;
+    vm.metaDescription = 'Contact Me' + ' | ' + config.siteTitle;
+
+    render('contact/thanks.view.html', req, res);
+});
+
+// static routes
 router.use('/_dist', express.static('../client/blog/_dist'));
+router.use('/_content', express.static('../client/blog/_content'));
 
 module.exports = router;
 
@@ -183,26 +267,10 @@ module.exports = router;
 function render(templateUrl, req, res) {
     var vm = req.vm;
 
+    vm.xhr = req.xhr;
     vm.templateUrl = templateUrl;
 
     // render view only for ajax request or whole page for full request
     var renderPath = req.xhr ? basePath + '/' + vm.templateUrl : indexPath;
     return res.render(renderPath, vm);
 }
-
-// convert string into slug
-function slugify(input) {
-    if (!input)
-        return;
-
-    // make lower case and trim
-    var slug = input.toLowerCase().trim();
-
-    // replace invalid chars with spaces
-    slug = slug.replace(/[^a-z0-9\s-]/g, ' ');
-
-    // replace multiple spaces or hyphens with a single hyphen
-    slug = slug.replace(/[\s-]+/g, '-');
-
-    return slug;
-};

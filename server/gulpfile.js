@@ -27,7 +27,12 @@ gulp.task('scripts', function () {
     compileScripts('blog');
 
     function compileScripts(app) {
-        return gulp.src([basePath + '/' + app + '/**/*.js', '!' + basePath + '/' + app + '/_dist/**/*.js'])
+        // include all .js files except for a couple of folders
+        return gulp.src([
+                basePath + '/' + app + '/**/*.js', 
+                '!' + basePath + '/' + app + '/_content/**/*.js', 
+                '!' + basePath + '/' + app + '/_dist/**/*.js'
+            ])
             .pipe(ngAnnotate())
             .pipe(uglify())
             .pipe(concat('app.min.js'))
