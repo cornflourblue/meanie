@@ -13,6 +13,12 @@ var pager = require('helpers/pager');
 var basePath = path.resolve('../client/blog');
 var indexPath = basePath + '/index';
 
+/* STATIC ROUTES
+---------------------------------------*/
+
+router.use('/_dist', express.static('../client/blog/_dist'));
+router.use('/_content', express.static('../client/blog/_content'));
+
 /* MIDDLEWARE
 ---------------------------------------*/
 
@@ -253,10 +259,6 @@ router.get('/contact-thanks', function (req, res, next) {
 
     render('contact/thanks.view.html', req, res);
 });
-
-// static routes
-router.use('/_dist', express.static('../client/blog/_dist'));
-router.use('/_content', express.static('../client/blog/_content'));
 
 module.exports = router;
 

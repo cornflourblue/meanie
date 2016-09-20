@@ -33,7 +33,6 @@
         }
 
         function savePage() {
-            vm.page.slug = $filter('slugify')(vm.page.title);
             PageService.Save(vm.page)
                 .then(function () {
                     AlertService.Success('Page saved', true);

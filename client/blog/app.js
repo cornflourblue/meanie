@@ -62,21 +62,29 @@
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     }
 
+    var initialLoad = true;
     function run($rootScope, $timeout, $location, $window) {
         // initialise google analytics
-        $window.ga('create', 'UA-30211492-1', 'auto');
+        $window.ga('create', 'UA-XXXXXXXX-X', 'auto');
 
         $rootScope.$on('$stateChangeSuccess', function () {
+            // hide mobile nav
+            $rootScope.showNav = false;
+
             // track pageview
             $window.ga('send', 'pageview', $location.url());
 
             // jump to top of page
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            if (!initialLoad) {
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            }
 
             $timeout(function () {
                 // run syntax highlighter plugin
                 SyntaxHighlighter.highlight();
             });
+
+            initialLoad = false;
         });
     }
 

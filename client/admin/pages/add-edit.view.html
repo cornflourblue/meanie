@@ -1,37 +1,33 @@
 ﻿<div class="pages-add-edit">
     <h1>Page Details</h1>
-    <div class="row">
-        <div class="col-sm-8">
-            <form ng-if="!vm.loading">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" class="form-control" ng-model="vm.page.title" required />
-                </div>
-                <div class="form-group">
-                    <label for="slug">Slug</label>
-                    <input type="text" id="slug" class="form-control" ng-model="vm.page.slug" />
-                    <a class="generate-slug" ng-click="vm.page.slug = (vm.page.title | slugify)">Generate from title</a>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" class="form-control" ng-model="vm.page.description" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="body">Body</label>
-                    <textarea class="form-control" ng-model="vm.page.body" wysiwyg></textarea>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" ng-model="vm.page.publish"> Publish
-                    </label>
-                </div>
-                <hr />
-                <div class="form-group">
-                    <a class="btn btn-primary" ng-click="vm.savePage()">Save</a>
-                    <a class="btn btn-default" href="#/pages">Cancel</a>
-                    <a class="btn btn-danger" ng-click="vm.deletePage()" ng-show="vm.page._id">Delete</a>
-                </div>
-            </form>
+    <form ng-if="!vm.loading">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" class="form-control" ng-model="vm.page.title" required />
         </div>
-    </div>
+        <div class="form-group">
+            <label for="slug">Slug</label>
+            <input type="text" id="slug" class="form-control" ng-model="vm.page.slug" />
+            <a class="generate-slug" ng-click="vm.page.slug = (vm.page.title | slugify)">Generate from title</a>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" class="form-control" ng-model="vm.page.description" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="body">Body</label>
+            <textarea class="form-control" ng-model="vm.page.body" wysiwyg></textarea>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="vm.page.publish"> Publish
+            </label>
+        </div>
+        <hr />
+        <div class="form-group">
+            <a class="btn btn-primary" ng-click="vm.savePage()">Save</a>
+            <a class="btn btn-default" href="#/pages">Cancel</a>
+            <a class="btn btn-danger" ng-click="vm.deletePage()" ng-show="vm.page._id">Delete</a>
+        </div>
+    </form>
 </div>
