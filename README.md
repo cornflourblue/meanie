@@ -1,3 +1,3 @@
-# mean-blog
+# MEANie
 
-MEAN Blog
+MEANie - MEAN Stack Blogging Platform
