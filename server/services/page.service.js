@@ -23,6 +23,8 @@ function getAll() {
     db.pages.find().toArray(function (err, pages) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
+        pages = _.sortBy(pages, function (p) { return p.title.toLowerCase(); });
+
         deferred.resolve(pages);
     });
 

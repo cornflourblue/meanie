@@ -11,27 +11,6 @@ body {
     margin: auto;
 }
 
-header {
-    position: relative;
-
-    .nav {
-        li:first-child {
-            margin-left: 20px;
-        }
-    }
-
-    .logo {
-        position: absolute; 
-        top: 0;
-        right: 20px; 
-        font-size: 30px;
-    }
-}
-
-main {
-    padding: 0 20px 20px 20px;
-}
-
 .flash-message {
     margin: 20px 20px 0 20px;
 
@@ -82,6 +61,35 @@ main {
             line-height: 26px;
         }
     }
+}
+
+
+/* LAYOUT
+----------------------------------------- */
+header {
+    position: relative;
+    padding-top: 20px;
+
+    .nav {
+        li:first-child {
+            margin-left: 20px;
+        }
+    }
+
+    .logo {
+        position: absolute; 
+        top: 0;
+        right: 20px; 
+        font-size: 30px;
+
+        img {
+            vertical-align: initial;
+        }
+    }
+}
+
+main {
+    padding: 0 20px 20px 20px;
 }
 
 

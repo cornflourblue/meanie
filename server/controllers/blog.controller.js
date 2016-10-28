@@ -3,6 +3,8 @@ var _ = require('lodash');
 var moment = require('moment');
 var path = require('path');
 var router = express.Router();
+var request = require('request');
+var fs = require('fs');
 var config = require('config.json');
 var pageService = require('services/page.service');
 var postService = require('services/post.service');
@@ -12,27 +14,33 @@ var pager = require('helpers/pager');
 
 var basePath = path.resolve('../client/blog');
 var indexPath = basePath + '/index';
+var metaTitleSuffix = " | MEANie - The MEAN Stack Blog";
+var oneWeekSeconds = 60 * 60 * 24 * 7;
+var oneWeekMilliseconds = oneWeekSeconds * 1000;
 
 /* STATIC ROUTES
 ---------------------------------------*/
 
-router.use('/_dist', express.static('../client/blog/_dist'));
-router.use('/_content', express.static('../client/blog/_content'));
+router.use('/_dist', express.static(basePath + '/_dist'));
+router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeekMilliseconds }));
 
 /* MIDDLEWARE
 ---------------------------------------*/
 
 // check for redirects
 router.use(function (req, res, next) {
-    redirectService.getByFrom(req.url.toLowerCase())
+    var host = req.get('host');
+    var url = req.url.toLowerCase();
+
+    // redirects entered into cms
+    redirectService.getByFrom(url)
         .then(function (redirect) {
             if (redirect) {
                 // 301 redirect to new url
-                res.redirect(301, redirect.to);
-            } else {
-                // continue
-                next();
-            }
+                return res.redirect(301, redirect.to);
+            } 
+
+            next();
         })
         .catch(function (err) {
             vm.error = err;
@@ -40,20 +48,19 @@ router.use(function (req, res, next) {
         });
 });
 
-// add posts, years and tags to vm
+// add shared data to vm
 router.use(function (req, res, next) {
     var vm = req.vm = {};
 
-    // site title
-    vm.siteTitle = config.siteTitle;
-
-    // default meta title
-    vm.metaTitle = config.siteTitle;
+    vm.loggedIn = !!req.session.token;
+    vm.domain = req.protocol + '://' + req.get('host');
+    vm.url = vm.domain + req.path;
+    vm.googleAnalyticsAccount = config.googleAnalyticsAccount;
 
     postService.getAll()
         .then(function (posts) {
             // if admin user is logged in return all posts, otherwise return only published posts
-            vm.posts = req.session.token ? posts : _.filter(posts, { 'publish': true });
+            vm.posts = vm.loggedIn ? posts : _.filter(posts, { 'publish': true });
 
             // add urls to posts
             vm.posts.forEach(function (post) {
@@ -127,6 +134,24 @@ router.get('/', function (req, res, next) {
     render('home/index.view.html', req, res);
 });
 
+// post by id route (permalink used by disqus comments plugin)
+router.get('/post', function (req, res, next) {
+    var vm = req.vm;
+
+    if (!req.query.id) return res.status(404).send('Not found');
+
+    // find by post id or disqus id (old post id)
+    var post = _.find(vm.posts, function (p) {
+        return p._id.toString() === req.query.id;
+    });
+
+    if (!post) return res.status(404).send('Not found');
+
+    // 301 redirect to main post url
+    var postUrl = '/post/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
+    return res.redirect(301, postUrl);
+});
+
 // post details route
 router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
     var vm = req.vm;
@@ -137,15 +162,16 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
 
             post.url = '/post/' + moment(post.publishDate).format('YYYY/MM/DD') + '/' + post.slug;
             post.publishDateFormatted = moment(post.publishDate).format('MMMM DD YYYY');
+            post.permalink = vm.domain + '/post?id=' + post._id;
             vm.post = post;
 
-            // add tags and tag slugs to viewmodel
-            vm.tags = _.map(post.tags, function (tag) {
+            // add post tags and tag slugs to viewmodel
+            vm.postTags = _.map(post.tags, function (tag) {
                 return { text: tag, slug: slugify(tag) };
             });
 
             // meta tags
-            vm.metaTitle = vm.post.title + ' | ' + config.siteTitle;
+            vm.metaTitle = vm.post.title + metaTitleSuffix;
             vm.metaDescription = vm.post.summary;
 
             render('posts/details.view.html', req, res);
@@ -175,8 +201,8 @@ router.get('/posts/tag/:tag', function (req, res, next) {
                 tagFound = true;
 
                 // meta tags
-                vm.metaTitle = 'Posts tagged "' + vm.tag + '"' + ' | ' + config.siteTitle;
-                vm.metaDescription = 'Posts tagged "' + vm.tag + '"' + ' | ' + config.siteTitle;
+                vm.metaTitle = 'Posts tagged "' + vm.tag + '"' + metaTitleSuffix;
+                vm.metaDescription = 'Posts tagged "' + vm.tag + '"' + metaTitleSuffix;
             }
         });
 
@@ -199,8 +225,8 @@ router.get('/posts/:year/:month', function (req, res, next) {
     });
 
     // meta tags
-    vm.metaTitle = 'Posts for ' + vm.monthName + ' ' + vm.year + ' | ' + config.siteTitle;
-    vm.metaDescription = 'Posts for ' + vm.monthName + ' ' + vm.year + ' | ' + config.siteTitle;
+    vm.metaTitle = 'Posts for ' + vm.monthName + ' ' + vm.year + metaTitleSuffix;
+    vm.metaDescription = 'Posts for ' + vm.monthName + ' ' + vm.year + metaTitleSuffix;
 
     render('posts/month.view.html', req, res);
 });
@@ -216,8 +242,8 @@ router.get('/page/:slug', function (req, res, next) {
             vm.page = page;
 
             // meta tags
-            vm.metaTitle = vm.page.title + ' | ' + config.siteTitle;
-            vm.metaDescription = vm.page.description + ' | ' + config.siteTitle;
+            vm.metaTitle = vm.page.title + metaTitleSuffix;
+            vm.metaDescription = vm.page.description + metaTitleSuffix;
 
             render('pages/details.view.html', req, res);
         })
@@ -232,8 +258,8 @@ router.get('/archive', function (req, res, next) {
     var vm = req.vm;
 
     // meta tags
-    vm.metaTitle = 'Archive' + ' | ' + config.siteTitle;
-    vm.metaDescription = 'Archive' + ' | ' + config.siteTitle;
+    vm.metaTitle = 'Archive' + metaTitleSuffix;
+    vm.metaDescription = 'Archive' + metaTitleSuffix;
 
     render('archive/index.view.html', req, res);
 });
@@ -243,8 +269,8 @@ router.get('/contact', function (req, res, next) {
     var vm = req.vm;
 
     // meta tags
-    vm.metaTitle = 'Contact Me' + ' | ' + config.siteTitle;
-    vm.metaDescription = 'Contact Me' + ' | ' + config.siteTitle;
+    vm.metaTitle = 'Contact Me' + metaTitleSuffix;
+    vm.metaDescription = 'Contact Me' + metaTitleSuffix;
 
     render('contact/index.view.html', req, res);
 });
@@ -254,10 +280,23 @@ router.get('/contact-thanks', function (req, res, next) {
     var vm = req.vm;
 
     // meta tags
-    vm.metaTitle = 'Contact Me' + ' | ' + config.siteTitle;
-    vm.metaDescription = 'Contact Me' + ' | ' + config.siteTitle;
+    vm.metaTitle = 'Contact Me' + metaTitleSuffix;
+    vm.metaDescription = 'Contact Me' + metaTitleSuffix;
 
     render('contact/thanks.view.html', req, res);
+});
+
+/* PROXY ROUTES
+---------------------------------------*/
+
+// google analytics
+router.get('/analytics.js', function (req, res, next) {
+    proxy('http://www.google-analytics.com/analytics.js', basePath + '/_content/analytics.js', req, res);
+});
+
+// carbon ads
+router.get('/carbonads.js', function (req, res, next) {
+    proxy('http://cdn.carbonads.com/carbon.js', basePath + '/_content/carbonads.js', req, res);
 });
 
 module.exports = router;
@@ -275,4 +314,36 @@ function render(templateUrl, req, res) {
     // render view only for ajax request or whole page for full request
     var renderPath = req.xhr ? basePath + '/' + vm.templateUrl : indexPath;
     return res.render(renderPath, vm);
+}
+
+// proxy file from remote url for page speed score
+function proxy(fileUrl, filePath, req, res) {
+    // ensure file exists and is less than 1 hour old
+    fs.stat(filePath, function (err, stats) {
+        if (err) {
+            // file doesn't exist so download and create it
+            updateFileAndReturn();
+        } else {
+            // file exists so ensure it's not stale
+            if (moment().diff(stats.mtime, 'minutes') > 60) {
+                updateFileAndReturn();
+            } else {
+                returnFile();
+            }
+        }
+    });
+
+    // update file from remote url then send to client
+    function updateFileAndReturn() {
+        request(fileUrl, function (error, response, body) {
+            fs.writeFileSync(filePath, body);
+            returnFile();
+        });
+    }
+
+    // send file to client
+    function returnFile() {
+        res.set('Cache-Control', 'public, max-age=' + oneWeekSeconds);
+        res.sendFile(filePath);
+    }
 }

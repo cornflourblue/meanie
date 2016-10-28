@@ -86,17 +86,12 @@ hr {
     padding-top: 10px;
 }
 
-.navbar-inverse {
-    background-color: #659CEF;
-    border-color: #16a085;
-}
-
     .navbar-inverse .navbar-nav > li > a {
         color: white;
     }
 
         .navbar-inverse .navbar-nav > li > a:hover {
-            color: #222222;
+            color: #7b7b7b;
         }
 
 .navbar-brand {
@@ -131,6 +126,30 @@ hr {
 
     .container > .navbar-header {
         margin-right:50px;
+    }
+
+    .post-pager {
+        .pagination {
+            li {
+                display: none;
+            }
+
+            li.active, 
+            li.previous,
+            li.next {
+                display: inline;
+            }
+
+            li.previous a {
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+            }
+
+            li.next a {
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+        }
     }
 
     #footer {
@@ -219,6 +238,14 @@ hr {
         list-style:none;
     }
 
+    #footer a {
+        color: #9b9b9b;
+    }
+
+    #footer a:hover {
+        color: #fff;
+    }
+
 /* +++++ Color Wraps / Blog Page +++++ */
 
 .post-list {
@@ -234,6 +261,14 @@ hr {
         h2 {
             font-size: 24px;
             margin-top: 10px;
+
+            a {
+                color: #b70e0c;
+            }
+
+            a:hover {
+                color: #7b7b7b;
+            }
         }
     }
 }
@@ -242,8 +277,8 @@ hr {
     text-align: center;
 
     .pagination li.active a {
-        background: #1abc9c;
-        border-color: #1abc9c;
+        background: #2f2f2f;
+        border-color: #222;
     }
 }
 
@@ -341,12 +376,7 @@ bt {
 /* colors */
 
 .glyphicon, a, .progress-bar-theme {
-    color: #1abc9c;
-}
-
-.navbar-inverse {
-    background-color: #1abc9c;
-    border-color: #16a085;
+    color: #555;
 }
 
 .copyright {
@@ -377,6 +407,60 @@ bt {
 
 h4.first {
     margin-top:30px;
+}
+
+/* carbon ads */
+.carbonads-container {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width:162px;
+    border: 1px solid #D3D7DC;
+    background: #FFF;
+    padding:12px 15px;
+    z-index: 1000;
+    .box-shadow(~"10px 10px 5px rgba(0, 0, 0, 0.5)");
+
+    .ad-title {
+        font-size: 12px;
+
+        .icon-cross {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            font-size: 16px;
+            padding: 5px;
+            background: #fff;
+            cursor: pointer;
+        }
+    }
+
+    #carbonads {
+        .carbon-wrap {
+            display: block;
+            overflow: hidden;
+
+            .carbon-img {
+                display: block;
+                margin: 10px 0;
+                background: #FFF;
+                width: 130px;
+            }
+
+            .carbon-text {
+                display:block;
+                font-size:12px;
+            }
+        }
+
+        .carbon-poweredby {
+            display:block;
+            color:#555;
+            font-size:12px;
+            margin-top:9px;
+        }
+    }
 }
 
 /* MIX INS

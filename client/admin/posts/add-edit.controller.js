@@ -27,7 +27,7 @@
             } else {
                 // initialise with defaults
                 vm.post = {
-                    publishDate: moment().startOf('day').utc().toISOString(),
+                    publishDate: moment().format('YYYY-MM-DD'),
                     publish: true
                 };
             }

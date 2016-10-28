@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <title>MEANie - The MEAN Stack Blog</title>
 
+    <link rel="shortcut icon" href="/admin/_content/images/logo.png" type="image/png" />
+    <link rel="icon" href="/admin/_content/images/logo.png" type="image/png" />
+
     <!-- bootstrap -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -23,7 +26,10 @@
             <li ng-class="{active: activeTab === 'account'}"><a href="#/account">Account</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
         </ul>
-        <div class="logo">MEANie</div>
+        <div class="logo">
+            <img src="/admin/_content/images/logo.png" />
+            MEANie
+        </div>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
         </div>

@@ -3,7 +3,7 @@ var router = express.Router();
 
 // use session auth to secure the front end admin files
 router.use('/', function (req, res, next) {
-    if (req.path !== '/login' && !req.session.token) {
+    if (!req.session.token) {
         return res.redirect('/login?returnUrl=' + encodeURIComponent('/admin' + req.path));
     }
 

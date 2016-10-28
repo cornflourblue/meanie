@@ -1,7 +1,7 @@
 ﻿{
-    "siteTitle": "Jason Watmore's Blog",
-    "contactEmail": "jason@pointblankdevelopment.com.au",
     "connectionString": "mongodb://localhost:27017/mean-blog",
     "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
-    "installed": false
+    "contactEmail": "REPLACE THIS WITH YOUR EMAIL ADDRESS",
+    "googleAnalyticsAccount": "UA-XXXXXXXX-X",
+    "installed": true
 }

@@ -16,11 +16,11 @@
     <div class="post-pager">
         <ul class="pagination">
             <% if(locals.pager.currentPage > 1) { %>
-                <li><a href="?page=1">First</a></li>
-                <li><a href="?page=<%= locals.pager.currentPage - 1 %>">Previous</a></li>
+                <li class="first"><a href="?page=1">First</a></li>
+                <li class="previous"><a href="?page=<%= locals.pager.currentPage - 1 %>">Previous</a></li>
             <% } else { %>
-                <li class="disabled"><a>First</a></li>
-                <li class="disabled"><a>Previous</a></li>
+                <li class="first disabled"><a>First</a></li>
+                <li class="previous disabled"><a>Previous</a></li>
             <% } %>
 
             <% for(var page = locals.pager.startPage; page <= locals.pager.endPage; page++) { %>
@@ -30,11 +30,11 @@
             <% } %>
 
             <% if(locals.pager.currentPage < locals.pager.totalPages) { %>
-                <li><a href="?page=<%= locals.pager.currentPage + 1 %>">Next</a></li>
-                <li><a href="?page=<%= locals.pager.totalPages %>">Last</a></li>
+                <li class="next"><a href="?page=<%= locals.pager.currentPage + 1 %>">Next</a></li>
+                <li class="last"><a href="?page=<%= locals.pager.totalPages %>">Last</a></li>
             <% } else { %>
-                <li class="disabled"><a>Next</a></li>
-                <li class="disabled"><a>Last</a></li>
+                <li class="next disabled"><a>Next</a></li>
+                <li class="last disabled"><a>Last</a></li>
             <% } %>
         </ul>
     </div>

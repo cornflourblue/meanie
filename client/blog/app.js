@@ -64,15 +64,12 @@
 
     var initialLoad = true;
     function run($rootScope, $timeout, $location, $window) {
-        // initialise google analytics
-        $window.ga('create', 'UA-XXXXXXXX-X', 'auto');
-
         $rootScope.$on('$stateChangeSuccess', function () {
             // hide mobile nav
             $rootScope.showNav = false;
 
             // track pageview
-            $window.ga('send', 'pageview', $location.url());
+            $window.ga && $window.ga('send', 'pageview', $location.url());
 
             // jump to top of page
             if (!initialLoad) {
