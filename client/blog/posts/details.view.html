@@ -22,15 +22,25 @@
         <hr />
 
         <% if(locals.xhr) { %>
+            <script>
+                // update page title
+                var metaTitle = '<%- locals.metaTitle.replace(/\'/g, "\\\'") %>';
+                document.title = metaTitle;
+            </script>
+
             <!-- comments -->
             <div id="disqus_thread"></div>
             <script type="text/javascript">
-                var disqus_url = '<%= locals.post.permalink %>';
+                var disqus_config = function () {
+                    this.page.url = '<%= locals.post.permalink %>';
+                    this.page.title = metaTitle;
+                };
+
                 if (window.DISQUS) {
                     // if disqus already loaded call DISQUS.reset
                     DISQUS.reset({
                         reload: true,
-                        config: function () { this.page.url = disqus_url; }
+                        config: disqus_config
                     });
                 } else {
                     // otherwise load disqus script
