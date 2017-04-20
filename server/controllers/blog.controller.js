@@ -209,6 +209,10 @@ router.get('/posts/tag/:tag', function (req, res, next) {
         return tagFound;
     });
 
+    // redirect to home page if there are no posts with tag
+    if (!vm.posts.length)
+        return res.redirect(301, '/');
+
     render('posts/tag.view.html', req, res);
 });
 
