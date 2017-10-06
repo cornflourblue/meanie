@@ -1,10 +1,6 @@
-﻿var config = require('config.json');
-var validateSubdomain = require('helpers/validate-subdomain');
-var mongoose = require('mongoose');
-mongoose.connect(config.connectionString, { useMongoClient: true });
-mongoose.Promise = global.Promise;
-
-var Site = mongoose.model('Site', { subdomain: String })
+﻿var validateSubdomain = require('helpers/validate-subdomain');
+var db = require('helpers/db');
+var Site = db.Site;
 
 var service = {};
 
@@ -25,17 +21,12 @@ async function getById(_id) {
 }
 
 async function create(siteParam) {
-    // require('assert').strictEqual(1, 2);
-
     // validate
-    var errors = [];
-    if (!siteParam.subdomain) { errors.push('Subdomain is required'); } 
-    else if (!validateSubdomain(siteParam.subdomain)) { errors.push('Subdomain is invalid'); }
-    if (errors.length) return new Error(errors.join('\r\n'));
-        
-    // check if subdomain already taken
-    var site = await Site.findOne({ subdomain: siteParam.subdomain });
-    if (site) throw 'Subdomain "' + siteParam.subdomain + '" is already taken';
+    if (!siteParam.subdomain) throw 'Subdomain is required';
+    if (!validateSubdomain(siteParam.subdomain)) throw 'Subdomain is invalid'; 
+    if (await Site.findOne({ subdomain: siteParam.subdomain })) {
+        throw 'Subdomain "' + siteParam.subdomain + '" is already taken';
+    }
 
     // save
     var site = new Site(siteParam);
@@ -43,14 +34,18 @@ async function create(siteParam) {
 }
 
 async function update(_id, siteParam) {
+    var site = await Site.findById(_id);
+
     // validate
-    var errors = [];
-    if (!siteParam.subdomain) { errors.push('Subdomain is required'); } 
-    else if (!validateSubdomain(siteParam.subdomain)) { errors.push('Subdomain is invalid'); }
-    if (errors.length) throw errors.join('\r\n');
+    if (!site) throw 'Site not found';
+    if (!siteParam.subdomain) throw 'Subdomain is required';
+    if (!validateSubdomain(siteParam.subdomain)) throw 'Subdomain is invalid';
+    if (site.subdomain !== siteParam.subdomain && await Site.findOne({ subdomain: siteParam.subdomain })) { 
+        throw 'Subdomain "' + siteParam.subdomain + '" is already taken';
+    }    
     
     // update
-    await Site.findByIdAndUpdate(_id, { $set: siteParam });
+    await site.update(siteParam);
 }
 
 async function _delete(_id) {

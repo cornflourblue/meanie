@@ -14,39 +14,33 @@ router.delete('/:_id', jwt, _delete);
 
 module.exports = router;
 
-function getAll(req, res) {
+function getAll(req, res, next) {
     // TODO: if admin user is logged in return all sites, otherwise return only user's sites
     siteService.getAll()
         .then(sites => res.send(sites))
-        .catch(err => res.status(400).send(err));
+        .catch(err => next(err));
 }
 
-function getById(req, res) {
+function getById(req, res, next) {
     siteService.getById(req.params._id)
         .then(site => site ? res.send(site) : res.sendStatus(404))
-        .catch(err => res.status(400).send(err));
+        .catch(err => next(err));
 }
 
-function create(req, res) {
+function create(req, res, next) {
     siteService.create(req.body)
-        .then((err) => {
-            res.sendStatus(200)
-        })
-        .catch(err => {
-            console.log('typeof(err)', typeof(err));
-            console.log('err', err);
-            return res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function update(req, res) {
+function update(req, res, next) {
     siteService.update(req.params._id, req.body)
         .then(()  => res.sendStatus(200))
-        .catch(err => res.status(400).send(err));
+        .catch(err => next(err));
 }
 
-function _delete(req, res) {
+function _delete(req, res, next) {
     siteService.delete(req.params._id)
         .then(() => res.sendStatus(200))
-        .catch(err => res.status(400).send(err));
+        .catch(err => next(err));
 }

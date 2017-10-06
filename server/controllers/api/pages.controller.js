@@ -15,9 +15,9 @@ router.delete('/:_id', jwt, _delete);
 
 module.exports = router;
 
-function getAll(req, res) {
+function getAll(req, res, next) {
     pageService.getAll()
-        .then(function (pages) {
+        .then(pages => {
             // if admin user is logged in return all pages, otherwise return only published pages
             if (req.session.token) {
                 res.send(pages);
@@ -25,14 +25,12 @@ function getAll(req, res) {
                 res.send(_.filter(pages, { 'publish': true }));
             }
         })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
-}
+        .catch(err => next(err));
+    }
 
-function getBySlug(req, res) {
+function getBySlug(req, res, next) {
     pageService.getBySlug(req.params.slug)
-        .then(function (page) {
+        .then(page => {
             // return page if it's published or the admin is logged in
             if (page.publish || req.session.token) {
                 res.send(page);
@@ -40,47 +38,29 @@ function getBySlug(req, res) {
                 res.status(404).send('Not found');
             }
         })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
-}
+        .catch(err => next(err));
+    }
 
-function getById(req, res) {
+function getById(req, res, next) {
     pageService.getById(req.params._id)
-        .then(function (page) {
-            res.send(page);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
-}
+        .then(page => res.send(page))
+        .catch(err => next(err));
+    }
 
-function create(req, res) {
+function create(req, res, next) {
     pageService.create(req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function update(req, res) {
+function update(req, res, next) {
     pageService.update(req.params._id, req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function _delete(req, res) {
+function _delete(req, res, next) {
     pageService.delete(req.params._id)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }

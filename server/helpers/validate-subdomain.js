@@ -1,6 +1,6 @@
-module.exports = validateSubdomain;
+module.exports = validatSubdomain;
 
-function validateSubdomain(domain) {
+function validatSubdomain(subdomain) {
     var regex = /^([a-z0-9]+(-[a-z0-9]+)*)$/;
-    return regex.test(domain);
+    return regex.test(subdomain);
 }

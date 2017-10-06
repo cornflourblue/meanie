@@ -7,6 +7,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 var config = require('config.json');
+var errorHandler = require('helpers/error-handler');
 
 // enable ejs templates to have .html extension
 app.engine('html', ejs.renderFile);
@@ -45,7 +46,7 @@ app.use('/api/redirects', require('./controllers/api/redirects.controller'));
 app.use('/api/contact', require('./controllers/api/contact.controller'));
 
 // make JWT token available to angular app
-app.get('/token', function (req, res) { 
+app.get('/token', function (req, res) {
     res.send(req.session.token);
 });
 
@@ -59,6 +60,9 @@ app.use('/admin', require('./controllers/admin.controller'));
 // blog front end
 // TODO: front end will be served from subdomain
 // app.use('/', require('./controllers/blog.controller'));
+
+// global error handler
+app.use(errorHandler);
 
 // start server
 var port = process.env.NODE_ENV === 'production' ? 80 : 3000;
