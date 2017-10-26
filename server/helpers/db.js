@@ -7,6 +7,11 @@ var Site = mongoose.model('Site', {
     subdomain: String 
 });
 
+var User = mongoose.model('User', { 
+    email: { type: String, required: true },
+    hash: String
+});
+
 var Page = mongoose.model('Page', {
     siteId: { type: String, required: true }, 
     title: { type: String, required: true },
@@ -18,5 +23,6 @@ var Page = mongoose.model('Page', {
 
 module.exports = {
     Site,
+    User,
     Page
 };

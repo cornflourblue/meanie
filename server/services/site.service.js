@@ -2,15 +2,13 @@
 var db = require('helpers/db');
 var Site = db.Site;
 
-var service = {};
-
-service.getAll = getAll;
-service.getById = getById;
-service.create = create;
-service.update = update;
-service.delete = _delete;
-
-module.exports = service;
+module.exports = {
+    getAll,
+    getById,
+    create,
+    update,
+    delete: _delete
+};
 
 async function getAll() {
     return await Site.find();

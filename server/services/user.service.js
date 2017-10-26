@@ -7,16 +7,17 @@ var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('users');
 
-var service = {};
+var db = require('helpers/db');
+var User = db.User;
 
-service.authenticate = authenticate;
-service.getAll = getAll;
-service.getById = getById;
-service.create = create;
-service.update = update;
-service.delete = _delete;
-
-module.exports = service;
+module.exports = {
+    authenticate,
+    getAll,
+    getById,
+    create,
+    update,
+    delete: _delete
+};
 
 function authenticate(username, password) {
     var deferred = Q.defer();
@@ -36,39 +37,12 @@ function authenticate(username, password) {
     return deferred.promise;
 }
 
-function getAll() {
-    var deferred = Q.defer();
-
-    db.users.find().toArray(function (err, users) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        // return users (without hashed passwords)
-        users = _.map(users, function (user) {
-            return _.omit(user, 'hash');
-        });
-
-        deferred.resolve(users);
-    });
-
-    return deferred.promise;
+async function getAll() {
+    return await User.find().select('-hash');
 }
 
-function getById(_id) {
-    var deferred = Q.defer();
-
-    db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        if (user) {
-            // return user (without hashed password)
-            deferred.resolve(_.omit(user, 'hash'));
-        } else {
-            // user not found
-            deferred.resolve();
-        }
-    });
-
-    return deferred.promise;
+async function getById(_id) {
+    return await User.findById(_id).select('-hash');
 }
 
 function create(userParam) {
