@@ -8,7 +8,7 @@ var Site = mongoose.model('Site', {
 });
 
 var User = mongoose.model('User', { 
-    email: { type: String, required: true },
+    username: { type: String, required: true },
     hash: String
 });
 

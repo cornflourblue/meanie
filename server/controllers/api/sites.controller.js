@@ -35,7 +35,7 @@ function create(req, res, next) {
 
 function update(req, res, next) {
     siteService.update(req.params._id, req.body)
-        .then(()  => res.sendStatus(200))
+        .then(() => res.sendStatus(200))
         .catch(err => next(err));
 }
 
