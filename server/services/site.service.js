@@ -10,11 +10,15 @@ module.exports = {
 };
 
 async function getAll() {
-    return await Site.find();
+    return await Site
+        .find()
+        .populate('users', 'username');
 }
 
 async function getById(_id) {
-    return await Site.findById(_id);
+    return await Site
+        .findById(_id)
+        .populate('users', 'username');
 }
 
 async function create(siteParam) {

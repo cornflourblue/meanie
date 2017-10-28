@@ -13,7 +13,10 @@
         vm.deleteSite = deleteSite;
         vm.searchUsers = searchUsers;
         vm.addUser = addUser;
-
+        vm.removeUser = removeUser;
+        vm.addDomain = addDomain;
+        vm.removeDomain = removeDomain;
+        
         initController();
 
         function initController() {
@@ -67,10 +70,30 @@
         }
 
         function addUser(user) {
+            // add user to site
             vm.site.users = vm.site.users || [];
             vm.site.users.push(user);
+
+            // reset search
             vm.userQuery = '';
             vm.users = [];
+        }
+
+        function removeUser(user) {
+            vm.site.users = vm.site.users.filter(x => x._id !== user._id);
+        }
+
+        function addDomain() {
+            // add domain to site
+            vm.site.domains = vm.site.domains || [];
+            vm.site.domains.push(vm.domain);
+
+            // reset domain textbox
+            vm.domain = '';
+        }
+
+        function removeDomain(domain) {
+            vm.site.domains = vm.site.domains.filter(x => x !== domain);
         }
     }
 

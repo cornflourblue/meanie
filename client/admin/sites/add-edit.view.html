@@ -6,17 +6,29 @@
             <input type="text" id="name" class="form-control" ng-model="vm.site.name" required />
         </div>
         <div class="form-group">
-            <label for="users">Users</label>
-            <input type="text" id="users" class="form-control" placeholder="Search..." ng-model="vm.userQuery" ng-change="vm.searchUsers()" />
+            <label for="domain">Domains</label>
+            <div class="form-inline">
+                <input type="text" id="domain" class="form-control" ng-model="vm.domain" />
+                <a class="btn btn-default" ng-click="vm.addDomain()">Add</a>
+            </div>
+        </div>
+        <div class="form-group" ng-if="vm.site.domains.length">
+            <ul>
+                <li ng-repeat="domain in vm.site.domains">{{domain}} - <a class="btn-xs" ng-click="vm.removeDomain(domain)">Remove</a></li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <label for="userQuery">Users</label>
+            <input type="text" id="userQuery" class="form-control" placeholder="Search..." ng-model="vm.userQuery" ng-change="vm.searchUsers()" />
             <div class="popdown" ng-show="vm.users">
                 <div class="list-group">
                     <a class="list-group-item list-group-item-action" ng-repeat="user in vm.users" ng-click="vm.addUser(user)">{{user.username}}</a>
                 </div>
             </div>
         </div>
-        <div class="form-group" ng-if="vm.site.users">
+        <div class="form-group" ng-if="vm.site.users.length">
             <ul>
-                <li ng-repeat="user in vm.site.users">{{user.username}}</li>
+                <li ng-repeat="user in vm.site.users">{{user.username}} - <a class="btn-xs" ng-click="vm.removeUser(user)">Remove</a></li>
             </ul>
         </div>
         <hr />

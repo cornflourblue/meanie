@@ -1,0 +1,24 @@
+{
+    "name": "meanie",
+    "version": "1.0.0",
+    "description": "MEANie - MEAN Stack Blogging Platform",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cornflourblue/meanie.git"
+    },
+    "devDependencies": {
+        "babel-core": "",
+        "babel-preset-env": "",
+        "gulp": "",
+        "gulp-autoprefixer": "",
+        "gulp-babel": "",
+        "gulp-clean-css": "",
+        "gulp-concat": "",
+        "gulp-less": "",
+        "gulp-ng-annotate": "",
+        "gulp-sourcemaps": "",
+        "gulp-uglify": "",
+        "less": ""
+    },
+    "license": "MIT"
+}

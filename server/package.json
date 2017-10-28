@@ -31,16 +31,5 @@
         "request": "^2.58.0",
         "rootpath": "^0.1.2"
     },
-    "devDependencies": {
-        "gulp": "",
-        "gulp-autoprefixer": "",
-        "gulp-concat": "",
-        "gulp-less": "",
-        "gulp-clean-css": "",
-        "gulp-ng-annotate": "",
-        "gulp-sourcemaps": "",
-        "gulp-uglify": "",
-        "less": ""
-    },
     "license": "MIT"
 }

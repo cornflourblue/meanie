@@ -2,11 +2,12 @@ var gulp = require('gulp');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-clean-css');
+var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 
-var basePath = '../client';
+var basePath = './';
 
 gulp.task('less', function () {
     compileLess('admin');
@@ -32,6 +33,9 @@ gulp.task('scripts', function () {
                 '!' + basePath + '/' + app + '/_content/**/*.js', 
                 '!' + basePath + '/' + app + '/_dist/**/*.js'
             ])
+            .pipe(babel({ 
+                presets: ['env']
+            }))
             .pipe(ngAnnotate())
             .pipe(uglify())
             .pipe(concat('app.min.js'))
