@@ -36,11 +36,11 @@
         "gulp-autoprefixer": "",
         "gulp-concat": "",
         "gulp-less": "",
-        "gulp-minify-css": "",
+        "gulp-clean-css": "",
         "gulp-ng-annotate": "",
         "gulp-sourcemaps": "",
         "gulp-uglify": "",
-        "yargs": "^4.6.0"
+        "less": ""
     },
     "license": "MIT"
 }

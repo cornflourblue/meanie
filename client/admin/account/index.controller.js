@@ -22,9 +22,9 @@
         }
 
         function saveUser() {
-            UserService.Update(vm.user)
+            UserService.Save(vm.user)
                 .then(function () {
-                    AlertService.Success('User updated');
+                    AlertService.Success('User saved');
                 })
                 .catch(function (error) {
                     AlertService.Error(error);

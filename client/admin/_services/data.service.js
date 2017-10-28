@@ -47,7 +47,10 @@
         }
 
         function handleError(res) {
-            return $q.reject(res.data && res.data.Message);
+            var error = res.data && res.data.Message
+                ? res.data.Message
+                : res.data
+            return $q.reject(error);
         }
     }
 })();

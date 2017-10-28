@@ -1,0 +1,29 @@
+﻿<div class="sites-add-edit">
+    <h1>Site Details</h1>
+    <form ng-if="!vm.loading">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" class="form-control" ng-model="vm.site.name" required />
+        </div>
+        <div class="form-group">
+            <label for="users">Users</label>
+            <input type="text" id="users" class="form-control" placeholder="Search..." ng-model="vm.userQuery" ng-change="vm.searchUsers()" />
+            <div class="popdown" ng-show="vm.users">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-action" ng-repeat="user in vm.users" ng-click="vm.addUser(user)">{{user.username}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-if="vm.site.users">
+            <ul>
+                <li ng-repeat="user in vm.site.users">{{user.username}}</li>
+            </ul>
+        </div>
+        <hr />
+        <div class="form-group">
+            <a class="btn btn-primary" ng-click="vm.saveSite()">Save</a>
+            <a class="btn btn-default" href="#/sites">Cancel</a>
+            <a class="btn btn-danger" ng-click="vm.deleteSite()" ng-show="vm.site._id">Delete</a>
+        </div>
+    </form>
+</div>

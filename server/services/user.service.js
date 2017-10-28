@@ -12,6 +12,7 @@ var User = db.User;
 
 module.exports = {
     authenticate,
+    search,
     getAll,
     getById,
     create,
@@ -30,6 +31,10 @@ async function authenticate(username, password) {
         // authentication failed
         return null;
     }
+}
+
+async function search(query) {
+    return await User.find({ username: new RegExp(query, "i") }).select('-hash');
 }
 
 async function getAll() {

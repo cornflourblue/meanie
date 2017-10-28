@@ -1,0 +1,34 @@
+﻿<div class="sites-index">
+    <div class="index-header">
+        <h1>Sites</h1>
+        <div class="buttons">
+            <a href="#/sites/add" class="btn btn-default">
+                <i class="glyphicon glyphicon-plus"></i> New Site
+            </a>
+        </div>
+    </div>
+    <table class="sites-table table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Domains</th>
+            <th>Users</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="site in vm.sites">
+            <td>{{site.name}}</td>
+            <td>
+                <ul>
+                    <li ng-repeat="domain in site.domains">{{domain}}</li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li ng-repeat="user in site.users">{{user.username}}</li>
+                </ul>
+            </td>
+            <td class="action-icons">
+                <a href="#/sites/edit/{{site._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+            </td>
+        </tr>
+    </table>
+</div>

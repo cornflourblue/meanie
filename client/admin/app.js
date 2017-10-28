@@ -80,6 +80,27 @@
                 controller: 'Account.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'account' }
+            })
+            .state('sites', {
+                url: '/sites',
+                templateUrl: 'sites/index.view.html',
+                controller: 'Sites.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'sites' }
+            })
+            .state('sites/add', {
+                url: '/sites/add',
+                templateUrl: 'sites/add-edit.view.html',
+                controller: 'Sites.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'sites' }
+            })
+            .state('sites/edit', {
+                url: '/sites/edit/:_id',
+                templateUrl: 'sites/add-edit.view.html',
+                controller: 'Sites.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'sites' }
             });
     }
 

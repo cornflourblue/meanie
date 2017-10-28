@@ -5,11 +5,11 @@
         .module('app')
         .factory('UserService', Service);
 
-    function Service($http, $q) {
-        var service = {};
+    function Service($http, $q, DataService) {
+        var service = DataService('/api/users');
 
         service.GetCurrent = GetCurrent;
-        service.Update = Update;
+        service.Search = Search;
 
         return service;
 
@@ -17,8 +17,9 @@
             return $http.get('/api/users/current').then(handleSuccess, handleError);
         }
 
-        function Update(user) {
-            return $http.put('/api/users/' + user._id, user).then(handleSuccess, handleError);
+        function Search(query) {
+            query = query || '';
+            return $http.get('/api/users/search?q=' + query).then(handleSuccess, handleError);
         }
 
         // private functions

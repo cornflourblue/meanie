@@ -28,7 +28,9 @@ function getById(req, res, next) {
 }
 
 function create(req, res, next) {
-    siteService.create(req.body)
+    var site = req.body;
+    site.createdBy = req.user.sub;
+    siteService.create(site)
         .then(() => res.sendStatus(200))
         .catch(err => next(err));
 }

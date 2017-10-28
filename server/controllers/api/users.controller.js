@@ -7,6 +7,8 @@ var userService = require('services/user.service');
 // routes
 router.post('/authenticate', authenticate);
 router.get('/current', jwt, getCurrent);
+router.get('/search', jwt, search);
+router.get('/', jwt, getAll);
 router.get('/:_id', jwt, getById);
 router.put('/:_id', jwt, update);
 router.delete('/:_id', jwt, _delete);
@@ -22,6 +24,18 @@ function authenticate(req, res, next) {
 function getCurrent(req, res, next) {
     userService.getById(req.user.sub)
         .then(user => user ? res.send(user) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+function search(req, res, next) {
+    userService.search(req.query.q)
+        .then(users => res.send(users))
+        .catch(err => next(err));
+}
+
+function getAll(req, res, next) {
+    userService.getAll()
+        .then(users => res.send(users))
         .catch(err => next(err));
 }
 
