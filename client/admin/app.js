@@ -101,6 +101,13 @@
                 controller: 'Sites.AddEditController',
                 controllerAs: 'vm',
                 data: { activeTab: 'sites' }
+            })
+            .state('users', {
+                url: '/users',
+                templateUrl: 'users/index.view.html',
+                controller: 'Users.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'users' }
             });
     }
 

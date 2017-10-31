@@ -9,6 +9,7 @@ db.bind('users');
 
 var db = require('helpers/db');
 var User = db.User;
+var Site = db.Site;
 
 module.exports = {
     authenticate,
@@ -38,7 +39,24 @@ async function search(query) {
 }
 
 async function getAll() {
-    return await User.find().select('-hash');
+    var [users, sites] = await Promise.all([
+        User.find().select('-hash').lean(),
+        Site.find().populate('users', 'username')
+    ]);
+
+    // TODO: refactor
+    users.forEach(user => {
+        user.sites = [];
+        sites.forEach(site => {
+            site.users.forEach(siteUser => {
+                if (user.username === siteUser.username) { 
+                    user.sites.push(site);
+                }
+            });
+        });
+    });
+
+    return users;
 }
 
 async function getById(_id) {
