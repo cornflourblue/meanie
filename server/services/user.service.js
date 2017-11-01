@@ -7,9 +7,8 @@ var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, { native_parser: true });
 db.bind('users');
 
-var db = require('helpers/db');
+var db = require('db/db');
 var User = db.User;
-var Site = db.Site;
 
 module.exports = {
     authenticate,
@@ -35,28 +34,17 @@ async function authenticate(username, password) {
 }
 
 async function search(query) {
-    return await User.find({ username: new RegExp(query, "i") }).select('-hash');
+    return await User
+        .find({ username: new RegExp(query, "i") })
+        .select('-hash')
+        .populate('sites', 'name');
 }
 
 async function getAll() {
-    var [users, sites] = await Promise.all([
-        User.find().select('-hash').lean(),
-        Site.find().populate('users', 'username')
-    ]);
-
-    // TODO: refactor
-    users.forEach(user => {
-        user.sites = [];
-        sites.forEach(site => {
-            site.users.forEach(siteUser => {
-                if (user.username === siteUser.username) { 
-                    user.sites.push(site);
-                }
-            });
-        });
-    });
-
-    return users;
+    return await User
+        .find()
+        .select('-hash')
+        .populate('sites', 'name');
 }
 
 async function getById(_id) {

@@ -1,4 +1,4 @@
-﻿var db = require('helpers/db');
+﻿var db = require('db/db');
 var Site = db.Site;
 
 module.exports = {

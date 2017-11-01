@@ -1,6 +1,6 @@
 ﻿var _ = require('lodash');
 var slugify = require('helpers/slugify');
-var db = require('helpers/db');
+var db = require('db/db');
 var Page = db.Page;
 
 var service = {};
