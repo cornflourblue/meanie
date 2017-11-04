@@ -3,19 +3,17 @@
 
     angular
         .module('app')
-        .controller('Sites.AddEditController', Controller);
+        .controller('Users.AddEditController', Controller);
 
-    function Controller($stateParams, $location, $filter, SiteService, UserService, AlertService) {
+    function Controller($stateParams, $location, UserService, SiteService, AlertService) {
         var vm = this;
 
-        vm.site = {};
-        vm.saveSite = saveSite;
-        vm.deleteSite = deleteSite;
-        vm.searchUsers = searchUsers;
-        vm.addUser = addUser;
-        vm.removeUser = removeUser;
-        vm.addDomain = addDomain;
-        vm.removeDomain = removeDomain;
+        vm.user = {};
+        vm.saveUser = saveUser;
+        vm.deleteUser = deleteUser;
+        vm.searchSites = searchSites;
+        vm.addSite = addSite;
+        vm.removeSite = removeSite;
         
         initController();
 
@@ -24,76 +22,63 @@
 
             if ($stateParams._id) {
                 vm.loading += 1;
-                SiteService.GetById($stateParams._id)
-                    .then(function (site) {
+                UserService.GetById($stateParams._id)
+                    .then(function (user) {
                         vm.loading -= 1;
-                        vm.site = site;
+                        vm.user = user;
                     });
             }
         }
 
-        function saveSite() {
-            SiteService.Save(vm.site)
+        function saveUser() {
+            UserService.Save(vm.user)
                 .then(function () {
-                    AlertService.Success('Site saved', true);
-                    $location.path('/sites');
+                    AlertService.Success('User saved', true);
+                    $location.path('/users');
                 })
                 .catch(function (error) {
                     AlertService.Error(error);
                 });
         }
 
-        function deleteSite() {
-            SiteService.Delete(vm.site._id)
+        function deleteUser() {
+            UserService.Delete(vm.user._id)
                 .then(function () {
-                    AlertService.Success('Site deleted', true);
-                    $location.path('/sites');
+                    AlertService.Success('User deleted', true);
+                    $location.path('/users');
                 })
                 .catch(function (error) {
                     AlertService.Error(error);
                 });
         }
 
-        function searchUsers() {
-            if (!vm.userQuery) {
-                vm.users = [];
+        function searchSites() {
+            if (!vm.siteQuery) {
+                vm.sites = [];
                 return;
             }
 
-            UserService.Search(vm.userQuery)
-                .then(function (users) {
-                    vm.users = users;
+            SiteService.Search(vm.siteQuery)
+                .then(function (sites) {
+                    vm.sites = sites;
                 })
                 .catch(function (error) {
                     AlertService.Error(error);
                 });
         }
 
-        function addUser(user) {
-            // add user to site
-            vm.site.users = vm.site.users || [];
-            vm.site.users.push(user);
+        function addSite(site) {
+            // add user to user
+            vm.user.sites = vm.user.sites || [];
+            vm.user.sites.push(site);
 
             // reset search
-            vm.userQuery = '';
-            vm.users = [];
+            vm.siteQuery = '';
+            vm.sites = [];
         }
 
-        function removeUser(user) {
-            vm.site.users = vm.site.users.filter(x => x._id !== user._id);
-        }
-
-        function addDomain() {
-            // add domain to site
-            vm.site.domains = vm.site.domains || [];
-            vm.site.domains.push(vm.domain);
-
-            // reset domain textbox
-            vm.domain = '';
-        }
-
-        function removeDomain(domain) {
-            vm.site.domains = vm.site.domains.filter(x => x !== domain);
+        function removeSite(site) {
+            vm.user.sites = vm.user.sites.filter(x => x._id !== site._id);
         }
     }
 

@@ -6,7 +6,7 @@
         .factory('RedirectService', Service);
 
     function Service(DataService) {
-        var service = DataService('/api/redirects');
+        var service = new DataService('/api/redirects');
         return service;
     }
 })();

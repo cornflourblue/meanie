@@ -10,6 +10,7 @@ router.get('/current', jwt, getCurrent);
 router.get('/search', jwt, search);
 router.get('/', jwt, getAll);
 router.get('/:_id', jwt, getById);
+router.post('/', jwt, create);
 router.put('/:_id', jwt, update);
 router.delete('/:_id', jwt, _delete);
 
@@ -45,26 +46,22 @@ function getById(req, res, next) {
         .catch(err => next(err));
 }
 
-function update(req, res, next) {
-    var userId = req.user.sub;
-    if (req.params._id !== userId) {
-        // can only update own account
-        return res.status(401).send('You can only update your own account');
-    }
+function create(req, res, next) {
+    var user = req.body;
+    user.createdBy = req.user.sub;
+    userService.create(user)
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
+}
 
-    userService.update(userId, req.body)
+function update(req, res, next) {
+    userService.update(req.params._id, req.body)
         .then(() => res.sendStatus(200))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-    var userId = req.user.sub;
-    if (req.params._id !== userId) {
-        // can only delete own account
-        return res.status(401).send('You can only delete your own account');
-    }
-
-    userService.delete(userId, req.body)
+    userService.delete(req.params._id, req.body)
         .then(() => res.sendStatus(200))
         .catch(err => next(err));
 }

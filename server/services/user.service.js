@@ -1,14 +1,9 @@
 ﻿var config = require('config.json');
-var _ = require('lodash');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
-var Q = require('q');
-var mongo = require('mongoskin');
-var db = mongo.db(config.connectionString, { native_parser: true });
-db.bind('users');
-
 var db = require('db/db');
 var User = db.User;
+var Site = db.Site;
 
 module.exports = {
     authenticate,
@@ -36,8 +31,7 @@ async function authenticate(username, password) {
 async function search(query) {
     return await User
         .find({ username: new RegExp(query, "i") })
-        .select('-hash')
-        .populate('sites', 'name');
+        .select('username');
 }
 
 async function getAll() {
@@ -48,93 +42,48 @@ async function getAll() {
 }
 
 async function getById(_id) {
-    return await User.findById(_id).select('-hash');
+    return await User.findById(_id)
+        .select('-hash')
+        .populate('sites', 'name');
 }
 
-function create(userParam) {
-    var deferred = Q.defer();
-
-    // validation
-    db.users.findOne(
-        { username: userParam.username },
-        function (err, user) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
-
-            if (user) {
-                // username already exists
-                deferred.reject('Username "' + userParam.username + '" is already taken');
-            } else {
-                createUser();
-            }
-        });
-
-    function createUser() {
-        // set user object to userParam without the cleartext password
-        var user = _.omit(userParam, 'password');
-
-        // add hashed password to user object
-        user.hash = bcrypt.hashSync(userParam.password, 10);
-
-        db.users.insert(
-            user,
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
-                deferred.resolve();
-            });
+async function create(userParam) {
+    // validate
+    if (await User.findOne({ username: userParam.username })) {
+        throw 'Username "' + userParam.username + '" is already taken';
     }
 
-    return deferred.promise;
-}
+    var user = new User(userParam);
 
-function update(_id, userParam) {
-    var deferred = Q.defer();
+    // hash password
+    user.hash = bcrypt.hashSync(userParam.password, 10);
+    
+    // save user
+    await user.save();
 
-    // validation
-    db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        if (user.username !== userParam.username) {
-            // username has changed so check if the new username is already taken
-            db.users.findOne(
-                { username: userParam.username },
-                function (err, user) {
-                    if (err) deferred.reject(err.name + ': ' + err.message);
-
-                    if (user) {
-                        // username already exists
-                        deferred.reject('Username "' + req.body.username + '" is already taken')
-                    } else {
-                        updateUser();
-                    }
-                });
-        } else {
-            updateUser();
-        }
+    // update referenced sites
+    user.sites.forEach(async site => {
+        var site = await Site.findById(site._id);
+        site.users.push(user._id);
+        site.save();
     });
+}
 
-    function updateUser() {
-        // fields to update
-        var set = {
-            username: userParam.username,
-        };
+async function update(_id, userParam) {
+    var user = await User.findById(_id);
 
-        // update password if it was entered
-        if (userParam.password) {
-            set.hash = bcrypt.hashSync(userParam.password, 10);
-        }
-
-        db.users.update(
-            { _id: mongo.helper.toObjectID(_id) },
-            { $set: set },
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
-                deferred.resolve();
-            });
+    // validate
+    if (!user) throw 'User not found';
+    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
+        throw 'Username "' + userParam + '" is already taken';
     }
 
-    return deferred.promise;
+    // hash password if it was entered
+    if (userParam.password) {
+        userParam.hash = bcrypt.hashSync(userParam.password, 10);
+    }
+
+    await user.update(userParam);
 }
 
 async function _delete(_id) {

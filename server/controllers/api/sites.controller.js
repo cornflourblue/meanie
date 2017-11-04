@@ -6,6 +6,7 @@ var router = express.Router();
 var siteService = require('services/site.service');
 
 // routes
+router.get('/search', jwt, search);
 router.get('/', jwt, getAll);
 router.get('/:_id', jwt, getById);
 router.post('/', jwt, create);
@@ -13,6 +14,12 @@ router.put('/:_id', jwt, update);
 router.delete('/:_id', jwt, _delete);
 
 module.exports = router;
+
+function search(req, res, next) {
+    siteService.search(req.query.q)
+        .then(sites => res.send(sites))
+        .catch(err => next(err));
+}
 
 function getAll(req, res, next) {
     // TODO: if admin user is logged in return all sites, otherwise return only user's sites

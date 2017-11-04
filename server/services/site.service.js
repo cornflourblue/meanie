@@ -2,12 +2,19 @@
 var Site = db.Site;
 
 module.exports = {
+    search,
     getAll,
     getById,
     create,
     update,
     delete: _delete
 };
+
+async function search(query) {
+    return await Site
+        .find({ name: new RegExp(query, "i") })
+        .select('name');
+}
 
 async function getAll() {
     return await Site
@@ -32,7 +39,6 @@ async function update(_id, siteParam) {
     // validate
     if (!site) throw 'Site not found';
     
-    // update
     await site.update(siteParam);
 }
 

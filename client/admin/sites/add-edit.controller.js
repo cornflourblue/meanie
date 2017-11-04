@@ -5,7 +5,7 @@
         .module('app')
         .controller('Sites.AddEditController', Controller);
 
-    function Controller($stateParams, $location, $filter, SiteService, UserService, AlertService) {
+    function Controller($stateParams, $location, SiteService, UserService, AlertService) {
         var vm = this;
 
         vm.site = {};

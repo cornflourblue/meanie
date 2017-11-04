@@ -6,7 +6,7 @@
         .factory('PageService', Service);
 
     function Service(DataService) {
-        var service = DataService('/api/pages');
+        var service = new DataService('/api/pages');
         return service;
     }
 })();

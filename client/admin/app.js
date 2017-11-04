@@ -108,6 +108,16 @@
                 controller: 'Users.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'users' }
+            })
+            .state('users/add-edit', {
+                url: '/users/{action:add|edit}/:_id',
+                params: { 
+                    _id: { squash: true, value: null } 
+                },
+                templateUrl: 'users/add-edit.view.html',
+                controller: 'Users.AddEditController',
+                controllerAs: 'vm',
+                data: { activeTab: 'users' }
             });
     }
 

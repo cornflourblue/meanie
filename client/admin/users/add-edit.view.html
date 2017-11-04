@@ -1,41 +1,33 @@
-﻿<div class="sites-add-edit">
-    <h1>Site Details</h1>
+﻿<div class="users-add-edit">
+    <h1>User Details</h1>
     <form ng-if="!vm.loading">
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" class="form-control" ng-model="vm.site.name" required />
+            <label for="name">Username</label>
+            <input type="text" id="name" class="form-control" ng-model="vm.user.username" required />
         </div>
         <div class="form-group">
-            <label for="domain">Domains</label>
-            <div class="form-inline">
-                <input type="text" id="domain" class="form-control" ng-model="vm.domain" />
-                <a class="btn btn-default" ng-click="vm.addDomain()">Add</a>
-            </div>
-        </div>
-        <div class="form-group" ng-if="vm.site.domains.length">
-            <ul>
-                <li ng-repeat="domain in vm.site.domains">{{domain}} - <a class="btn-xs" ng-click="vm.removeDomain(domain)">Remove</a></li>
-            </ul>
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" ng-model="vm.user.password" />
         </div>
         <div class="form-group">
-            <label for="userQuery">Users</label>
-            <input type="text" id="userQuery" class="form-control" placeholder="Search..." ng-model="vm.userQuery" ng-change="vm.searchUsers()" />
-            <div class="popdown" ng-show="vm.users">
+            <label for="siteQuery">Sites</label>
+            <input type="text" id="siteQuery" class="form-control" placeholder="Search..." ng-model="vm.siteQuery" ng-change="vm.searchSites()" />
+            <div class="popdown" ng-show="vm.sites">
                 <div class="list-group">
-                    <a class="list-group-item list-group-item-action" ng-repeat="user in vm.users" ng-click="vm.addUser(user)">{{user.username}}</a>
+                    <a class="list-group-item list-group-item-action" ng-repeat="site in vm.sites" ng-click="vm.addSite(site)">{{site.name}}</a>
                 </div>
             </div>
         </div>
-        <div class="form-group" ng-if="vm.site.users.length">
+        <div class="form-group" ng-if="vm.user.sites.length">
             <ul>
-                <li ng-repeat="user in vm.site.users">{{user.username}} - <a class="btn-xs" ng-click="vm.removeUser(user)">Remove</a></li>
+                <li ng-repeat="site in vm.user.sites">{{site.name}} - <a class="btn-xs" ng-click="vm.removeSite(site)">Remove</a></li>
             </ul>
         </div>
         <hr />
         <div class="form-group">
-            <a class="btn btn-primary" ng-click="vm.saveSite()">Save</a>
-            <a class="btn btn-default" href="#/sites">Cancel</a>
-            <a class="btn btn-danger" ng-click="vm.deleteSite()" ng-show="vm.site._id">Delete</a>
+            <a class="btn btn-primary" ng-click="vm.saveUser()">Save</a>
+            <a class="btn btn-default" href="#/users">Cancel</a>
+            <a class="btn btn-danger" ng-click="vm.deleteUser()" ng-show="vm.user._id">Delete</a>
         </div>
     </form>
 </div>

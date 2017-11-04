@@ -8,14 +8,11 @@
     // generic data service to be used as base for other entity services
     function Service($http, $q) {
         return function (endPoint) {
-            var service = {};
-
-            service.GetAll = GetAll;
-            service.GetById = GetById;
-            service.Save = Save;
-            service.Delete = Delete;
-
-            return service;
+            this.GetAll = GetAll;
+            this.GetById = GetById;
+            this.Save = Save;
+            this.Delete = Delete;
+            this.AddMethod = AddMethod;
 
             function GetAll() {
                 return $http.get(endPoint).then(handleSuccess, handleError);
@@ -37,6 +34,12 @@
 
             function Delete(id) {
                 return $http.delete(endPoint + '/' + id).then(handleSuccess, handleError);
+            }
+
+            function AddMethod(name, fn) {
+                this[name] = function () {
+                    return fn.apply(this, arguments).then(handleSuccess, handleError);
+                };
             }
         }
 

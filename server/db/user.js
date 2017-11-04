@@ -1,11 +1,20 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var User = mongoose.model('User', {
+var userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     hash: String,
-    sites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Site' }],
     createdDate: { type: Date, default: Date.now },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
-module.exports = User;
+userSchema.virtual('sites', {
+    ref: 'Site',
+    localField: '_id',
+    foreignField: 'users'
+});
+
+userSchema.set('toObject', { virtuals: true });
+userSchema.set('toJSON', { virtuals: true });
+
+module.exports = mongoose.model('User', userSchema);
