@@ -1,5 +1,6 @@
 ﻿var _ = require('lodash');
 var slugify = require('helpers/slugify');
+var ObjectId = require('mongoose').Types.ObjectId;
 var db = require('db/db');
 var Post = db.Post;
 
@@ -12,8 +13,9 @@ module.exports = {
     delete: _delete
 };
 
-async function getAll() {
-    return await Post.find().sort({ publishDate: -1 });
+async function getAll(siteId) {
+    return await Post.find({ site: siteId })
+        .sort({ publishDate: -1 });
 }
 
 async function getByUrl(year, month, day, slug) {

@@ -10,8 +10,8 @@ function siteId(req, res, next) {
         return res.status(400).send('Site Id header missing');
     }
 
-    if (req.session) {
-        userService.getByUsername(req.session.username)
+    if (req.user && req.user.sub) {
+        userService.getById(req.user.sub)
             .then(user => {
                 // TODO: check that user has access to site
                 console.log('current user', user);
@@ -19,5 +19,7 @@ function siteId(req, res, next) {
                 next();
             })
             .catch(err => res.status(400).send(err));
+    } else {
+        next();
     }
 }

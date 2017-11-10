@@ -8,7 +8,6 @@ module.exports = {
     authenticate,
     search,
     getAll,
-    getByUsername,
     getById,
     create,
     update,
@@ -37,13 +36,6 @@ async function search(query) {
 async function getAll() {
     return await User
         .find()
-        .select('-hash')
-        .populate('sites', 'name');
-}
-
-async function getByUsername(username) {
-    return await User
-        .findOne({ username })
         .select('-hash')
         .populate('sites', 'name');
 }

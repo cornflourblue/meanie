@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var postSchema = {
-    siteId: { type: mongoose.Schema.Types.ObjectId, ref: 'Site', required: true },
+    site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site', required: true },
     title: { type: String, required: true },
     slug: { type: String, required: true },
     summary: String,
