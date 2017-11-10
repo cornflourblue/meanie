@@ -3,12 +3,12 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var db = require('db/db');
 var User = db.User;
-var Site = db.Site;
 
 module.exports = {
     authenticate,
     search,
     getAll,
+    getByUsername,
     getById,
     create,
     update,
@@ -41,6 +41,13 @@ async function getAll() {
         .populate('sites', 'name');
 }
 
+async function getByUsername(username) {
+    return await User
+        .findOne({ username })
+        .select('-hash')
+        .populate('sites', 'name');
+}
+
 async function getById(_id) {
     return await User.findById(_id)
         .select('-hash')
@@ -60,13 +67,6 @@ async function create(userParam) {
     
     // save user
     await user.save();
-
-    // update referenced sites
-    user.sites.forEach(async site => {
-        var site = await Site.findById(site._id);
-        site.users.push(user._id);
-        site.save();
-    });
 }
 
 async function update(_id, userParam) {

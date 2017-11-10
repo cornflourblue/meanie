@@ -7,6 +7,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
 var config = require('config.json');
+var siteId = require('helpers/site-id');
 var errorHandler = require('helpers/error-handler');
 
 // enable ejs templates to have .html extension
@@ -40,10 +41,10 @@ app.use(function (req, res, next) {
 // api routes
 app.use('/api/sites', require('./controllers/api/sites.controller'));
 app.use('/api/users', require('./controllers/api/users.controller'));
-app.use('/api/pages', require('./controllers/api/pages.controller'));
-app.use('/api/posts', require('./controllers/api/posts.controller'));
-app.use('/api/redirects', require('./controllers/api/redirects.controller'));
-app.use('/api/contact', require('./controllers/api/contact.controller'));
+app.use('/api/pages', siteId, require('./controllers/api/pages.controller'));
+app.use('/api/posts', siteId, require('./controllers/api/posts.controller'));
+app.use('/api/redirects', siteId, require('./controllers/api/redirects.controller'));
+app.use('/api/contact', siteId, require('./controllers/api/contact.controller'));
 
 // make JWT token available to angular app
 app.get('/token', function (req, res) {

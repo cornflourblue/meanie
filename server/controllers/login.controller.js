@@ -18,8 +18,11 @@ router.post('/', function (req, res) {
         .then(function (token) {
             // authentication is successful if the token parameter has a value
             if (token) {
-                // save JWT token in the session to make it available to the angular app
+                // attach JWT token to the session to make it available to the angular app
                 req.session.token = token;
+
+                // attach username to the session
+                req.session.username = req.body.username;
 
                 // redirect to returnUrl
                 var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/admin';

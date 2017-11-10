@@ -1,109 +1,68 @@
-﻿var config = require('config.json');
-var _ = require('lodash');
-var Q = require('q');
+﻿var _ = require('lodash');
 var slugify = require('helpers/slugify');
-var mongo = require('mongoskin');
-var db = mongo.db(config.connectionString, { native_parser: true });
-db.bind('posts');
+var db = require('db/db');
+var Post = db.Post;
 
-var service = {};
+module.exports = {
+    getAll,
+    getByUrl,
+    getById,
+    create,
+    update,
+    delete: _delete
+};
 
-service.getAll = getAll;
-service.getByUrl = getByUrl;
-service.getById = getById;
-service.create = create;
-service.update = update;
-service.delete = _delete;
-
-module.exports = service;
-
-function getAll() {
-    var deferred = Q.defer();
-
-    db.posts.find().sort({ publishDate: -1 }).toArray(function (err, posts) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        deferred.resolve(posts);
-    });
-
-    return deferred.promise;
+async function getAll() {
+    return await Post.find().sort({ publishDate: -1 });
 }
 
-function getByUrl(year, month, day, slug) {
-    var deferred = Q.defer();
-
-    db.posts.findOne({
+async function getByUrl(year, month, day, slug) {
+    return await Post.findOne({
         publishDate: year + '-' + month + '-' + day,
         slug: slug
-    }, function (err, post) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        deferred.resolve(post);
     });
-
-    return deferred.promise;
 }
 
-function getById(_id) {
-    var deferred = Q.defer();
-
-    db.posts.findById(_id, function (err, post) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        deferred.resolve(post);
-    });
-
-    return deferred.promise;
+async function getById(_id) {
+    return await Post.findById(_id);
 }
 
-function create(postParam) {
-    var deferred = Q.defer();
+async function create(postParam) {
+    var post = new Post(postParam);
 
     // generate slug from title if empty
     postParam.slug = postParam.slug || slugify(postParam.title);
 
-    db.posts.insert(
-        postParam,
-        function (err, doc) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
+    // validate
+    var duplicatePost = await Post.findOne({ slug: postParam.slug });
+    if (duplicatePost) {
+        throw 'Slug "' + postParam.slug + '" is already taken by post: "' + duplicatePost.title + '"';
+    }
 
-            deferred.resolve();
-        });
-
-    return deferred.promise;
+    await post.save();
 }
 
-function update(_id, postParam) {
-    var deferred = Q.defer();
+async function update(_id, postParam) {
+    var post = await Post.findById(_id);
 
     // generate slug from title if empty
     postParam.slug = postParam.slug || slugify(postParam.title);
 
-    // fields to update
-    var set = _.omit(postParam, '_id');
+    // validate
+    if (!post) throw 'Post not found';
+    if (post.slug !== postParam.slug) {
+        var duplicatePost = await Post.findOne({ slug: postParam.slug });
+        if (duplicatePost) {
+            throw 'Slug "' + postParam.slug + '" is already taken by post: "' + duplicatePost.title + '"';
+        }
+    }
 
-    db.posts.update(
-        { _id: mongo.helper.toObjectID(_id) },
-        { $set: set },
-        function (err, doc) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
+    // copy postParam properties to user
+    post = Object.assign(post, postParam);
 
-            deferred.resolve();
-        });
-
-    return deferred.promise;
+    await post.save();
 }
 
-function _delete(_id) {
-    var deferred = Q.defer();
-
-    db.posts.remove(
-        { _id: mongo.helper.toObjectID(_id) },
-        function (err) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
-
-            deferred.resolve();
-        });
-
-    return deferred.promise;
+async function _delete(_id) {
+    await Post.findByIdAndRemove(_id);
 }

@@ -15,9 +15,9 @@ router.delete('/:_id', jwt, _delete);
 
 module.exports = router;
 
-function getAll(req, res) {
+function getAll(req, res, next) {
     postService.getAll()
-        .then(function (posts) {
+        .then(posts => {
             // if admin user is logged in return all posts, otherwise return only published posts
             if (req.session.token) {
                 res.send(posts);
@@ -25,14 +25,12 @@ function getAll(req, res) {
                 res.send(_.filter(posts, { 'publish': true }));
             }
         })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .catch(err => next(err));
 }
 
-function getByUrl(req, res) {
+function getByUrl(req, res, next) {
     postService.getByUrl(req.params.year, req.params.month, req.params.day, req.params.slug)
-        .then(function (post) {
+        .then(post => {
             // return post if it's published or the admin is logged in
             if (post.publish || req.session.token) {
                 res.send(post);
@@ -40,47 +38,31 @@ function getByUrl(req, res) {
                 res.status(404).send('Not found');
             }
         })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
-}
+        .catch(err => next(err));
+    }
 
-function getById(req, res) {
+function getById(req, res, next) {
     postService.getById(req.params._id)
-        .then(function (post) {
-            res.send(post);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(post => res.send(post))
+        .catch(err => next(err));
+    }
+
+function create(req, res, next) {
+    var post = req.body;
+    post.createdBy = req.user.sub;
+    postService.create(post)
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function create(req, res) {
-    postService.create(req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
-}
-
-function update(req, res) {
+function update(req, res, next) {
     postService.update(req.params._id, req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function _delete(req, res) {
+function _delete(req, res, next) {
     postService.delete(req.params._id)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
