@@ -18,8 +18,9 @@ async function getAll(siteId) {
         .sort({ publishDate: -1 });
 }
 
-async function getByUrl(year, month, day, slug) {
+async function getByUrl(siteId, year, month, day, slug) {
     return await Post.findOne({
+        site: siteId,
         publishDate: year + '-' + month + '-' + day,
         slug: slug
     });
@@ -52,6 +53,10 @@ async function update(_id, postParam) {
 
     // validate
     if (!post) throw 'Post not found';
+    if (post.site._id !== postParam.site._id) {
+        // cannot update post from another site
+        throw 'Unauthorised';
+    }
     if (post.slug !== postParam.slug) {
         var duplicatePost = await Post.findOne({ slug: postParam.slug });
         if (duplicatePost) {
