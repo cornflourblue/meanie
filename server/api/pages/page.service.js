@@ -1,18 +1,22 @@
 ﻿var _ = require('lodash');
 var slugify = require('helpers/slugify');
-var db = require('db/db');
+var db = require('../helpers/db');
 var Page = db.Page;
 
-var service = {};
+module.exports = PageService;
 
-service.getAll = getAll;
-service.getBySlug = getBySlug;
-service.getById = getById;
-service.create = create;
-service.update = update;
-service.delete = _delete;
-
-module.exports = service;
+function PageService(user, site) {
+    Object.assign(this, {
+        user,
+        site,
+        getAll,
+        getBySlug,
+        getById,
+        create,
+        update,
+        delete: _delete
+    });
+}
 
 async function getAll() {
     var pages = await Page.find();

@@ -2,7 +2,7 @@
 var express = require('express');
 var jwt = require('express-jwt')({ secret: config.secret });
 var router = express.Router();
-var userService = require('services/user.service');
+var userService = require('./user.service');
 
 // routes
 router.post('/authenticate', authenticate);

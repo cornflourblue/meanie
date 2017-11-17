@@ -1,24 +1,33 @@
-﻿var _ = require('lodash');
+﻿import { get } from 'http';
+
+var _ = require('lodash');
 var slugify = require('helpers/slugify');
 var ObjectId = require('mongoose').Types.ObjectId;
-var db = require('db/db');
+var db = require('../helpers/db');
 var Post = db.Post;
 
-module.exports = {
-    getAll,
-    getByUrl,
-    getById,
-    create,
-    update,
-    delete: _delete
-};
+module.exports = PostService;
 
-async function getAll(siteId) {
-    return await Post.find({ site: siteId })
+function PostService(user, site) {
+    Object.assign(this, {  
+        user,
+        site,
+        getAll,
+        getByUrl,
+        getById,
+        create,
+        update,
+        delete: _delete
+    });
+}
+
+async function getAll() {
+    return await Post
+        .find({ site: this.siteId })
         .sort({ publishDate: -1 });
 }
 
-async function getByUrl(siteId, year, month, day, slug) {
+async function getByUrl(year, month, day, slug) {
     return await Post.findOne({
         site: siteId,
         publishDate: year + '-' + month + '-' + day,

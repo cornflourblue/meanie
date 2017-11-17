@@ -3,10 +3,10 @@ var mongoose = require('mongoose');
 mongoose.connect(config.connectionString, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
-var Site = require('./site');
-var User = require('./user');
-var Post = require('./post');
-var Page = require('./page');
+var Site = require('../sites/site.model');
+var User = require('../users/user.model');
+var Post = require('../posts/post.model');
+var Page = require('../pages/page.model');
 
 module.exports = {
     Site,

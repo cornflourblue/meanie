@@ -1,4 +1,4 @@
-var userService = require('services/user.service');
+var userService = require('api/users/user.service');
 
 module.exports = siteId;
 

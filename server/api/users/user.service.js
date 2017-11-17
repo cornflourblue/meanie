@@ -1,18 +1,23 @@
 ﻿var config = require('config.json');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
-var db = require('db/db');
+var db = require('../helpers/db');
 var User = db.User;
 
-module.exports = {
-    authenticate,
-    search,
-    getAll,
-    getById,
-    create,
-    update,
-    delete: _delete
-};
+module.exports = UserService;
+
+function UserService(user) {
+    Object.assign(this, {
+        user,
+        authenticate,
+        search,
+        getAll,
+        getById,
+        create,
+        update,
+        delete: _delete
+    });
+}
 
 async function authenticate(username, password) {
     var user = await User.findOne({ username: username });

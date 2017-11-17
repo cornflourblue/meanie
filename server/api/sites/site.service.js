@@ -1,14 +1,19 @@
-﻿var db = require('db/db');
+﻿var db = require('../helpers/db');
 var Site = db.Site;
 
-module.exports = {
-    search,
-    getAll,
-    getById,
-    create,
-    update,
-    delete: _delete
-};
+module.exports = SiteService;
+
+function SiteService(user) {
+    Object.assign(this, {
+        user,
+        search,
+        getAll,
+        getById,
+        create,
+        update,
+        delete: _delete
+    });
+}
 
 async function search(query) {
     return await Site

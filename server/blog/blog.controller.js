@@ -6,9 +6,9 @@ var router = express.Router();
 var request = require('request');
 var fs = require('fs');
 var config = require('config.json');
-var pageService = require('services/page.service');
-var postService = require('services/post.service');
-var redirectService = require('services/redirect.service');
+var pageService = require('api/pages/page.service');
+var postService = require('api/posts/post.service');
+var redirectService = require('api/redirects/redirect.service');
 var slugify = require('helpers/slugify');
 var pager = require('helpers/pager');
 

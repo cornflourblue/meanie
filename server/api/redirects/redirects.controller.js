@@ -3,7 +3,7 @@ var _ = require('lodash');
 var express = require('express');
 var jwt = require('express-jwt')({ secret: config.secret });
 var router = express.Router();
-var redirectService = require('services/redirect.service');
+var redirectService = require('./redirect.service');
 
 // routes
 router.get('/', jwt, getAll);

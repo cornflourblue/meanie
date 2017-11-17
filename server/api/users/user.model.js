@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Site = require('./site');
+var Site = require('../sites/site.model');
 
 var schema = new Schema({
     username: { type: String, required: true, unique: true },
