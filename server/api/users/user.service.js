@@ -7,6 +7,10 @@ var User = db.User;
 module.exports = UserService;
 
 function UserService(user) {
+    if (!user) {
+        throw 'Unauthorised';
+    }
+
     Object.assign(this, {
         user,
         authenticate,
