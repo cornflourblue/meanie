@@ -1,6 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
-var userService = require('api/users/user.service');
+var AuthService = require('api/users/auth.service');
 
 router.get('/', function (req, res) {
     // log user out
@@ -14,7 +14,8 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    userService.authenticate(req.body.username, req.body.password)
+    var authService = new AuthService();
+    authService.authenticate(req.body.username, req.body.password)
         .then(function (token) {
             // authentication is successful if the token parameter has a value
             if (token) {

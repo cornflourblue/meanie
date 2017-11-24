@@ -1,19 +1,13 @@
 ﻿var _ = require('lodash');
 var slugify = require('helpers/slugify');
-var ObjectId = require('mongoose').Types.ObjectId;
 var db = require('../helpers/db');
 var Post = db.Post;
 
 module.exports = PostService;
 
 function PostService(site, user) {
-    if (!site) {
-        throw 'Site is required to access posts';
-    }
-
-    if (user && !site.users.find(x => x._id === user._id)) {
-        throw 'User is not authorised for this site';
-    }
+    if (!site) throw 'Site is required to access posts';
+    if (user && !site.users.find(x => x._id === user._id)) throw 'User is not authorised to access posts for this site';
 
     Object.assign(this, {
         site,
@@ -44,7 +38,7 @@ async function getByUrl(year, month, day, slug) {
     var conditions = {
         site: this.site._id,
         publishDate: year + '-' + month + '-' + day,
-        slug: slug
+        slug
     };
 
     if (!this.user) {

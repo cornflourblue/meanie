@@ -1,6 +1,7 @@
 ﻿var express = require('express');
 var router = express.Router();
 var UserService = require('./user.service');
+var AuthService = require('./user.service');
 
 // routes
 router.post('/authenticate', authenticate);
@@ -15,8 +16,8 @@ router.delete('/:_id', _delete);
 module.exports = router;
 
 function authenticate(req, res, next) {
-    var userService = new UserService(req.user);
-    userService.authenticate(req.body.username, req.body.password)
+    var authService = new AuthService();
+    authService.authenticate(req.body.username, req.body.password)
         .then(token => token ? res.send({ token }) : res.status(401).send('Username or password is incorrect'))
         .catch(err => next(err));
 }
