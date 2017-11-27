@@ -7,7 +7,7 @@ module.exports = PageService;
 
 function PageService(site, user) {
     if (!site) throw 'Site is required to access pages';
-    if (user && !site.users.find(x => x._id === user._id)) throw 'User is not authorised to access pages for this site';
+    if (user && !site.users.find(x => x.equals(user._id))) throw 'User is not authorised to access pages for this site';
 
     Object.assign(this, {
         site,

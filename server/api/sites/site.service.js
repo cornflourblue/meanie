@@ -4,6 +4,10 @@ var Site = db.Site;
 module.exports = SiteService;
 
 function SiteService(user) {
+    if (!user) {
+        throw 'Unauthorised';
+    }
+
     Object.assign(this, {
         user,
         search,

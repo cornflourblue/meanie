@@ -1,20 +1,25 @@
 ﻿var config = require('config.json');
 var _ = require('lodash');
-var Q = require('q');
-var mongo = require('mongoskin');
-var db = mongo.db(config.connectionString, { native_parser: true });
-db.bind('redirects');
+var db = require('../helpers/db');
+var Redirect = db.Redirect;
 
-var service = {};
+module.exports = RedirectService;
 
-service.getAll = getAll;
-service.getById = getById;
-service.getByFrom = getByFrom;
-service.create = create;
-service.update = update;
-service.delete = _delete;
+function RedirectService(site, user) {
+    if (!site) throw 'Site is required to access redirects';
+    if (user && !site.users.find(x => x.equals(user._id))) throw 'User is not authorised to access redirects for this site';
 
-module.exports = service;
+    Object.assign(this, {
+        site,
+        user,
+        getAll,
+        getByFrom,
+        getById,
+        create,
+        update,
+        delete: _delete
+    });
+}
 
 function getAll() {
     var deferred = Q.defer();
@@ -28,10 +33,12 @@ function getAll() {
     return deferred.promise;
 }
 
-function getById(_id) {
+function getByFrom(from) {
     var deferred = Q.defer();
 
-    db.redirects.findById(_id, function (err, redirect) {
+    db.redirects.findOne({
+        from: from
+    }, function (err, redirect) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(redirect);
@@ -40,12 +47,10 @@ function getById(_id) {
     return deferred.promise;
 }
 
-function getByFrom(from) {
+function getById(_id) {
     var deferred = Q.defer();
 
-    db.redirects.findOne({
-        from: from
-    }, function (err, redirect) {
+    db.redirects.findById(_id, function (err, redirect) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
         deferred.resolve(redirect);

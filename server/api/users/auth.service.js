@@ -13,7 +13,7 @@ function AuthService() {
 }
 
 async function authenticate(username, password) {
-    var user = await User.findOne({ username: username });
+    var user = await User.findOne({ username });
 
     if (user && bcrypt.compareSync(password, user.hash)) {
         // authentication successful
