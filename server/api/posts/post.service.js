@@ -106,7 +106,7 @@ async function update(_id, postParam) {
         // slug updated so check for duplicate
         var duplicatePost = await Post.findOne({
             site: this.site._id,
-            slug: post.slug
+            slug: postParam.slug
         });
         if (duplicatePost) {
             throw 'Slug "' + postParam.slug + '" is already taken by post: "' + duplicatePost.title + '"';

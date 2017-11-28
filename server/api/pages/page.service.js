@@ -106,7 +106,7 @@ async function update(_id, pageParam) {
         // slug updated so check for duplicate
         var duplicatePage = await Page.findOne({
             site: this.site._id,
-            slug: page.slug
+            slug: pageParam.slug
         });
         if (duplicatePage) {
             throw 'Slug "' + pageParam.slug + '" is already taken by page: "' + duplicatePage.title + '"';

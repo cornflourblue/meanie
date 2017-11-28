@@ -126,7 +126,8 @@
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
 
         // add current site id http header
-        $http.defaults.headers.common['MEANie-Site-Id'] = '59f3c15211ce1238887d44b1';
+        // TODO: make site dynamic
+        $http.defaults.headers.common['MEANie-Site-Id'] = '59cc6896154c5cd4f683773a';
 
         // update active tab on state change
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

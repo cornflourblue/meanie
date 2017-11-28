@@ -39,6 +39,10 @@ async function getById(_id) {
 
 async function create(siteParam) {
     var site = new Site(siteParam);
+
+    site.createdBy = this.user._id;
+    site.createdDate = Date.now();
+    
     await site.save();
 }
 
@@ -48,7 +52,14 @@ async function update(_id, siteParam) {
     // validate
     if (!site) throw 'Site not found';
     
-    await site.update(siteParam);
+    // remove properties that can't be updated
+    delete siteParam.createdBy;
+    delete siteParam.createdDate;
+
+    // copy postParam properties to post
+    Object.assign(site, siteParam);
+
+    await site.save();
 }
 
 async function _delete(_id) {
