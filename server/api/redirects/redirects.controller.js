@@ -1,65 +1,47 @@
-﻿var config = require('config.json');
-var _ = require('lodash');
-var express = require('express');
-var jwt = require('express-jwt')({ secret: config.secret });
+﻿var express = require('express');
 var router = express.Router();
-var redirectService = require('./redirect.service');
+var RedirectService = require('./redirect.service');
 
 // routes
-router.get('/', jwt, getAll);
-router.get('/:_id', jwt, getById);
-router.post('/', jwt, create);
-router.put('/:_id', jwt, update);
-router.delete('/:_id', jwt, _delete);
+router.get('/', getAll);
+router.get('/:_id', getById);
+router.post('/', create);
+router.put('/:_id', update);
+router.delete('/:_id', _delete);
 
 module.exports = router;
 
-function getAll(req, res) {
+function getAll(req, res, next) {
+    var redirectService = new RedirectService(req.site, req.user);
     redirectService.getAll()
-        .then(function (redirects) {
-            res.send(redirects);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(redirects => res.send(redirects))
+        .catch(err => next(err));
 }
 
-function getById(req, res) {
+function getById(req, res, next) {
+    var redirectService = new RedirectService(req.site, req.user);
     redirectService.getById(req.params._id)
-        .then(function (redirect) {
-            res.send(redirect);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(redirect => redirect ? res.send(redirect) : res.status(404).send('Not found'))
+        .catch(err => next(err));
 }
 
-function create(req, res) {
+function create(req, res, next) {
+    var redirectService = new RedirectService(req.site, req.user);
     redirectService.create(req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function update(req, res) {
+function update(req, res, next) {
+    var redirectService = new RedirectService(req.site, req.user);
     redirectService.update(req.params._id, req.body)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }
 
-function _delete(req, res) {
+function _delete(req, res, next) {
+    var redirectService = new RedirectService(req.site, req.user);
     redirectService.delete(req.params._id)
-        .then(function () {
-            res.sendStatus(200);
-        })
-        .catch(function (err) {
-            res.status(400).send(err);
-        });
+        .then(() => res.sendStatus(200))
+        .catch(err => next(err));
 }

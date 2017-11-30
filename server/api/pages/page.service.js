@@ -25,12 +25,12 @@ async function getAll() {
     var conditions = { site: this.site._id };
 
     if (!this.user) {
-        // return only published pages for unauthenticated users
+        // return only published for unauthenticated users
         conditions.publish = true;
     }
 
     var pages = await Page.find(conditions);
-    
+
     // for case insensitive sorting
     return _.sortBy(pages, function (p) { return p.title.toLowerCase(); });
 }
@@ -42,7 +42,7 @@ async function getBySlug(slug) {
     };
 
     if (!this.user) {
-        // return only published pages for unauthenticated users
+        // return only published for unauthenticated users
         conditions.publish = true;
     }
 
@@ -56,7 +56,7 @@ async function getById(_id) {
     };
 
     if (!this.user) {
-        // return only published pages for unauthenticated users
+        // return only published for unauthenticated users
         conditions.publish = true;
     }
 

@@ -24,14 +24,14 @@ function getByUrl(req, res, next) {
     postService.getByUrl(req.params.year, req.params.month, req.params.day, req.params.slug)
         .then(post => post ? res.send(post) : res.status(404).send('Not found'))
         .catch(err => next(err));
-    }
+}
 
 function getById(req, res, next) {
     var postService = new PostService(req.site, req.user);
     postService.getById(req.params._id)
         .then(post => post ? res.send(post) : res.status(404).send('Not found'))
         .catch(err => next(err));
-    }
+}
 
 function create(req, res, next) {
     var postService = new PostService(req.site, req.user);

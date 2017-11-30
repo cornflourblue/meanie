@@ -25,7 +25,7 @@ async function getAll() {
     var conditions = { site: this.site._id };
 
     if (!this.user) {
-        // return only published posts for unauthenticated users
+        // return only published for unauthenticated users
         conditions.publish = true;
     }
 
@@ -42,7 +42,7 @@ async function getByUrl(year, month, day, slug) {
     };
 
     if (!this.user) {
-        // return only published posts for unauthenticated users
+        // return only published for unauthenticated users
         conditions.publish = true;
     }
 
@@ -56,7 +56,7 @@ async function getById(_id) {
     };
 
     if (!this.user) {
-        // return only published posts for unauthenticated users
+        // return only published for unauthenticated users
         conditions.publish = true;
     }
 

@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var pageSchema = {
     site: { type: mongoose.Schema.Types.ObjectId, ref: 'Site', required: true },
-    title: { type: String, required: true },
-    slug: { type: String, required: true },
+    title: { type: String, required: [true, 'Title is required'] },
+    slug: { type: String, required: [true, 'Slug is required'] },
     description: String,
     body: String,
     publish: Boolean,

@@ -21,112 +21,113 @@ function RedirectService(site, user) {
     });
 }
 
-function getAll() {
-    var deferred = Q.defer();
+async function getAll() {
+    var conditions = { site: this.site._id };
 
-    db.redirects.find().toArray(function (err, redirects) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        deferred.resolve(redirects);
-    });
-
-    return deferred.promise;
-}
-
-function getByFrom(from) {
-    var deferred = Q.defer();
-
-    db.redirects.findOne({
-        from: from
-    }, function (err, redirect) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        deferred.resolve(redirect);
-    });
-
-    return deferred.promise;
-}
-
-function getById(_id) {
-    var deferred = Q.defer();
-
-    db.redirects.findById(_id, function (err, redirect) {
-        if (err) deferred.reject(err.name + ': ' + err.message);
-
-        deferred.resolve(redirect);
-    });
-
-    return deferred.promise;
-}
-
-function create(redirectParam) {
-    var deferred = Q.defer();
-
-    // validate 
-    var errors = [];
-    if (!redirectParam.from) { errors.push('From is required'); }
-    if (!redirectParam.to) { errors.push('To is required'); }
-
-    if (!errors.length) {
-        // ensure to and from are lowercase
-        redirectParam.from = redirectParam.from.toLowerCase();
-        redirectParam.to = redirectParam.to.toLowerCase();
-
-        db.redirects.insert(
-            redirectParam,
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
-                deferred.resolve();
-            });
-    } else {
-        deferred.reject(errors.join('\r\n'));
+    if (!this.user) {
+        // return only published for unauthenticated users
+        conditions.publish = true;
     }
 
-    return deferred.promise;
+    return await Redirect
+        .find(conditions)
+        .sort({ from: 1 });
 }
 
-function update(_id, redirectParam) {
-    var deferred = Q.defer();
+async function getByFrom(from) {
+    var conditions = {
+        site: this.site._id,
+        from
+    };
 
-    // validate 
-    var errors = [];
-    if (!redirectParam.from) { errors.push('From is required'); }
-    if (!redirectParam.to) { errors.push('To is required'); }
-
-    if (!errors.length) {
-        // ensure to and from are lowercase
-        redirectParam.from = redirectParam.from.toLowerCase();
-        redirectParam.to = redirectParam.to.toLowerCase();
-
-        // fields to update
-        var set = _.omit(redirectParam, '_id');
-
-        db.redirects.update(
-            { _id: mongo.helper.toObjectID(_id) },
-            { $set: set },
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);
-
-                deferred.resolve();
-            });
-    } else {
-        deferred.reject(errors.join('\r\n'));
+    if (!this.user) {
+        // return only published for unauthenticated users
+        conditions.publish = true;
     }
 
-    return deferred.promise;
+    return await Redirect.findOne(conditions);
 }
 
-function _delete(_id) {
-    var deferred = Q.defer();
+async function getById(_id) {
+    var conditions = {
+        site: this.site._id,
+        _id
+    };
 
-    db.redirects.remove(
-        { _id: mongo.helper.toObjectID(_id) },
-        function (err) {
-            if (err) deferred.reject(err.name + ': ' + err.message);
+    if (!this.user) {
+        // return only published for unauthenticated users
+        conditions.publish = true;
+    }
 
-            deferred.resolve();
+    return await Redirect.findOne(conditions);
+}
+
+async function create(redirectParam) {
+    // authorise
+    if (!this.user) throw 'Unauthorised';
+
+    var redirect = new Redirect(redirectParam);
+
+    // ensure to and from are lowercase
+    redirect.from = redirect.from && redirect.from.toLowerCase();
+    redirect.to = redirect.to && redirect.to.toLowerCase();
+
+    // validate
+    var duplicateRedirect = await Redirect.findOne({
+        site: this.site._id,
+        from: redirect.from
+    });
+    if (duplicateRedirect) {
+        throw 'There is already a redirect from "' + redirect.from + '"';
+    }
+
+    redirect.site = this.site._id;
+    redirect.createdBy = this.user._id;
+    redirect.createdDate = Date.now();
+
+    await redirect.save();
+}
+
+async function update(_id, redirectParam) {
+    // authorise
+    if (!this.user) throw 'Unauthorised';
+
+    var redirect = await Redirect.findOne({
+        site: this.site._id,
+        _id
+    });
+
+    // ensure to and from are lowercase
+    redirectParam.from = redirectParam.from && redirectParam.from.toLowerCase();
+    redirectParam.to = redirectParam.to && redirectParam.to.toLowerCase();
+
+    // validate
+    if (!redirect) throw 'Redirect not found';
+    if (redirect.from !== redirectParam.from) {
+        // from updated so check for duplicate
+        var duplicateRedirect = await Redirect.findOne({
+            site: this.site._id,
+            from: redirectParam.from
         });
+        if (duplicateRedirect) {
+            throw 'There is already a redirect from "' + redirectParam.from + '"';
+        }
+    }
 
-    return deferred.promise;
+    // remove properties that can't be updated
+    delete redirectParam.site;
+    delete redirectParam.createdBy;
+    delete redirectParam.createdDate;
+
+    // copy redirectParam properties to redirect
+    Object.assign(redirect, redirectParam);
+
+    await redirect.save();
+}
+
+async function _delete(_id) {
+    await Redirect.findOneAndRemove({
+        site: this.site._id,
+        _id
+    });
 }
