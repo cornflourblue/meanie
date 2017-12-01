@@ -4,7 +4,7 @@ var AuthService = require('api/users/auth.service');
 
 router.get('/', function (req, res) {
     // log user out
-    delete req.session.token;
+    delete req.session.user;
 
     // move success message into local variable so it only appears once (single read)
     var viewData = { success: req.session.success };
@@ -16,11 +16,11 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
     var authService = new AuthService();
     authService.authenticate(req.body.username, req.body.password)
-        .then(function (token) {
+        .then(function (user) {
             // authentication is successful if the token parameter has a value
-            if (token) {
+            if (user) {
                 // attach JWT token to the session to make it available to the angular app
-                req.session.token = token;
+                req.session.user = user;
 
                 // redirect to returnUrl
                 var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/admin';
@@ -30,7 +30,6 @@ router.post('/', function (req, res) {
             }
         })
         .catch(function (err) {
-            console.log('error on login', err);
             return res.render('login/index', { error: err });
         });
 });

@@ -13,12 +13,16 @@ function AuthService() {
 }
 
 async function authenticate(username, password) {
-    var user = await User.findOne({ username });
+    var user = await User.findOne({ username }).populate('sites', 'name');
 
     if (user && bcrypt.compareSync(password, user.hash)) {
         // authentication successful
         var token = jwt.sign({ sub: user._id }, config.secret);
-        return token;
+        return {
+            username,
+            token,
+            sites: user.sites
+        };
     } else {
         // authentication failed
         return null;

@@ -72,22 +72,49 @@ a {
 ----------------------------------------- */
 header {
     position: relative;
-    padding-top: 20px;
-
-    .nav {
-        li:first-child {
-            margin-left: 20px;
-        }
-    }
+    padding-top: 70px;
 
     .logo {
         position: absolute; 
         top: 0;
-        right: 20px; 
-        font-size: 30px;
+        left: 0; 
 
         img {
-            vertical-align: initial;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .text {
+            position: absolute;
+            left: 55px;
+            top: 0;
+            font-size: 30px;
+        }
+    }
+
+    .nav-tabs {
+        .site-selector {
+            font-weight: bold;
+
+            .dropdown-menu {
+                display: block;
+            }
+        }
+    }
+
+    .top-nav {
+        position: absolute;
+        top: 0;
+        right: 30px;
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+        
+        li {
+            list-style: none;
+            display: inline-block;
+            margin-left: 15px;
         }
     }
 }

@@ -20,17 +20,29 @@
     <!-- header -->
     <header>
         <ul class="nav nav-tabs">
+            <li class="dropdown site-selector">
+                <a class="dropdown-toggle" ng-click="showSiteSelector = !showSiteSelector">
+                    {{currentSite.name}} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu ng-hide" ng-show="showSiteSelector">
+                    <li ng-repeat="site in currentUser.sites">
+                        <a ng-click="switchSite(site)">{{site.name}}</a>
+                    </li>
+                </ul>
+            </li>            
             <li ng-class="{active: activeTab === 'posts'}"><a href="#/posts">Posts</a></li>
             <li ng-class="{active: activeTab === 'pages'}"><a href="#/pages">Pages</a></li>
             <li ng-class="{active: activeTab === 'redirects'}"><a href="#/redirects">Redirects</a></li>
             <li ng-class="{active: activeTab === 'account'}"><a href="#/account">Account</a></li>
-            <li ng-class="{active: activeTab === 'sites'}"><a href="#/sites">Sites</a></li>
-            <li ng-class="{active: activeTab === 'users'}"><a href="#/users">Users</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
+        </ul>
+        <ul class="top-nav">
+            <li><a href="#/sites">Sites</a></li>
+            <li><a href="#/users">Users</a></li>
         </ul>
         <div class="logo">
             <img src="/admin/_content/images/logo.png" />
-            MEANie
+            <div class="text">MEANie</div>
         </div>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>

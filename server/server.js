@@ -42,9 +42,9 @@ app.use('/admin', require('admin/admin.controller'));
 app.use('/install', require('install/install.controller'));
 app.use('/login', require('login/login.controller'));
 
-// make JWT token available to angular app
-app.get('/token', function (req, res) {
-    res.send(req.session.token);
+// make current user available to angular app
+app.get('/current-user', function (req, res) {
+    res.send(req.session.user);
 });
 
 // blog front end

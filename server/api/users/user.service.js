@@ -71,8 +71,8 @@ async function update(_id, userParam) {
     }
 
     // copy userParam properties to user
-    user = Object.assign(user, userParam);
-
+    Object.assign(user, userParam);
+    
     await user.save();
 }
 

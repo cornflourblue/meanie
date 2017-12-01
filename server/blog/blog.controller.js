@@ -52,7 +52,7 @@ router.use(function (req, res, next) {
 router.use(function (req, res, next) {
     var vm = req.vm = {};
 
-    vm.loggedIn = !!req.session.token;
+    vm.loggedIn = !!req.session.user;
     vm.domain = req.protocol + '://' + req.get('host');
     vm.url = vm.domain + req.path;
     vm.googleAnalyticsAccount = config.googleAnalyticsAccount;

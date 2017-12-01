@@ -27,7 +27,7 @@ function upload(req, res, next) {
 
 function ensureAuthenticated(req, res, next) {
     // use session auth to secure the front end admin files
-    if (!req.session.token) {
+    if (!req.session.user) {
         return res.redirect('/login?returnUrl=' + encodeURIComponent('/admin' + req.path));
     }
 

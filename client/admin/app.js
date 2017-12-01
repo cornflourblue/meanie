@@ -121,13 +121,21 @@
             });
     }
 
-    function run($http, $rootScope, $window) {
+    function run($http, $rootScope, $window, $state) {
         // add JWT token as default auth header
-        $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
+        $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.currentUser.token;
 
         // add current site id http header
-        // TODO: make site dynamic
-        $http.defaults.headers.common['MEANie-Site-Id'] = '59cc6896154c5cd4f683773a';
+        $http.defaults.headers.common['MEANie-Site-Id'] = $window.currentUser.sites[0]._id;
+        $rootScope.currentUser = $window.currentUser;
+        $rootScope.currentSite = $window.currentUser.sites[0];
+
+        // enable site switching
+        $rootScope.switchSite = function(site) {
+            $rootScope.currentSite = site;
+            $http.defaults.headers.common['MEANie-Site-Id'] = site._id;
+            $state.reload();
+        };
 
         // update active tab on state change
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
@@ -135,11 +143,11 @@
         });
     }
 
-    // manually bootstrap angular after the JWT token is retrieved from the server
+    // manually bootstrap angular after the current user is retrieved from the server
     $(function () {
         // get JWT token from server
-        $.get('/token', function (token) {
-            window.jwtToken = token;
+        $.get('/current-user', function (user) {
+            window.currentUser = user;
 
             angular.bootstrap(document, ['app']);
         });
