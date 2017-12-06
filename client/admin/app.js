@@ -126,13 +126,16 @@
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.currentUser.token;
 
         // add current site id http header
-        $http.defaults.headers.common['MEANie-Site-Id'] = $window.currentUser.sites[0]._id;
+        var siteId = localStorage.getItem('siteId') || $window.currentUser.sites[0]._id;
+        $http.defaults.headers.common['MEANie-Site-Id'] = siteId;
         $rootScope.currentUser = $window.currentUser;
-        $rootScope.currentSite = $window.currentUser.sites[0];
+        $rootScope.currentSite = $window.currentUser.sites.filter(x => x._id === siteId)[0];
 
         // enable site switching
         $rootScope.switchSite = function(site) {
+            $rootScope.showSiteSelector = false;
             $rootScope.currentSite = site;
+            localStorage.setItem('siteId', site._id);
             $http.defaults.headers.common['MEANie-Site-Id'] = site._id;
             $state.reload();
         };

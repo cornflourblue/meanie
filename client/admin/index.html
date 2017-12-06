@@ -22,7 +22,7 @@
         <ul class="nav nav-tabs">
             <li class="dropdown site-selector">
                 <a class="dropdown-toggle" ng-click="showSiteSelector = !showSiteSelector">
-                    {{currentSite.name}} <span class="caret"></span>
+                    <span ng-bind="currentSite.name"></span> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu ng-hide" ng-show="showSiteSelector">
                     <li ng-repeat="site in currentUser.sites">

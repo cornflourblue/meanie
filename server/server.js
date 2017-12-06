@@ -48,8 +48,7 @@ app.get('/current-user', function (req, res) {
 });
 
 // blog front end
-// TODO: front end will be served from subdomain
-// app.use('/', require('./controllers/blog.controller'));
+app.use('/', require('./blog/blog.controller'));
 
 // global error handler
 app.use(errorHandler);

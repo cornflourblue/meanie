@@ -6,11 +6,12 @@ var router = express.Router();
 var request = require('request');
 var fs = require('fs');
 var config = require('config.json');
-var pageService = require('api/pages/page.service');
-var postService = require('api/posts/post.service');
-var redirectService = require('api/redirects/redirect.service');
+var PageService = require('api/pages/page.service');
+var PostService = require('api/posts/post.service');
+var RedirectService = require('api/redirects/redirect.service');
 var slugify = require('helpers/slugify');
 var pager = require('helpers/pager');
+var db = require('api/helpers/db');
 
 var basePath = path.resolve('../client/blog');
 var indexPath = basePath + '/index';
@@ -27,8 +28,24 @@ router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeek
 /* MIDDLEWARE
 ---------------------------------------*/
 
+// attach current site to request
+router.use(function (req, res, next) {
+    var host = req.get('host');
+
+    // attach current site to request
+    db.Site.findOne({ domains: host })
+        .then(site => {
+            if (!site) return res.status(404).send('Site Not Found');
+
+            req.site = site;
+            next();
+        })
+        .catch(err => console.log(err));
+});
+
 // check for redirects
 router.use(function (req, res, next) {
+    var redirectService = new RedirectService(req.site);
     var host = req.get('host');
     var url = req.url.toLowerCase();
 
@@ -50,6 +67,7 @@ router.use(function (req, res, next) {
 
 // add shared data to vm
 router.use(function (req, res, next) {
+    var postService = new PostService(req.site);
     var vm = req.vm = {};
 
     vm.loggedIn = !!req.session.user;
@@ -154,6 +172,7 @@ router.get('/post', function (req, res, next) {
 
 // post details route
 router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
+    var postService = new PostService(req.site);    
     var vm = req.vm;
 
     postService.getByUrl(req.params.year, req.params.month, req.params.day, req.params.slug)
