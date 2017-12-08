@@ -4,7 +4,7 @@ var Site = db.Site;
 module.exports = SiteService;
 
 function SiteService(user) {
-    if (!user) {
+    if (!(user && user.isSystemAdmin)) {
         throw 'Unauthorised';
     }
 

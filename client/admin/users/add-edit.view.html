@@ -9,19 +9,26 @@
             <label for="password">Password</label>
             <input type="password" id="password" class="form-control" ng-model="vm.user.password" />
         </div>
-        <div class="form-group">
-            <label for="siteQuery">Sites</label>
-            <input type="text" id="siteQuery" class="form-control" placeholder="Search..." ng-model="vm.siteQuery" ng-change="vm.searchSites()" />
-            <div class="popdown" ng-show="vm.sites">
-                <div class="list-group">
-                    <a class="list-group-item list-group-item-action" ng-repeat="site in vm.sites" ng-click="vm.addSite(site)">{{site.name}}</a>
+        <div ng-show="!vm.user.isSystemAdmin">
+            <div class="form-group">
+                <label for="siteQuery">Sites</label>
+                <input type="text" id="siteQuery" class="form-control" placeholder="Search..." ng-model="vm.siteQuery" ng-change="vm.searchSites()" />
+                <div class="popdown" ng-show="vm.sites">
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-action" ng-repeat="site in vm.sites" ng-click="vm.addSite(site)">{{site.name}}</a>
+                    </div>
                 </div>
             </div>
+            <div class="form-group" ng-if="vm.user.sites.length">
+                <ul>
+                    <li ng-repeat="site in vm.user.sites">{{site.name}} - <a class="btn-xs" ng-click="vm.removeSite(site)">Remove</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="form-group" ng-if="vm.user.sites.length">
-            <ul>
-                <li ng-repeat="site in vm.user.sites">{{site.name}} - <a class="btn-xs" ng-click="vm.removeSite(site)">Remove</a></li>
-            </ul>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="vm.user.isSystemAdmin"> System Admin
+            </label>
         </div>
         <hr />
         <div class="form-group">

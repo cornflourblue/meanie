@@ -15,6 +15,10 @@ a {
     cursor: pointer;
 }
 
+.ng-cloak {
+    display: none;
+}
+
 .flash-message {
     margin: 20px 20px 0 20px;
 
@@ -51,7 +55,11 @@ a {
     }
 
     td {
-        vertical-align: middle
+        vertical-align: middle;
+
+        ul {
+            padding-left: 14px;
+        }
     }
 
     td.action-icons {
@@ -138,4 +146,14 @@ main {
         box-shadow: 0px 5px 10px rgba(0,0,0,.25);
         border-radius: 4px;
     }
+}
+
+/* USERS PAGE
+----------------------------------------- */
+.users-index {
+    .users-table {
+        td {
+            width: 33%;
+        }
+    }        
 }

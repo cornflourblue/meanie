@@ -78,36 +78,35 @@
                 url: '/account',
                 templateUrl: 'account/index.view.html',
                 controller: 'Account.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'account' }
+                controllerAs: 'vm'
             })
             .state('sites', {
                 url: '/sites',
                 templateUrl: 'sites/index.view.html',
                 controller: 'Sites.IndexController',
                 controllerAs: 'vm',
-                data: { activeTab: 'sites' }
+                data: { restricted: true }
             })
             .state('sites/add', {
                 url: '/sites/add',
                 templateUrl: 'sites/add-edit.view.html',
                 controller: 'Sites.AddEditController',
                 controllerAs: 'vm',
-                data: { activeTab: 'sites' }
+                data: { restricted: true }
             })
             .state('sites/edit', {
                 url: '/sites/edit/:_id',
                 templateUrl: 'sites/add-edit.view.html',
                 controller: 'Sites.AddEditController',
                 controllerAs: 'vm',
-                data: { activeTab: 'sites' }
+                data: { restricted: true }
             })
             .state('users', {
                 url: '/users',
                 templateUrl: 'users/index.view.html',
                 controller: 'Users.IndexController',
                 controllerAs: 'vm',
-                data: { activeTab: 'users' }
+                data: { restricted: true }
             })
             .state('users/add-edit', {
                 url: '/users/{action:add|edit}/:_id',
@@ -117,11 +116,11 @@
                 templateUrl: 'users/add-edit.view.html',
                 controller: 'Users.AddEditController',
                 controllerAs: 'vm',
-                data: { activeTab: 'users' }
+                data: { restricted: true }
             });
     }
 
-    function run($http, $rootScope, $window, $state) {
+    function run($http, $rootScope, $window, $state, $location) {
         // add JWT token as default auth header
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.currentUser.token;
 
@@ -140,8 +139,16 @@
             $state.reload();
         };
 
-        // update active tab on state change
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            // redirect to home page if unauthorised
+            if (toState.data.restricted && !$rootScope.currentUser.isSystemAdmin) {
+                event.preventDefault();
+                $location.path('/');
+            }
+        });
+
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            // update active tab
             $rootScope.activeTab = toState.data.activeTab;
         });
     }

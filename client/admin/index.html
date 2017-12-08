@@ -18,7 +18,17 @@
 </head>
 <body>
     <!-- header -->
-    <header>
+    <header class="ng-cloak">
+        <div class="logo">
+            <img src="/admin/_content/images/logo.png" />
+            <div class="text">MEANie</div>
+        </div>
+        <ul class="top-nav">
+            <li ng-if="currentUser.isSystemAdmin"><a href="#/sites">Sites</a></li>
+            <li ng-if="currentUser.isSystemAdmin"><a href="#/users">Users</a></li>
+            <li><a href="#/account">Account</a></li>
+            <li><a href="/login" target="_self">Logout</a></li>
+        </ul>
         <ul class="nav nav-tabs">
             <li class="dropdown site-selector">
                 <a class="dropdown-toggle" ng-click="showSiteSelector = !showSiteSelector">
@@ -33,17 +43,7 @@
             <li ng-class="{active: activeTab === 'posts'}"><a href="#/posts">Posts</a></li>
             <li ng-class="{active: activeTab === 'pages'}"><a href="#/pages">Pages</a></li>
             <li ng-class="{active: activeTab === 'redirects'}"><a href="#/redirects">Redirects</a></li>
-            <li ng-class="{active: activeTab === 'account'}"><a href="#/account">Account</a></li>
-            <li><a href="/login" target="_self">Logout</a></li>
         </ul>
-        <ul class="top-nav">
-            <li><a href="#/sites">Sites</a></li>
-            <li><a href="#/users">Users</a></li>
-        </ul>
-        <div class="logo">
-            <img src="/admin/_content/images/logo.png" />
-            <div class="text">MEANie</div>
-        </div>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
         </div>

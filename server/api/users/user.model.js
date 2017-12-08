@@ -5,6 +5,7 @@ var Site = require('../sites/site.model');
 var schema = new Schema({
     username: { type: String, unique: true, required: [true, 'Username is required'] },
     hash: { type: String, required: [true, 'Password is required'] },
+    isSystemAdmin: { type: Boolean, default: false },
     createdDate: { type: Date, default: Date.now },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
 });

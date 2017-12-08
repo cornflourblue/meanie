@@ -21,7 +21,8 @@ async function authenticate(username, password) {
         return {
             username,
             token,
-            sites: user.sites
+            isSystemAdmin: user.isSystemAdmin,
+            sites: user.sites,
         };
     } else {
         // authentication failed

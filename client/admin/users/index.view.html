@@ -11,14 +11,19 @@
         <tr>
             <th>Username</th>
             <th>Sites</th>
+            <th>System Admin</th>
             <th></th>
         </tr>
         <tr ng-repeat="user in vm.users">
             <td>{{user.username}}</td>
             <td>
-                <ul>
+                <ul ng-if="!user.isSystemAdmin">
                     <li ng-repeat="site in user.sites">{{site.name}}</li>
                 </ul>
+                <div ng-if="user.isSystemAdmin">N/A</div>
+            </td>
+            <td>
+                {{user.isSystemAdmin}}
             </td>
             <td class="action-icons">
                 <a href="#/users/edit/{{user._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>

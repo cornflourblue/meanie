@@ -5,7 +5,7 @@ var User = db.User;
 module.exports = UserService;
 
 function UserService(user) {
-    if (!user) {
+    if (!(user && user.isSystemAdmin)) {
         throw 'Unauthorised';
     }
 
