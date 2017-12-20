@@ -2,7 +2,6 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var db = require('../helpers/db');
-var User = db.User;
 
 module.exports = AuthService;
 
@@ -13,11 +12,17 @@ function AuthService() {
 }
 
 async function authenticate(username, password) {
-    var user = await User.findOne({ username }).populate('sites', 'name');
+    var user = await db.User.findOne({ username }).populate('sites', 'name');
 
     if (user && bcrypt.compareSync(password, user.hash)) {
         // authentication successful
         var token = jwt.sign({ sub: user._id }, config.secret);
+
+        if (user.isSystemAdmin) {
+            // system admins have access to all sites
+            user.sites = await db.Site.find();
+        }
+
         return {
             username,
             token,

@@ -7,7 +7,7 @@ module.exports = RedirectService;
 
 function RedirectService(site, user) {
     if (!site) throw 'Site is required to access redirects';
-    if (user && !site.users.find(x => x.equals(user._id))) throw 'User is not authorised to access redirects for this site';
+    if (user && !user.isSystemAdmin && !site.users.find(x => x.equals(user._id))) throw 'User is not authorised to access redirects for this site';
 
     Object.assign(this, {
         site,

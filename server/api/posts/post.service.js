@@ -7,7 +7,7 @@ module.exports = PostService;
 
 function PostService(site, user) {
     if (!site) throw 'Site is required to access posts';
-    if (user && !site.users.find(x => x.equals(user._id))) throw 'User is not authorised to access posts for this site';
+    if (user && !user.isSystemAdmin && !site.users.find(x => x.equals(user._id))) throw 'User is not authorised to access posts for this site';
 
     Object.assign(this, {
         site,
