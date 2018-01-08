@@ -1,0 +1,17 @@
+version: '2' # docker-compose version
+
+# services/containers to be run
+services:
+  web: # service name
+    build: . # directory of the Dockerfile
+    ports:
+      - "3000:3000"
+    links:
+      - database # link this service to the database service
+
+  database: # service name
+    image: mongo # image to build container from
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db # store data on host machine volume
