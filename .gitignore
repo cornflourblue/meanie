@@ -27,7 +27,7 @@ build/Release
 node_modules
 
 # file uploads folder
-client/blog/_content/uploads
+blog/client/_content/uploads
 
 # mongo data directory used by docker container
 data

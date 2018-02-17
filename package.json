@@ -31,5 +31,19 @@
         "request": "^2.58.0",
         "rootpath": "^0.1.2"
     },
+    "devDependencies": {
+        "babel-core": "",
+        "babel-preset-env": "",
+        "gulp": "",
+        "gulp-autoprefixer": "",
+        "gulp-babel": "",
+        "gulp-clean-css": "",
+        "gulp-concat": "",
+        "gulp-less": "",
+        "gulp-ng-annotate": "",
+        "gulp-sourcemaps": "",
+        "gulp-uglify": "",
+        "less": ""
+    },
     "license": "MIT"
 }
