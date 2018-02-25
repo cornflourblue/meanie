@@ -13,22 +13,13 @@
             width: 400px;
             margin: auto;
         }
-
-        .credits {
-            border-top: 1px solid #ddd;
-            margin-top: 40px;
-            padding-top: 20px;
-        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <h2>Install</h2>
         <% if(locals.error) { %>
-        <div class="alert alert-danger"><%= error %></div>
-        <% } %>
-        <% if(locals.success) { %>
-        <div class="alert alert-success"><%= success %></div>
+            <div class="alert alert-danger"><%= error %></div>
         <% } %>
         <form method="post">
             <div class="form-group">

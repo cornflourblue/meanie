@@ -1,10 +1,8 @@
 ﻿var express = require('express');
 var router = express.Router();
 var UserService = require('./user.service');
-var AuthService = require('./auth.service');
 
 // routes
-router.post('/authenticate', authenticate);
 router.get('/current', getCurrent);
 router.get('/search', search);
 router.get('/', getAll);
@@ -14,13 +12,6 @@ router.put('/:_id', update);
 router.delete('/:_id', _delete);
 
 module.exports = router;
-
-function authenticate(req, res, next) {
-    var authService = new AuthService();
-    authService.authenticate(req.body.username, req.body.password)
-        .then(token => token ? res.send({ token }) : res.status(401).send('Username or password is incorrect'))
-        .catch(err => next(err));
-}
 
 function getCurrent(req, res, next) {
     res.send(req.user);

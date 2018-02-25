@@ -1,5 +1,5 @@
 ﻿var bcrypt = require('bcryptjs');
-var db = require('../helpers/db');
+var db = require('_db/db');
 var User = db.User;
 
 module.exports = UserService;

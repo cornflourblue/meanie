@@ -9,11 +9,11 @@ var config = require('config.json');
 var PageService = require('api/pages/page.service');
 var PostService = require('api/posts/post.service');
 var RedirectService = require('api/redirects/redirect.service');
-var slugify = require('helpers/slugify');
-var pager = require('helpers/pager');
-var db = require('api/helpers/db');
+var slugify = require('_helpers/slugify');
+var pager = require('_helpers/pager');
+var db = require('_db/db');
 
-var basePath = path.resolve('../client/blog');
+var basePath = path.resolve('blog/client');
 var indexPath = basePath + '/index';
 var metaTitleSuffix = " | MEANie - The MEAN Stack Blog";
 var oneWeekSeconds = 60 * 60 * 24 * 7;

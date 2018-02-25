@@ -1,6 +1,6 @@
 ﻿var config = require('config.json');
 var _ = require('lodash');
-var db = require('../helpers/db');
+var db = require('_db/db');
 var Redirect = db.Redirect;
 
 module.exports = RedirectService;

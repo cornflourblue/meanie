@@ -1,15 +1,11 @@
 ﻿var config = require('config.json');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
-var db = require('../helpers/db');
+var db = require('_db/db');
 
-module.exports = AuthService;
-
-function AuthService() {
-    Object.assign(this, {
-        authenticate
-    });
-}
+module.exports = {
+    authenticate
+};
 
 async function authenticate(username, password) {
     var user = await db.User.findOne({ username }).populate('sites', 'name');

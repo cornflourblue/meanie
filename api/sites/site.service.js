@@ -1,4 +1,4 @@
-﻿var db = require('../helpers/db');
+﻿var db = require('_db/db');
 var Site = db.Site;
 
 module.exports = SiteService;

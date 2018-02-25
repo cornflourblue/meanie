@@ -3,16 +3,10 @@ var mongoose = require('mongoose');
 mongoose.connect(config.connectionString, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
-var Site = require('../sites/site.model');
-var User = require('../users/user.model');
-var Post = require('../posts/post.model');
-var Page = require('../pages/page.model');
-var Redirect = require('../redirects/redirect.model');
-
 module.exports = {
-    Site,
-    User,
-    Post,
-    Page,
-    Redirect
+    Site: require('./site.model'),
+    User: require('./user.model'),
+    Post: require('./post.model'),
+    Page: require('./page.model'),
+    Redirect: require('./redirect.model')
 };

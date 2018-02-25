@@ -2,12 +2,12 @@
 var router = express.Router();
 var path = require('path');
 var multer = require('multer');
-var slugify = require('helpers/slugify');
-var fileExists = require('helpers/file-exists');
+var slugify = require('_helpers/slugify');
+var fileExists = require('_helpers/file-exists');
 
 router.use('/', ensureAuthenticated);
 router.post('/upload', getUpload().single('upload'), upload); // handle file upload
-router.use('/', express.static('../client/admin')); // serve admin front end files from '/admin'
+router.use('/', express.static('admin/client')); // serve admin front end files from '/admin'
 
 module.exports = router;
 

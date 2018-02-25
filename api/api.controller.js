@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var config = require('config.json');
 var jwt = require('express-jwt')({ secret: config.secret, credentialsRequired: false });
-var db = require('./helpers/db');
+var db = require('_db/db');
 
 router.use(
     jwt,
