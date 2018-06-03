@@ -43,7 +43,7 @@
         "gulp-ng-annotate": "",
         "gulp-sourcemaps": "",
         "gulp-uglify": "",
-        "less": ""
+        "less": "^2.7.3"
     },
     "license": "MIT"
 }

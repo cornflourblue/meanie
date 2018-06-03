@@ -13,67 +13,70 @@
         $stateProvider
             .state('posts', {
                 url: '/posts',
-                templateUrl: 'posts/index.view.html',
-                controller: 'Posts.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'posts' }
+                abstract: true,
+                template: '<ui-view />',
+                data: {
+                    area: 'site-admin',
+                    section: 'posts' 
+                }
             })
-            .state('posts/add', {
-                url: '/posts/add',
-                templateUrl: 'posts/add-edit.view.html',
-                controller: 'Posts.AddEditController',
-                controllerAs: 'vm',
-                data: { activeTab: 'posts' }
-            })
-            .state('posts/edit', {
-                url: '/posts/edit/:_id',
-                templateUrl: 'posts/add-edit.view.html',
-                controller: 'Posts.AddEditController',
-                controllerAs: 'vm',
-                data: { activeTab: 'posts' }
-            })
+                .state('posts.list', {
+                    url: '',
+                    templateUrl: 'posts/index.view.html',
+                    controller: 'Posts.IndexController',
+                    controllerAs: 'vm'
+                })
+                .state('posts.add-edit', {
+                    url: '/{action:add|edit}/:_id',
+                    params: { _id: { squash: true, value: null } },
+                    templateUrl: 'posts/add-edit.view.html',
+                    controller: 'Posts.AddEditController',
+                    controllerAs: 'vm'
+                })
             .state('pages', {
                 url: '/pages',
-                templateUrl: 'pages/index.view.html',
-                controller: 'Pages.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'pages' }
+                abstract: true,
+                template: '<ui-view />',
+                data: { 
+                    area: 'site-admin',
+                    section: 'pages' 
+                }
             })
-            .state('pages/add', {
-                url: '/pages/add',
-                templateUrl: 'pages/add-edit.view.html',
-                controller: 'Pages.AddEditController',
-                controllerAs: 'vm',
-                data: { activeTab: 'pages' }
-            })
-            .state('pages/edit', {
-                url: '/pages/edit/:_id',
-                templateUrl: 'pages/add-edit.view.html',
-                controller: 'Pages.AddEditController',
-                controllerAs: 'vm',
-                data: { activeTab: 'pages' }
-            })
+                .state('pages.list', {
+                    url: '',
+                    templateUrl: 'pages/index.view.html',
+                    controller: 'Pages.IndexController',
+                    controllerAs: 'vm'
+                })
+                .state('pages.add-edit', {
+                    url: '/{action:add|edit}/:_id',
+                    params: { _id: { squash: true, value: null } },
+                    templateUrl: 'pages/add-edit.view.html',
+                    controller: 'Pages.AddEditController',
+                    controllerAs: 'vm'
+                })
             .state('redirects', {
                 url: '/redirects',
-                templateUrl: 'redirects/index.view.html',
-                controller: 'Redirects.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'redirects' }
+                abstract: true,
+                template: '<ui-view />',
+                data: { 
+                    area: 'site-admin',
+                    section: 'redirects' 
+                }
             })
-            .state('redirects/add', {
-                url: '/redirects/add',
-                templateUrl: 'redirects/add-edit.view.html',
-                controller: 'Redirects.AddEditController',
-                controllerAs: 'vm',
-                data: { activeTab: 'redirects' }
-            })
-            .state('redirects/edit', {
-                url: '/redirects/edit/:_id',
-                templateUrl: 'redirects/add-edit.view.html',
-                controller: 'Redirects.AddEditController',
-                controllerAs: 'vm',
-                data: { activeTab: 'redirects' }
-            })
+                .state('redirects.list', {
+                    url: '',
+                    templateUrl: 'redirects/index.view.html',
+                    controller: 'Redirects.IndexController',
+                    controllerAs: 'vm'
+                })
+                .state('redirects.add-edit', {
+                    url: '/{action:add|edit}/:_id',
+                    params: { _id: { squash: true, value: null } },
+                    templateUrl: 'redirects/add-edit.view.html',
+                    controller: 'Redirects.AddEditController',
+                    controllerAs: 'vm'
+                })
             .state('account', {
                 url: '/account',
                 templateUrl: 'account/index.view.html',
@@ -82,42 +85,48 @@
             })
             .state('sites', {
                 url: '/sites',
-                templateUrl: 'sites/index.view.html',
-                controller: 'Sites.IndexController',
-                controllerAs: 'vm',
-                data: { restricted: true }
+                abstract: true,
+                template: '<ui-view />',
+                data: { 
+                    area: 'system-admin',
+                    section: 'sites'
+                }
             })
-            .state('sites/add', {
-                url: '/sites/add',
-                templateUrl: 'sites/add-edit.view.html',
-                controller: 'Sites.AddEditController',
-                controllerAs: 'vm',
-                data: { restricted: true }
-            })
-            .state('sites/edit', {
-                url: '/sites/edit/:_id',
-                templateUrl: 'sites/add-edit.view.html',
-                controller: 'Sites.AddEditController',
-                controllerAs: 'vm',
-                data: { restricted: true }
-            })
+                .state('sites.list', {
+                    url: '',
+                    templateUrl: 'sites/index.view.html',
+                    controller: 'Sites.IndexController',
+                    controllerAs: 'vm'
+                })
+                .state('sites.add-edit', {
+                    url: '/{action:add|edit}/:_id',
+                    params: { _id: { squash: true, value: null } },
+                    templateUrl: 'sites/add-edit.view.html',
+                    controller: 'Sites.AddEditController',
+                    controllerAs: 'vm'
+                })
             .state('users', {
                 url: '/users',
-                templateUrl: 'users/index.view.html',
-                controller: 'Users.IndexController',
-                controllerAs: 'vm',
-                data: { restricted: true }
+                abstract: true,
+                template: '<ui-view />',
+                data: { 
+                    area: 'system-admin',
+                    section: 'users' 
+                }
             })
-            .state('users/add-edit', {
-                url: '/users/{action:add|edit}/:_id',
-                params: { 
-                    _id: { squash: true, value: null } 
-                },
-                templateUrl: 'users/add-edit.view.html',
-                controller: 'Users.AddEditController',
-                controllerAs: 'vm',
-                data: { restricted: true }
-            });
+                .state('users.list', {
+                    url: '',
+                    templateUrl: 'users/index.view.html',
+                    controller: 'Users.IndexController',
+                    controllerAs: 'vm'
+                })
+                .state('users.add-edit', {
+                    url: '/{action:add|edit}/:_id',
+                    params: { _id: { squash: true, value: null } },
+                    templateUrl: 'users/add-edit.view.html',
+                    controller: 'Users.AddEditController',
+                    controllerAs: 'vm'
+                });
     }
 
     function run($http, $rootScope, $window, $state, $location) {
@@ -141,15 +150,18 @@
 
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             // redirect to home page if unauthorised
-            if (toState.data.restricted && !$rootScope.currentUser.isSystemAdmin) {
+            var data = toState.data || {};
+            if (data.area === 'system-admin' && !$rootScope.currentUser.isSystemAdmin) {
                 event.preventDefault();
                 $location.path('/');
             }
         });
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            // update active tab
-            $rootScope.activeTab = toState.data.activeTab;
+            // update state data on root scope
+            var data = toState.data || {};
+            $rootScope.area = data.area;
+            $rootScope.section = data.section;
         });
     }
 

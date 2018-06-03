@@ -24,12 +24,16 @@
             <div class="text">MEANie</div>
         </div>
         <ul class="top-nav">
-            <li ng-if="currentUser.isSystemAdmin"><a href="#/sites">Sites</a></li>
-            <li ng-if="currentUser.isSystemAdmin"><a href="#/users">Users</a></li>
+            <li ng-if="currentUser.isSystemAdmin"><a href="#/posts">Site Admin</a></li>
+            <li ng-if="currentUser.isSystemAdmin"><a href="#/sites">System Admin</a></li>
             <li><a href="#/account">Account</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
         </ul>
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" ng-if="area === 'system-admin'">
+            <li ng-class="{active: section === 'sites'}"><a href="#/sites">Sites</a></li>
+            <li ng-class="{active: section === 'users'}"><a href="#/users">Users</a></li>
+        </ul>
+        <ul class="nav nav-tabs" ng-if="area === 'site-admin'">
             <li class="dropdown site-selector">
                 <a class="dropdown-toggle" ng-click="showSiteSelector = !showSiteSelector">
                     <span ng-bind="currentSite.name"></span> <span class="caret"></span>
@@ -40,9 +44,9 @@
                     </li>
                 </ul>
             </li>            
-            <li ng-class="{active: activeTab === 'posts'}"><a href="#/posts">Posts</a></li>
-            <li ng-class="{active: activeTab === 'pages'}"><a href="#/pages">Pages</a></li>
-            <li ng-class="{active: activeTab === 'redirects'}"><a href="#/redirects">Redirects</a></li>
+            <li ng-class="{active: section === 'posts'}"><a href="#/posts">Posts</a></li>
+            <li ng-class="{active: section === 'pages'}"><a href="#/pages">Pages</a></li>
+            <li ng-class="{active: section === 'redirects'}"><a href="#/redirects">Redirects</a></li>
         </ul>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>

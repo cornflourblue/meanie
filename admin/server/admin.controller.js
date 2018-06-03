@@ -39,7 +39,7 @@ function ensureAuthenticated(req, res, next) {
 
 function getUpload() {
     // file upload config using multer
-    var uploadDir = '../client/blog/_content/uploads';
+    var uploadDir = './blog/client/_content/uploads';
 
     var storage = multer.diskStorage({
         destination: uploadDir,
