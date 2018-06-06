@@ -81,7 +81,8 @@
                 url: '/account',
                 templateUrl: 'account/index.view.html',
                 controller: 'Account.IndexController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                data: { area: 'account' }
             })
             .state('sites', {
                 url: '/sites',
@@ -130,19 +131,22 @@
     }
 
     function run($http, $rootScope, $window, $state, $location) {
+        // create global variables object on $rootScope
+        var globals = $rootScope.globals = {};
+
         // add JWT token as default auth header
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.currentUser.token;
 
         // add current site id http header
         var siteId = localStorage.getItem('siteId') || $window.currentUser.sites[0]._id;
         $http.defaults.headers.common['MEANie-Site-Id'] = siteId;
-        $rootScope.currentUser = $window.currentUser;
-        $rootScope.currentSite = $window.currentUser.sites.filter(x => x._id === siteId)[0];
+        globals.currentUser = $window.currentUser;
+        globals.currentSite = $window.currentUser.sites.filter(x => x._id === siteId)[0];
 
         // enable site switching
-        $rootScope.switchSite = function(site) {
-            $rootScope.showSiteSelector = false;
-            $rootScope.currentSite = site;
+        globals.switchSite = function(site) {
+            globals.showSiteSelector = false;
+            globals.currentSite = site;
             localStorage.setItem('siteId', site._id);
             $http.defaults.headers.common['MEANie-Site-Id'] = site._id;
             $state.reload();
@@ -151,7 +155,7 @@
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             // redirect to home page if unauthorised
             var data = toState.data || {};
-            if (data.area === 'system-admin' && !$rootScope.currentUser.isSystemAdmin) {
+            if (data.area === 'system-admin' && !globals.currentUser.isSystemAdmin) {
                 event.preventDefault();
                 $location.path('/');
             }
@@ -160,8 +164,8 @@
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             // update state data on root scope
             var data = toState.data || {};
-            $rootScope.area = data.area;
-            $rootScope.section = data.section;
+            globals.area = data.area;
+            globals.section = data.section;
         });
     }
 

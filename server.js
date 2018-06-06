@@ -48,7 +48,7 @@ app.get('/current-user', function (req, res) {
 });
 
 // blog front end
-// app.use('/', require('blog/server/blog.controller'));
+app.use('/', require('blog/server/blog.controller'));
 
 // global error handler
 app.use(errorHandler);

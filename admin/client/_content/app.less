@@ -98,13 +98,16 @@ header {
             left: 55px;
             top: 0;
             font-size: 30px;
+            white-space: nowrap;
         }
     }
 
     .nav-tabs {
-        .site-selector {
+        li.active {
             font-weight: bold;
+        }
 
+        .site-selector {
             .dropdown-menu {
                 display: block;
             }
@@ -123,6 +126,13 @@ header {
             list-style: none;
             display: inline-block;
             margin-left: 15px;
+
+            &.active {
+                a {
+                    font-weight: bold;
+                    color: #555;
+                }
+            }
         }
     }
 }

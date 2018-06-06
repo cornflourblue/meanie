@@ -21,35 +21,39 @@
     <header class="ng-cloak">
         <div class="logo">
             <img src="/admin/_content/images/logo.png" />
-            <div class="text">MEANie</div>
+            <div class="text">
+                MEANie
+                <span ng-if="globals.area === 'site-admin'"> - {{globals.currentSite.name}}</span>
+                <span ng-if="globals.area === 'system-admin'"> - System Admin</span>
+            </div>
         </div>
         <ul class="top-nav">
-            <li ng-if="currentUser.isSystemAdmin"><a href="#/posts">Site Admin</a></li>
-            <li ng-if="currentUser.isSystemAdmin"><a href="#/sites">System Admin</a></li>
-            <li><a href="#/account">Account</a></li>
+            <li ng-class="{active: globals.area === 'site-admin'}" ng-if="globals.currentUser.isSystemAdmin"><a href="#/posts">Site Admin</a></li>
+            <li ng-class="{active: globals.area === 'system-admin'}" ng-if="globals.currentUser.isSystemAdmin"><a href="#/sites">System Admin</a></li>
+            <li ng-class="{active: globals.area === 'account'}"><a href="#/account">Account</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
         </ul>
-        <ul class="nav nav-tabs" ng-if="area === 'system-admin'">
-            <li ng-class="{active: section === 'sites'}"><a href="#/sites">Sites</a></li>
-            <li ng-class="{active: section === 'users'}"><a href="#/users">Users</a></li>
+        <ul class="nav nav-tabs" ng-if="globals.area === 'system-admin'">
+            <li ng-class="{active: globals.section === 'sites'}"><a href="#/sites">Sites</a></li>
+            <li ng-class="{active: globals.section === 'users'}"><a href="#/users">Users</a></li>
         </ul>
-        <ul class="nav nav-tabs" ng-if="area === 'site-admin'">
+        <ul class="nav nav-tabs" ng-if="globals.area === 'site-admin'">
             <li class="dropdown site-selector">
-                <a class="dropdown-toggle" ng-click="showSiteSelector = !showSiteSelector">
-                    <span ng-bind="currentSite.name"></span> <span class="caret"></span>
+                <a class="dropdown-toggle" ng-click="globals.showSiteSelector = !globals.showSiteSelector">
+                    <span ng-bind="globals.currentSite.name"></span> <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu ng-hide" ng-show="showSiteSelector">
-                    <li ng-repeat="site in currentUser.sites">
-                        <a ng-click="switchSite(site)">{{site.name}}</a>
+                <ul class="dropdown-menu ng-hide" ng-show="globals.showSiteSelector">
+                    <li ng-repeat="site in globals.currentUser.sites">
+                        <a ng-click="globals.switchSite(site)">{{site.name}}</a>
                     </li>
                 </ul>
             </li>            
-            <li ng-class="{active: section === 'posts'}"><a href="#/posts">Posts</a></li>
-            <li ng-class="{active: section === 'pages'}"><a href="#/pages">Pages</a></li>
-            <li ng-class="{active: section === 'redirects'}"><a href="#/redirects">Redirects</a></li>
+            <li ng-class="{active: globals.section === 'posts'}"><a href="#/posts">Posts</a></li>
+            <li ng-class="{active: globals.section === 'pages'}"><a href="#/pages">Pages</a></li>
+            <li ng-class="{active: globals.section === 'redirects'}"><a href="#/redirects">Redirects</a></li>
         </ul>
-        <div class="flash-message" ng-if="flash">
-            <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+        <div class="flash-message" ng-if="globals.flash">
+            <div class="{{'alert alert-' + globals.flash.type}}" ng-bind="globals.flash.message"></div>
         </div>
     </header>
 
