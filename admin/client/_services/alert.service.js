@@ -34,7 +34,7 @@
         }
 
         function Success(message, keepAfterLocationChange) {
-            $rootScope.flash = {
+            $rootScope.globals.flash = {
                 message: message,
                 type: 'success', 
                 keepAfterLocationChange: keepAfterLocationChange
@@ -42,7 +42,7 @@
         }
 
         function Error(message, keepAfterLocationChange) {
-            $rootScope.flash = {
+            $rootScope.globals.flash = {
                 message: message,
                 type: 'danger',
                 keepAfterLocationChange: keepAfterLocationChange

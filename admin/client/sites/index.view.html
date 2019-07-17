@@ -10,12 +10,14 @@
     <table class="sites-table table table-striped">
         <tr>
             <th>Name</th>
+            <th>Theme</th>
             <th>Domains</th>
             <th>Users</th>
             <th></th>
         </tr>
         <tr ng-repeat="site in vm.sites">
             <td>{{site.name}}</td>
+            <td>{{site.theme}}</td>
             <td>
                 <ul>
                     <li ng-repeat="domain in site.domains">{{domain}}</li>

@@ -17,7 +17,7 @@ module.exports = router;
 function upload(req, res, next) {
     // respond with ckeditor callback
     res.status(200).send(
-        '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_content/uploads/' + req.file.filename + '");</script>'
+        '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_uploads/' + req.file.filename + '");</script>'
     );
 }
 
@@ -39,7 +39,7 @@ function ensureAuthenticated(req, res, next) {
 
 function getUpload() {
     // file upload config using multer
-    var uploadDir = './blog/client/_content/uploads';
+    var uploadDir = './_uploads';
 
     var storage = multer.diskStorage({
         destination: uploadDir,

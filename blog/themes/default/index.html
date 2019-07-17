@@ -103,12 +103,6 @@
         Powered by <a href="http://jasonwatmore.com/meanie" target="_blank">MEANie - The MEAN Stack Blog</a>
     </div>
 
-    <!-- carbon ads -->
-    <div class="carbonads-container">
-        <div class="ad-title">Sponsored by <span class="close-ad icon-cross"></span></div>
-        <script async type="text/javascript" src="/carbonads.js?zoneid=1673&serve=C6AILKT&placement=jasonwatmore&d=<%= new Date().toISOString().slice(0, 13) %>" id="_carbonads_js"></script>
-    </div>
-
     <!-- syntax highlighter -->
     <script src="/_content/syntaxhighlighter/js/shCore.js"></script>
     <script src="/_content/syntaxhighlighter/js/shBrushCSharp.js"></script>
@@ -131,20 +125,6 @@
 
     <!-- jquery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-    <script>
-        $(function () {
-            window.setTimeout(function () {
-                // wait a couple of seconds to show ad
-                $('.carbonads-container').fadeIn();
-            }, 2000);
-
-            // enable closing of ad
-            $('.close-ad').click(function () {
-                $('.carbonads-container').hide();
-            });
-        });
-    </script>
 
     <!-- angular -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>

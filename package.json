@@ -7,7 +7,7 @@
         "url": "https://github.com/cornflourblue/meanie.git"
     },
     "scripts": {
-        "start": "node server.js"
+        "start": "nodemon ./server.js"
     },
     "dependencies": {
         "bcryptjs": "^2.1.0",
@@ -43,7 +43,8 @@
         "gulp-ng-annotate": "",
         "gulp-sourcemaps": "",
         "gulp-uglify": "",
-        "less": "^2.7.3"
+        "less": "^2.7.3",
+        "nodemon": "^1.17.5"
     },
     "license": "MIT"
 }

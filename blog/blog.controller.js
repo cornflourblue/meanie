@@ -13,7 +13,7 @@ var slugify = require('_helpers/slugify');
 var pager = require('_helpers/pager');
 var db = require('_db/db');
 
-var basePath = path.resolve('blog/client');
+var basePath = path.resolve('blog/themes/default');
 var indexPath = basePath + '/index';
 var metaTitleSuffix = " | MEANie - The MEAN Stack Blog";
 var oneWeekSeconds = 60 * 60 * 24 * 7;
@@ -315,11 +315,6 @@ router.get('/contact-thanks', function (req, res, next) {
 // google analytics
 router.get('/analytics.js', function (req, res, next) {
     proxy('http://www.google-analytics.com/analytics.js', basePath + '/_content/analytics.js', req, res);
-});
-
-// carbon ads
-router.get('/carbonads.js', function (req, res, next) {
-    proxy('http://cdn.carbonads.com/carbon.js', basePath + '/_content/carbonads.js', req, res);
 });
 
 module.exports = router;

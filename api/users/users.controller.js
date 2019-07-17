@@ -56,7 +56,7 @@ function update(req, res, next) {
 
 function _delete(req, res, next) {
     var userService = new UserService(req.user);
-    userService.delete(req.params._id, req.body)
+    userService.delete(req.params._id)
         .then(() => res.sendStatus(200))
         .catch(err => next(err));
 }
