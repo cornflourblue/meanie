@@ -71,9 +71,6 @@
     }
 
     function run($rootScope, $timeout, $location, $window) {
-        // initialise google analytics
-        $window.ga && $window.ga('create', 'UA-30211492-1', 'auto');
-
         $rootScope.$on('$stateChangeSuccess', function () {
             // hide mobile nav
             $rootScope.showNav = false;

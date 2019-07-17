@@ -3,8 +3,6 @@ var _ = require('lodash');
 var moment = require('moment');
 var path = require('path');
 var router = express.Router();
-var request = require('request');
-var fs = require('fs');
 var config = require('config.json');
 var PageService = require('api/pages/page.service');
 var PostService = require('api/posts/post.service');
@@ -13,17 +11,9 @@ var slugify = require('_helpers/slugify');
 var pager = require('_helpers/pager');
 var db = require('_db/db');
 
-var basePath = path.resolve('blog/themes/default');
-var indexPath = basePath + '/index';
 var metaTitleSuffix = " | MEANie - The MEAN Stack Blog";
 var oneWeekSeconds = 60 * 60 * 24 * 7;
 var oneWeekMilliseconds = oneWeekSeconds * 1000;
-
-/* STATIC ROUTES
----------------------------------------*/
-
-router.use('/_dist', express.static(basePath + '/_dist'));
-router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeekMilliseconds }));
 
 /* MIDDLEWARE
 ---------------------------------------*/
@@ -38,6 +28,8 @@ router.use(function (req, res, next) {
             if (!site) return res.status(404).send('Site Not Found');
 
             req.site = site;
+            req.basePath = path.resolve(`blog/themes/${site.theme || 'default'}`);
+            req.indexPath = `${req.basePath}/index`;
             next();
         })
         .catch(err => console.log(err));
@@ -61,7 +53,7 @@ router.use(function (req, res, next) {
         })
         .catch(function (err) {
             vm.error = err;
-            res.render(indexPath, vm);
+            res.render(req.indexPath, vm);
         });
 });
 
@@ -93,7 +85,7 @@ router.use(function (req, res, next) {
         })
         .catch(function (err) {
             vm.error = err;
-            res.render(indexPath, vm);
+            res.render(req.indexPath, vm);
         });
 
     // load years and months for blog month list
@@ -136,6 +128,16 @@ router.use(function (req, res, next) {
             })
             .value();
     }
+});
+
+/* STATIC ROUTES
+---------------------------------------*/
+
+router.use('/_dist', function (req, res, next) {
+    express.static(req.basePath + '/_dist')(req, res, next);
+});
+router.use('/_content', function (req, res, next) {
+    express.static(req.basePath + '/_content', { maxAge: oneWeekMilliseconds })(req, res, next);
 });
 
 /* ROUTES
@@ -197,7 +199,7 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
         })
         .catch(function (err) {
             vm.error = err;
-            res.render(indexPath, vm);
+            res.render(req.indexPath, vm);
         });
 });
 
@@ -272,7 +274,7 @@ router.get('/page/:slug', function (req, res, next) {
         })
         .catch(function (err) {
             vm.error = err;
-            res.render(indexPath, vm);
+            res.render(req.indexPath, vm);
         });
 });
 
@@ -309,14 +311,6 @@ router.get('/contact-thanks', function (req, res, next) {
     render('contact/thanks.view.html', req, res);
 });
 
-/* PROXY ROUTES
----------------------------------------*/
-
-// google analytics
-router.get('/analytics.js', function (req, res, next) {
-    proxy('http://www.google-analytics.com/analytics.js', basePath + '/_content/analytics.js', req, res);
-});
-
 module.exports = router;
 
 /* PRIVATE HELPER FUNCTIONS
@@ -330,38 +324,6 @@ function render(templateUrl, req, res) {
     vm.templateUrl = templateUrl;
 
     // render view only for ajax request or whole page for full request
-    var renderPath = req.xhr ? basePath + '/' + vm.templateUrl : indexPath;
+    var renderPath = req.xhr ? req.basePath + '/' + vm.templateUrl : req.indexPath;
     return res.render(renderPath, vm);
-}
-
-// proxy file from remote url for page speed score
-function proxy(fileUrl, filePath, req, res) {
-    // ensure file exists and is less than 1 hour old
-    fs.stat(filePath, function (err, stats) {
-        if (err) {
-            // file doesn't exist so download and create it
-            updateFileAndReturn();
-        } else {
-            // file exists so ensure it's not stale
-            if (moment().diff(stats.mtime, 'minutes') > 60) {
-                updateFileAndReturn();
-            } else {
-                returnFile();
-            }
-        }
-    });
-
-    // update file from remote url then send to client
-    function updateFileAndReturn() {
-        request(fileUrl, function (error, response, body) {
-            fs.writeFileSync(filePath, body);
-            returnFile();
-        });
-    }
-
-    // send file to client
-    function returnFile() {
-        res.set('Cache-Control', 'public, max-age=' + oneWeekSeconds);
-        res.sendFile(filePath);
-    }
 }
