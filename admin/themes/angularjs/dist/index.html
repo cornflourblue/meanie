@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MEANie - The MEAN Stack Blog</title>
+
+    <link rel="shortcut icon" href="_assets/logo.png" type="image/png" />
+    <link rel="icon" href="_assets/logo.png" type="image/png" />
+
+    <!-- bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jquery ui -->
+    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet">
+
+    <!-- meanie -->
+    <link href="app.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- header -->
+    <header class="ng-cloak">
+        <div class="logo">
+            <img src="_assets/logo.png" />
+            <div class="text">
+                MEANie
+                <span ng-if="globals.area === 'site-admin'"> - {{globals.currentSite.name}}</span>
+                <span ng-if="globals.area === 'system-admin'"> - System Admin</span>
+            </div>
+        </div>
+        <ul class="top-nav">
+            <li ng-class="{active: globals.area === 'site-admin'}" ng-if="globals.currentUser.isSystemAdmin"><a href="#/posts">Site Admin</a></li>
+            <li ng-class="{active: globals.area === 'system-admin'}" ng-if="globals.currentUser.isSystemAdmin"><a href="#/sites">System Admin</a></li>
+            <li ng-class="{active: globals.area === 'account'}"><a href="#/account">Account</a></li>
+            <li><a href="/login" target="_self">Logout</a></li>
+        </ul>
+        <ul class="nav nav-tabs" ng-if="globals.area === 'system-admin'">
+            <li ng-class="{active: globals.section === 'sites'}"><a href="#/sites">Sites</a></li>
+            <li ng-class="{active: globals.section === 'users'}"><a href="#/users">Users</a></li>
+        </ul>
+        <ul class="nav nav-tabs" ng-if="globals.area === 'site-admin'">
+            <li class="dropdown site-selector">
+                <a class="dropdown-toggle" ng-click="globals.showSiteSelector = !globals.showSiteSelector">
+                    <span ng-bind="globals.currentSite.name"></span> <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu ng-hide" ng-show="globals.showSiteSelector">
+                    <li ng-repeat="site in globals.currentUser.sites">
+                        <a ng-click="globals.switchSite(site)">{{site.name}}</a>
+                    </li>
+                </ul>
+            </li>            
+            <li ng-class="{active: globals.section === 'posts'}"><a href="#/posts">Posts</a></li>
+            <li ng-class="{active: globals.section === 'pages'}"><a href="#/pages">Pages</a></li>
+            <li ng-class="{active: globals.section === 'redirects'}"><a href="#/redirects">Redirects</a></li>
+        </ul>
+        <div class="flash-message" ng-if="globals.flash">
+            <div class="{{'alert alert-' + globals.flash.type}}" ng-bind="globals.flash.message"></div>
+        </div>
+    </header>
+
+    <!-- main -->
+    <main ui-view></main>
+
+    <!-- footer -->
+    <footer></footer>
+
+    <!-- jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+    <!-- underscore -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+    <!-- moment -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+    <!-- angular -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
+    <!-- ckeditor -->
+    <script src="//cdn.ckeditor.com/4.5.7/full/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.5.7/full/adapters/jquery.js"></script>
+
+    <!-- meanie -->
+    <script src="app.min.js"></script>
+</body>
+</html>

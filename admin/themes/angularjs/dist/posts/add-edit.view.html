@@ -1,0 +1,44 @@
+<div class="posts-add-edit">
+    <h1>Post Details</h1>
+    <form ng-if="!vm.loading">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" class="form-control" ng-model="vm.post.title" />
+        </div>
+        <div class="form-group">
+            <label for="slug">Slug</label>
+            <input type="text" id="slug" class="form-control" ng-model="vm.post.slug" />
+            <a class="generate-slug" ng-click="vm.post.slug = (vm.post.title | slugify)">Generate from title</a>
+        </div>
+        <div class="form-group">
+            <label for="summary">Summary</label>
+            <textarea id="summary" class="form-control" ng-model="vm.post.summary" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="body">Body</label>
+            <textarea class="form-control" ng-model="vm.post.body" wysiwyg></textarea>
+        </div>
+        <div class="form-group">
+            <label for="title">Tags</label>
+            <input type="text" id="tags" class="form-control" ng-model="vm.post.tags" tags />
+        </div>
+        <div class="form-group">
+            <label for="publish-date">Publish Date</label>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <input type="text" id="publish-date" class="form-control" ng-model="vm.post.publishDate" datepicker />
+            </div>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="vm.post.publish"> Publish
+            </label>
+        </div>
+        <hr />
+        <div class="form-group">
+            <a class="btn btn-primary" ng-click="vm.savePost()">Save</a>
+            <a class="btn btn-default" href="#/posts">Cancel</a>
+            <a class="btn btn-danger" ng-click="vm.deletePost()" ng-show="vm.post._id">Delete</a>
+        </div>
+    </form>
+</div>

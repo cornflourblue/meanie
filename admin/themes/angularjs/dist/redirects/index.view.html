@@ -1,0 +1,24 @@
+<div class="redirects-index">
+    <div class="index-header">
+        <h1>301 Redirects</h1>
+        <div class="buttons">
+            <a href="#/redirects/add" class="btn btn-default">
+                <i class="glyphicon glyphicon-plus"></i> New Redirect
+            </a>
+        </div>
+    </div>
+    <table class="redirects-table table table-striped">
+        <tr>
+            <th>From</th>
+            <th>To</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="redirect in vm.redirects">
+            <td>{{redirect.from}}</td>
+            <td>{{redirect.to}}</td>
+            <td class="action-icons">
+                <a href="#/redirects/edit/{{redirect._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+            </td>
+        </tr>
+    </table>
+</div>

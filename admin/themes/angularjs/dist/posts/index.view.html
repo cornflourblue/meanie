@@ -1,0 +1,28 @@
+<div class="posts-index">
+    <div class="index-header">
+        <h1>Posts</h1>
+        <div class="buttons">
+            <a href="#/posts/add" class="btn btn-default">
+                <i class="glyphicon glyphicon-plus"></i> New Post
+            </a>
+        </div>
+    </div>
+    <table class="posts-table table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Tags</th>
+            <th>Publish Date</th>
+            <th class="text-center">Published</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="post in vm.posts">
+            <td>{{post.title}}</td>
+            <td>{{post.tags | csv}}</td>
+            <td>{{post.publishDate | date:'dd/MM/yyyy'}}</td>
+            <td class="text-center"><i ng-if="post.publish" class="glyphicon glyphicon-ok" /></td>
+            <td class="action-icons">
+                <a href="#/posts/edit/{{post._id}}" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></a>
+            </td>
+        </tr>
+    </table>
+</div>

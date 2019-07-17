@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/api', require('api/api.controller'));
-app.use('/admin', require('admin/server/admin.controller'));
+app.use('/admin', require('admin/admin.controller'));
 app.use('/install', require('install/server/install.controller'));
 app.use('/login', require('login/server/login.controller'));
 

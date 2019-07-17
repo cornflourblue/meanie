@@ -1,0 +1,19 @@
+<div class="redirects-add-edit">
+    <h1>301 Redirect Details</h1>
+    <form ng-if="!vm.loading">
+        <div class="form-group">
+            <label for="from">From (e.g. '/old-url')</label>
+            <input type="text" id="from" class="form-control" ng-model="vm.redirect.from" required />
+        </div>
+        <div class="form-group">
+            <label for="to">To (e.g. '/new-url')</label>
+            <input type="text" id="to" class="form-control" ng-model="vm.redirect.to" />
+        </div>
+        <hr />
+        <div class="form-group">
+            <a class="btn btn-primary" ng-click="vm.saveRedirect()">Save</a>
+            <a class="btn btn-default" href="#/redirects">Cancel</a>
+            <a class="btn btn-danger" ng-click="vm.deleteRedirect()" ng-show="vm.redirect._id">Delete</a>
+        </div>
+    </form>
+</div>
