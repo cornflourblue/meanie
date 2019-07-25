@@ -28,7 +28,7 @@ router.use(function (req, res, next) {
             if (!site) return res.status(404).send('Site Not Found');
 
             req.site = site;
-            req.basePath = path.resolve(`blog/themes/${site.theme || 'default'}`);
+            req.basePath = path.resolve(`blog/themes/${site.theme || 'default'}/dist`);
             req.indexPath = `${req.basePath}/index`;
             next();
         })
@@ -38,7 +38,6 @@ router.use(function (req, res, next) {
 // check for redirects
 router.use(function (req, res, next) {
     var redirectService = new RedirectService(req.site);
-    var host = req.get('host');
     var url = req.url.toLowerCase();
 
     // redirects entered into cms
@@ -133,12 +132,7 @@ router.use(function (req, res, next) {
 /* STATIC ROUTES
 ---------------------------------------*/
 
-router.use('/_dist', function (req, res, next) {
-    express.static(req.basePath + '/_dist')(req, res, next);
-});
-router.use('/_content', function (req, res, next) {
-    express.static(req.basePath + '/_content', { maxAge: oneWeekMilliseconds })(req, res, next);
-});
+router.use('/_assets', (req, res, next) => express.static(req.basePath + '/_assets', { maxAge: oneWeekMilliseconds })(req, res, next));
 
 /* ROUTES
 ---------------------------------------*/
@@ -258,6 +252,7 @@ router.get('/posts/:year/:month', function (req, res, next) {
 
 // page details route
 router.get('/page/:slug', function (req, res, next) {
+    var pageService = new PageService(req.site);    
     var vm = req.vm;
 
     pageService.getBySlug(req.params.slug)

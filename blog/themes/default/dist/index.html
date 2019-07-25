@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <base href="/" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/_assets/images/logo.png" type="image/png" />
+    <link rel="icon" href="/_assets/images/logo.png" type="image/png" />
+
+    <title><%- locals.metaTitle || "MEANie Blog" %></title>
+    <meta name="description" content="<%- locals.metaDescription || "MEANie Blog" %>" />
+
+    <style>
+        /* fonts & icons */
+        <%- include('_assets/fonts/montserrat.css') %>
+        <%- include('_assets/icomoon/style.css') %>
+
+        /* bootstrap */
+        <%- include('_assets/bootstrap.css') %>
+
+        /* syntax higlighter */
+        <%- include('_assets/syntaxhighlighter/css/shCore.css') %>
+        <%- include('_assets/syntaxhighlighter/css/shThemeDefault.css') %>
+
+        /* custom */
+        <%- include('_assets/app.min.css') %>
+    </style>
+
+    <% if(!locals.loggedIn) { // don't record traffic if logged in %>
+        <!-- analytics -->
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', '<%= locals.googleAnalyticsAccount %>', 'auto');
+        </script>
+    <% } %>
+</head>
+<body>
+    <!-- nav -->
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" ng-click="showNav = !showNav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img src="/_assets/images/logo.png" />
+                    <span>MEANie</span>
+                </a>
+            </div>
+            <div class="navbar-collapse ng-cloak" ng-class="{'in': showNav, 'collapse': !showNav}">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/archive">Archive</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- main -->
+    <main ui-view>
+        <% if(locals.templateUrl) { %>
+            <div ng-non-bindable>
+                <%- include(locals.templateUrl) %>
+            </div>
+        <% } %>
+	</main>
+
+    <!-- footer -->
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>About</h4>
+                    <p>
+                        MEANie is a blogging platform built with the MEAN Stack (MongoDB, ExpressJS, AngularJS, NodeJS). 
+                    </p>
+                    <p>
+                        It's been designed with developers in mind, to be easily extensible and customisable throughout the code base.
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Months</h4>
+                    <%- include('_partials/month-list.html') %>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Tags</h4>
+                    <%- include('_partials/tag-list.html') %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center copyright">
+        Powered by <a href="https://jasonwatmore.com/meanie" target="_blank">MEANie - The MEAN Stack Blog</a>
+    </div>
+
+    <!-- syntax highlighter -->
+    <script src="/_assets/syntaxhighlighter/js/shCore.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushCSharp.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushCss.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushJScript.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushPlain.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushSql.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushVb.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushXml.js"></script>
+    <script>
+        SyntaxHighlighter.defaults['gutter'] = true;
+        SyntaxHighlighter.defaults['smart-tabs'] = true;
+        SyntaxHighlighter.defaults['auto-links'] = true;
+        SyntaxHighlighter.defaults['collapse'] = false;
+        SyntaxHighlighter.defaults['light'] = false;
+        SyntaxHighlighter.defaults['tab-size'] = 4;
+        SyntaxHighlighter.defaults['toolbar'] = true;
+        SyntaxHighlighter.defaults['wrap-lines'] = true;
+    </script>
+
+    <!-- jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <!-- angular -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+
+    <!-- meanie -->
+    <script src="/_assets/app.min.js"></script>
+</body>
+</html>

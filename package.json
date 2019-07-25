@@ -23,27 +23,12 @@
         "moment": "^2.14.1",
         "mongodb": "^2.1.16",
         "mongoose": "^4.11.13",
-        "mongoskin": "^2.1.0",
         "multer": "^1.3.0",
         "nodemailer": "^2.6.0",
         "path": "^0.12.7",
-        "q": "^1.4.1",
-        "request": "^2.58.0",
         "rootpath": "^0.1.2"
     },
     "devDependencies": {
-        "babel-core": "",
-        "babel-preset-env": "",
-        "gulp": "",
-        "gulp-autoprefixer": "",
-        "gulp-babel": "",
-        "gulp-clean-css": "",
-        "gulp-concat": "",
-        "gulp-less": "",
-        "gulp-ng-annotate": "",
-        "gulp-sourcemaps": "",
-        "gulp-uglify": "",
-        "less": "^2.7.3",
         "nodemon": "^1.17.5"
     },
     "license": "MIT"

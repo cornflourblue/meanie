@@ -1,0 +1,41 @@
+<div class="post-list">
+    <% posts.forEach(function(post) { %>
+        <div class="post">
+            <div class="container">
+                <div class="publish-date"><%= post.publishDateFormatted %></div>
+                <h2 class="post-title">
+                    <a href="<%= post.url %>"><%= post.title %></a>
+                </h2>
+                <div class="post-summary"><%= post.summary %></div>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+<% if(locals.pager && locals.pager.endPage > 1) { %>
+    <div class="post-pager">
+        <ul class="pagination">
+            <% if(locals.pager.currentPage > 1) { %>
+                <li class="first"><a href="?page=1">First</a></li>
+                <li class="previous"><a href="?page=<%= locals.pager.currentPage - 1 %>">Previous</a></li>
+            <% } else { %>
+                <li class="first disabled"><a>First</a></li>
+                <li class="previous disabled"><a>Previous</a></li>
+            <% } %>
+
+            <% for(var page = locals.pager.startPage; page <= locals.pager.endPage; page++) { %>
+                <li class="<%= page === locals.pager.currentPage ? 'active' : '' %>">
+                    <a href="?page=<%= page %>"><%= page %></a>
+                </li>
+            <% } %>
+
+            <% if(locals.pager.currentPage < locals.pager.totalPages) { %>
+                <li class="next"><a href="?page=<%= locals.pager.currentPage + 1 %>">Next</a></li>
+                <li class="last"><a href="?page=<%= locals.pager.totalPages %>">Last</a></li>
+            <% } else { %>
+                <li class="next disabled"><a>Next</a></li>
+                <li class="last disabled"><a>Last</a></li>
+            <% } %>
+        </ul>
+    </div>
+<% } %>

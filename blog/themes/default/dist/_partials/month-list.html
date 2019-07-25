@@ -1,0 +1,14 @@
+<ul class="month-list">
+    <% years.forEach(function(year) { %>
+        <li>
+            <%= year.value %>
+            <ul>
+                <% year.months.forEach(function(month) { %>
+                    <li>
+                        <a href="/posts/<%= year.value%>/<%= month.value %>"><%= month.name %></a> (<%= month.postCount %>)
+                    </li>
+                <% }) %>
+            </ul>
+        </li>
+    <% }) %>
+</ul>

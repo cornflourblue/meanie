@@ -1,0 +1,54 @@
+<div class="post-details">
+    <div class="container">
+        <div class="publish-date"><%= locals.post.publishDateFormatted %></div>
+        <h1><%= locals.post.title %></h1>
+        <div ng-non-bindable><%- locals.post.body %></div>
+
+        <div class="post-footer">
+            <p>By MEANie Demo</p>
+            <% if(locals.postTags && locals.postTags.length) { %>
+                <p>
+                    Tags: 
+                    <%- locals.postTags.map(function(tag) { return '<a href="/posts/tag/' + tag.slug + '">' + tag.text + '</a>'; }).join(', ') %>
+                </p>
+            <% } %>
+            <p class="social-share-buttons">
+                <span>Share on: </span>
+                <a class="facebook-button" href="http://facebook.com/sharer.php?u=<%= locals.url %>" target="_blank">Facebook</a>
+                <a class="twitter-button" href="http://twitter.com/intent/tweet?url=<%= locals.url %>&text=<%= locals.post.title %>" target="_blank">Twitter</a>
+                <a class="googleplus-button" href="https://plus.google.com/share?url=<%= locals.url %>" target="_blank">Google+</a>
+            </p>
+        </div>
+        <hr />
+
+        <!-- comments -->
+        <div id="disqus_thread"></div>
+        <script>
+            // update page title
+            var metaTitle = '<%- locals.metaTitle.replace(/\'/g, "\\\'") %>';
+            document.title = metaTitle;
+
+            var disqus_config = function () {
+                this.page.url = '<%= locals.post.permalink %>';
+                this.page.title = metaTitle;
+            };
+
+            if (!window.postViewLoaded) {
+                // load disqus script the first time the view loads
+                (function () {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = 'http://meaniedemo.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+
+                window.postViewLoaded = true;
+            } else if (window.DISQUS) {
+                // else if disqus already loaded call DISQUS.reset
+                DISQUS.reset({
+                    reload: true,
+                    config: disqus_config
+                });
+            }
+        </script>
+    </div>
+</div>

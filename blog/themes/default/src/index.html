@@ -6,26 +6,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="shortcut icon" href="/_content/images/logo.png" type="image/png" />
-    <link rel="icon" href="/_content/images/logo.png" type="image/png" />
+    <link rel="shortcut icon" href="/_assets/images/logo.png" type="image/png" />
+    <link rel="icon" href="/_assets/images/logo.png" type="image/png" />
 
     <title><%- locals.metaTitle || "MEANie Blog" %></title>
     <meta name="description" content="<%- locals.metaDescription || "MEANie Blog" %>" />
 
     <style>
         /* fonts & icons */
-        <%- include('_content/fonts/montserrat.css') %>
-        <%- include('_content/icomoon/style.css') %>
+        <%- include('_assets/fonts/montserrat.css') %>
+        <%- include('_assets/icomoon/style.css') %>
 
         /* bootstrap */
-        <%- include('_content/bootstrap.css') %>
+        <%- include('_assets/bootstrap.css') %>
 
         /* syntax higlighter */
-        <%- include('_content/syntaxhighlighter/css/shCore.css') %>
-        <%- include('_content/syntaxhighlighter/css/shThemeDefault.css') %>
+        <%- include('_assets/syntaxhighlighter/css/shCore.css') %>
+        <%- include('_assets/syntaxhighlighter/css/shThemeDefault.css') %>
 
         /* custom */
-        <%- include('_dist/app.css') %>
+        <%- include('_assets/app.min.css') %>
     </style>
 
     <% if(!locals.loggedIn) { // don't record traffic if logged in %>
@@ -52,7 +52,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                    <img src="/_content/images/logo.png" />
+                    <img src="/_assets/images/logo.png" />
                     <span>MEANie</span>
                 </a>
             </div>
@@ -104,14 +104,14 @@
     </div>
 
     <!-- syntax highlighter -->
-    <script src="/_content/syntaxhighlighter/js/shCore.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushCSharp.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushCss.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushJScript.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushPlain.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushSql.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushVb.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushXml.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shCore.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushCSharp.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushCss.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushJScript.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushPlain.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushSql.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushVb.js"></script>
+    <script src="/_assets/syntaxhighlighter/js/shBrushXml.js"></script>
     <script>
         SyntaxHighlighter.defaults['gutter'] = true;
         SyntaxHighlighter.defaults['smart-tabs'] = true;
@@ -132,6 +132,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
 
     <!-- meanie -->
-    <script src="/_dist/app.min.js"></script>
+    <script src="/_assets/app.min.js"></script>
 </body>
 </html>
