@@ -1,6 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
-var RedirectService = require('./redirect.service');
+var RedirectService = require('_services/redirect.service');
 
 // routes
 router.get('/', getAll);

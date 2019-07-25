@@ -1,6 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
-var PostService = require('./post.service');
+var PostService = require('_services/post.service');
 
 // routes
 router.get('/', getAll);

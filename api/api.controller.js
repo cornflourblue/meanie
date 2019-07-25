@@ -9,12 +9,12 @@ router.use(
     attachRequestData
 );
 
-router.use('/sites', require('./sites/sites.controller'));
-router.use('/users', require('./users/users.controller'));
-router.use('/pages', require('./pages/pages.controller'));
-router.use('/posts', require('./posts/posts.controller'));
-router.use('/redirects', require('./redirects/redirects.controller'));
-router.use('/contact', require('./contact/contact.controller'));
+router.use('/sites', require('./sites.controller'));
+router.use('/users', require('./users.controller'));
+router.use('/pages', require('./pages.controller'));
+router.use('/posts', require('./posts.controller'));
+router.use('/redirects', require('./redirects.controller'));
+router.use('/contact', require('./contact.controller'));
 
 module.exports = router;
 

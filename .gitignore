@@ -23,8 +23,7 @@ coverage
 build/Release
 
 # Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
+node_modules/
 
 # file uploads folder
 blog/client/_content/uploads

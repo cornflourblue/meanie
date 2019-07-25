@@ -1,6 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
-var SiteService = require('./site.service');
+var SiteService = require('_services/site.service');
 
 // routes
 router.get('/search', search);

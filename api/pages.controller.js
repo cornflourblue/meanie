@@ -1,6 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
-var PageService = require('./page.service');
+var PageService = require('_services/page.service');
 
 // routes
 router.get('/', getAll);

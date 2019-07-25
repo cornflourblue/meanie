@@ -1,6 +1,6 @@
 ﻿var express = require('express');
 var router = express.Router();
-var UserService = require('./user.service');
+var UserService = require('_services/user.service');
 
 // routes
 router.get('/current', getCurrent);
