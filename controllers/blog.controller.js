@@ -12,7 +12,7 @@ var redirectService = require('services/redirect.service');
 var slugify = require('helpers/slugify');
 var pager = require('helpers/pager');
 
-var basePath = path.resolve('../client/blog');
+var basePath = path.resolve('./client/blog');
 var indexPath = basePath + '/index';
 var metaTitleSuffix = " | MEANie - The MEAN Stack Blog";
 var oneWeekSeconds = 60 * 60 * 24 * 7;

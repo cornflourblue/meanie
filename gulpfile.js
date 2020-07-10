@@ -7,7 +7,7 @@ var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 var argv = require('yargs').argv;
 
-var basePath = '../client';
+var basePath = './client';
 
 gulp.task('less', function () {
     compileLess('admin');

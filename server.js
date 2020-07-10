@@ -13,13 +13,15 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 
 // set default views folder
-app.set('views', __dirname + '/../client');
+console.log("view dir:" + __dirname + '/client');
+app.set('views', __dirname + '/client');
 
 // enable gzip compression
 app.use(compression());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+console.log("process.env.MONGODB_URI: " + process.env.MONGODB_URI);
 app.use(session({
     secret: config.secret,
     store: new MongoStore({ url: process.env.MONGODB_URI || config.connectionString }),
