@@ -38,5 +38,11 @@
         "gulp-uglify": "",
         "yargs": "^4.6.0"
     },
+    "scripts": {
+        "start": "node server.js"
+    },
+    "engines": {
+        "node": "12.18.2"
+    },
     "license": "MIT"
 }
