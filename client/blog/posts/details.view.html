@@ -5,7 +5,7 @@
         <div ng-non-bindable><%- locals.post.body %></div>
 
         <div class="post-footer">
-            <p>By MEANie Demo</p>
+            <p></p>
             <% if(locals.postTags && locals.postTags.length) { %>
                 <p>
                     Tags: 
@@ -37,7 +37,7 @@
                 // load disqus script the first time the view loads
                 (function () {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = 'http://meaniedemo.disqus.com/embed.js';
+                    dsq.src = 'http://<%- locals.disqusApp %>.disqus.com/embed.js';
                     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                 })();
 

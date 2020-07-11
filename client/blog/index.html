@@ -9,8 +9,8 @@
     <link rel="shortcut icon" href="/_content/images/logo.png" type="image/png" />
     <link rel="icon" href="/_content/images/logo.png" type="image/png" />
 
-    <title><%- locals.metaTitle || "MEANie Blog" %></title>
-    <meta name="description" content="<%- locals.metaDescription || "MEANie Blog" %>" />
+    <title><%- locals.metaTitle || locals.appName %></title>
+    <meta name="description" content="<%- locals.metaDescription || locals.appName %>" />
 
     <style>
         /* fonts & icons */
@@ -52,15 +52,15 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                    <img src="/_content/images/logo.png" />
-                    <span>MEANie</span>
+                    <img src="/_content/images/logo.png" width="100" height="100" />
+                    <span><%- locals.appName %></span>
                 </a>
             </div>
             <div class="navbar-collapse ng-cloak" ng-class="{'in': showNav, 'collapse': !showNav}">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/">Home</a></li>
                     <li><a href="/archive">Archive</a></li>
-                    <li><a href="/contact">Contact</a></li>
+                    <!--<li><a href="/contact">Contact</a></li>-->
                 </ul>
             </div>
         </div>
@@ -79,7 +79,7 @@
     <div id="footer">
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <!--<div class="col-sm-4">
                     <h4>About</h4>
                     <p>
                         MEANie is a blogging platform built with the MEAN Stack (MongoDB, ExpressJS, AngularJS, NodeJS). 
@@ -87,8 +87,8 @@
                     <p>
                         It's been designed with developers in mind, to be easily extensible and customisable throughout the code base.
                     </p>
-                </div>
-                <div class="col-sm-4">
+                </div>-->
+                <div class="col-sm-4 col-sm-offset-4">
                     <h4>Months</h4>
                     <%- include('_partials/month-list.html') %>
                 </div>

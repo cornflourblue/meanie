@@ -14,9 +14,12 @@ var pager = require('helpers/pager');
 
 var basePath = path.resolve('./client/blog');
 var indexPath = basePath + '/index';
-var metaTitleSuffix = " | MEANie - The MEAN Stack Blog";
+var metaTitleSuffix = "";
 var oneWeekSeconds = 60 * 60 * 24 * 7;
 var oneWeekMilliseconds = oneWeekSeconds * 1000;
+
+const disqusApp = process.env.DISQUS_APP || config.disqusApp;
+const appName = process.env.APP_NAME || config.appName;
 
 /* STATIC ROUTES
 ---------------------------------------*/
@@ -128,6 +131,7 @@ router.get('/', function (req, res, next) {
     var vm = req.vm;
 
     var currentPage = req.query.page || 1;
+    vm.appName = appName;
     vm.pager = pager(vm.posts.length, currentPage);
     vm.posts = vm.posts.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
 
@@ -171,6 +175,7 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
             });
 
             // meta tags
+            vm.disqusApp = disqusApp;
             vm.metaTitle = vm.post.title + metaTitleSuffix;
             vm.metaDescription = vm.post.summary;
 
@@ -201,6 +206,7 @@ router.get('/posts/tag/:tag', function (req, res, next) {
                 tagFound = true;
 
                 // meta tags
+                vm.disqusApp = disqusApp;
                 vm.metaTitle = 'Posts tagged "' + vm.tag + '"' + metaTitleSuffix;
                 vm.metaDescription = 'Posts tagged "' + vm.tag + '"' + metaTitleSuffix;
             }
