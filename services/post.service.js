@@ -3,7 +3,7 @@ var _ = require('lodash');
 var Q = require('q');
 var slugify = require('helpers/slugify');
 var mongo = require('mongoskin');
-var db = mongo.db(config.connectionString, { native_parser: true });
+var db = mongo.db(process.env.MONGODB_URI || config.connectionString, { native_parser: true });
 db.bind('posts');
 
 var service = {};
