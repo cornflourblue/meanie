@@ -11,6 +11,7 @@ var postService = require('services/post.service');
 var redirectService = require('services/redirect.service');
 var slugify = require('helpers/slugify');
 var pager = require('helpers/pager');
+var imageService = require('services/image.service');
 
 var basePath = path.resolve('./client/blog');
 var indexPath = basePath + '/index';
@@ -25,7 +26,30 @@ const appName = process.env.APP_NAME || config.appName;
 ---------------------------------------*/
 
 router.use('/_dist', express.static(basePath + '/_dist'));
-router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeekMilliseconds }));
+//router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeekMilliseconds }));
+
+console.log("adding image router");
+router.get('/_content/uploads/:fileName', function (req, res, next) {
+
+    var fileName = req.params.fileName;
+
+    console.log("image requested:" + fileName);
+    imageService.get(fileName).catch( function(error) {
+        console.log("Image not found!: " + error);
+        res.status(404).send("image not found");
+    }).then(function(image) {
+        console.log("found image!!!!" + image.url );
+      
+        res.setHeader('content-type', image.contentType);
+        //const download = Buffer.from(image.data, 'base64')
+        console.log("sending file...");
+        res.status(200).send(image.data.buffer);
+    }).catch( function(error) {
+        console.log("failed to send image!: " + error);
+        res.send("failed to send image!");
+    });
+});
+
 
 /* MIDDLEWARE
 ---------------------------------------*/

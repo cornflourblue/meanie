@@ -4,15 +4,29 @@ var path = require('path');
 var multer = require('multer');
 var slugify = require('helpers/slugify');
 var fileExists = require('helpers/file-exists');
+var imageService = require('services/image.service');
 
 router.use('/', ensureAuthenticated);
-router.post('/upload', getUpload().single('upload'), upload); // handle file upload
+//router.post('/upload', getUpload().single('upload'), upload); // handle file upload
+router.post('/upload', getMemoryUpload().single('upload'), memoryUpload); // handle file upload to memory
 router.use('/', express.static('./client/admin')); // serve admin front end files from '/admin'
 
 module.exports = router;
 
 /* ROUTE FUNCTIONS
 ---------------------------------------*/
+
+function memoryUpload(req, res, next) {
+
+    console.log(Object.keys(req.file));
+    imageService.create(req.file.originalname, req.file.buffer, req.file.mimetype, req.file.size,).then(function(image){
+        // respond with ckeditor callback
+        res.status(200).send(
+            '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_content/uploads/' + req.file.originalname + '");</script>'
+        );
+    });
+}
+
 
 function upload(req, res, next) {
     // respond with ckeditor callback
@@ -36,6 +50,14 @@ function ensureAuthenticated(req, res, next) {
 
 /* HELPER FUNCTIONS
 ---------------------------------------*/
+
+function getMemoryUpload() {
+    // file upload config using multer
+    var storage = multer.memoryStorage();
+    var upload = multer({ storage: storage });
+
+    return upload;
+}
 
 function getUpload() {
     // file upload config using multer
