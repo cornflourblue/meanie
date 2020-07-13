@@ -13,9 +13,9 @@ router.use('/', ensureAuthenticated);
 
 if (uploadToMongo) {
     console.log("using database for file uploads");
-    router.post('/upload/:postId', getMemoryUpload().single('upload'), memoryUpload); // handle file upload to memory
+    router.post('/upload/:parentId', getMemoryUpload().single('upload'), memoryUpload); // handle file upload to memory
 } else {
-    router.post('/upload/:postId', getUpload().single('upload'), upload); // handle file upload
+    router.post('/upload/:parentId', getUpload().single('upload'), upload); // handle file upload
 }
 
 router.use('/', express.static('./client/admin')); // serve admin front end files from '/admin'
@@ -34,7 +34,7 @@ function memoryUpload(req, res, next) {
             data: req.file.buffer,
             contentType: req.file.mimetype,
             size: req.file.size,
-            postId: req.params.postId
+            parentId: req.params.parentId
         }).then(function(image){
             // respond with ckeditor callback
             res.status(200).send(

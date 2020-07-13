@@ -16,8 +16,8 @@ service.deleteImages = deleteImages;
 
 module.exports = service;
 
-function deleteImages(postId) {
-    db.images.deleteMany( { postId });
+function deleteImages(parentId) {
+    db.images.deleteMany( { parentId });
 }
 
 function get(fileName) {
@@ -65,11 +65,11 @@ function getAvailableNameHelper(fileBaseSlug, fileExtension, counter, foundCB, n
 }
 
 
-function create({fileName, data, contentType, size, postId}) {
+function create({fileName, data, contentType, size, parentId}) {
     var deferred = Q.defer();
 
     db.images.insert(
-        {fileName, data, contentType, size, postId},
+        {fileName, data, contentType, size, parentId},
         function (err, doc) {
             if (err) deferred.reject(err.name + ': ' + err.message);
 
