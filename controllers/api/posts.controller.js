@@ -4,6 +4,7 @@ var express = require('express');
 var jwt = require('express-jwt')({ secret: config.secret });
 var router = express.Router();
 var postService = require('services/post.service');
+var imageService = require('services/image.service');
 
 // routes
 router.get('/', getAll);
@@ -78,6 +79,7 @@ function update(req, res) {
 function _delete(req, res) {
     postService.delete(req.params._id)
         .then(function () {
+            imageService.deleteImages(req.params._id);
             res.sendStatus(200);
         })
         .catch(function (err) {

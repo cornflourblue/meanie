@@ -27,18 +27,23 @@ module.exports = router;
 
 function memoryUpload(req, res, next) {
 
-    imageService.create({
-        fileName: req.file.originalname,
-        data: req.file.buffer,
-        contentType: req.file.mimetype,
-        size: req.file.size,
-        postId: req.params.postId
-    }).then(function(image){
-        // respond with ckeditor callback
-        res.status(200).send(
-            '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_content/database_uploads/' + req.file.originalname + '");</script>'
-        );
+    imageService.getAvailableName(req.file.originalname).then(function(availableName) {
+
+        imageService.create({
+            fileName: availableName,
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+            size: req.file.size,
+            postId: req.params.postId
+        }).then(function(image){
+            // respond with ckeditor callback
+            res.status(200).send(
+                '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_content/database_uploads/' + availableName + '");</script>'
+            );
+        });
+
     });
+
 }
 
 
