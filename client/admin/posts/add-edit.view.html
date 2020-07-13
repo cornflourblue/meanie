@@ -14,6 +14,7 @@
             <label for="summary">Summary</label>
             <textarea id="summary" class="form-control" ng-model="vm.post.summary" rows="4"></textarea>
         </div>
+        <p ng-if="!vm.post._id">*you must save a post before being able to upload images</p>
         <div class="form-group">
             <label for="body">Body</label>
             <textarea class="form-control" ng-model="vm.post.body" wysiwyg post-id="{{vm.post._id}}"></textarea>
