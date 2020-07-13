@@ -5,10 +5,19 @@ var multer = require('multer');
 var slugify = require('helpers/slugify');
 var fileExists = require('helpers/file-exists');
 var imageService = require('services/image.service');
+var config = require('config.json');
+
+var uploadToMongo = process.env.UPLOAD_IMAGES_TO_MONGO || config.uploadToMongo;
 
 router.use('/', ensureAuthenticated);
-//router.post('/upload', getUpload().single('upload'), upload); // handle file upload
-router.post('/upload', getMemoryUpload().single('upload'), memoryUpload); // handle file upload to memory
+
+if (uploadToMongo) {
+    console.log("using database for file uploads");
+    router.post('/upload/:postId', getMemoryUpload().single('upload'), memoryUpload); // handle file upload to memory
+} else {
+    router.post('/upload/:postId', getUpload().single('upload'), upload); // handle file upload
+}
+
 router.use('/', express.static('./client/admin')); // serve admin front end files from '/admin'
 
 module.exports = router;
@@ -18,11 +27,16 @@ module.exports = router;
 
 function memoryUpload(req, res, next) {
 
-    console.log(Object.keys(req.file));
-    imageService.create(req.file.originalname, req.file.buffer, req.file.mimetype, req.file.size,).then(function(image){
+    imageService.create({
+        fileName: req.file.originalname,
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+        size: req.file.size,
+        postId: req.params.postId
+    }).then(function(image){
         // respond with ckeditor callback
         res.status(200).send(
-            '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_content/uploads/' + req.file.originalname + '");</script>'
+            '<script>window.parent.CKEDITOR.tools.callFunction(' + req.query.CKEditorFuncNum + ', "/_content/database_uploads/' + req.file.originalname + '");</script>'
         );
     });
 }

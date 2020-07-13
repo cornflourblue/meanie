@@ -27,7 +27,7 @@
                 } else {
                     // regular editor
                     editorOptions = {
-                        filebrowserImageUploadUrl: '/admin/upload',
+                        filebrowserImageUploadUrl: '/admin/upload' + (attr.postId ? "/" + attr.postId : ""),
                         removeButtons: 'About,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Save,CreateDiv,Language,BidiLtr,BidiRtl,Flash,Iframe,addFile,Styles',
                         allowedContent: true
                     };

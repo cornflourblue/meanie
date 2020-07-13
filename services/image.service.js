@@ -27,11 +27,11 @@ function get(url) {
     return deferred.promise;
 }
 
-function create(url, data, contentType, size) {
+function create({fileName, data, contentType, size, postId}) {
     var deferred = Q.defer();
 
     db.images.insert(
-        {url, data, contentType, size},
+        {fileName, data, contentType, size, postId},
         function (err, doc) {
             if (err) deferred.reject(err.name + ': ' + err.message);
 

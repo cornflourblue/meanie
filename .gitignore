@@ -30,3 +30,7 @@ node_modules
 client/blog/_content/uploads
 
 .nvmrc
+
+# processed javascript & css outputs
+client/admin/_dist
+client/blog/_dist

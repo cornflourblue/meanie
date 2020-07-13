@@ -26,10 +26,9 @@ const appName = process.env.APP_NAME || config.appName;
 ---------------------------------------*/
 
 router.use('/_dist', express.static(basePath + '/_dist'));
-//router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeekMilliseconds }));
+router.use('/_content', express.static(basePath + '/_content', { maxAge: oneWeekMilliseconds }));
 
-console.log("adding image router");
-router.get('/_content/uploads/:fileName', function (req, res, next) {
+router.get('/_content/database_uploads/:fileName', function (req, res, next) {
 
     var fileName = req.params.fileName;
 
@@ -38,8 +37,7 @@ router.get('/_content/uploads/:fileName', function (req, res, next) {
         console.log("Image not found!: " + error);
         res.status(404).send("image not found");
     }).then(function(image) {
-        console.log("found image!!!!" + image.url );
-      
+        console.log("found image: " + image.url );
         res.setHeader('content-type', image.contentType);
         //const download = Buffer.from(image.data, 'base64')
         console.log("sending file...");
