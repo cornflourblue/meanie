@@ -7,8 +7,13 @@
         "url": "https://github.com/cornflourblue/meanie.git"
     },
     "dependencies": {
+        "angular": "1.5.7",
+        "angular-messages": "1.5.7",
+        "@uirouter/angularjs": "0.2.18",
         "bcryptjs": "^2.1.0",
+        "bootstrap": "3.3.7",
         "body-parser": "^1.13.2",
+        "ckeditor": "4.5.7",
         "compression": "^1.6.2",
         "connect-mongo": "^1.3.2",
         "dotenv": "^1.2.0",
@@ -17,6 +22,9 @@
         "express-jwt": "^3.0.1",
         "express-session": "^1.11.3",
         "jsonwebtoken": "^5.0.2",
+        "jquery": "2.2.4",
+        "jquery-ui": "1.10.5",
+        "jquery-ui-dist": "1.12.1",
         "lodash": "^3.10.0",
         "moment": "^2.14.1",
         "mongodb": "^2.1.16",
@@ -26,7 +34,8 @@
         "path": "^0.12.7",
         "q": "^1.4.1",
         "request": "^2.58.0",
-        "rootpath": "^0.1.2"
+        "rootpath": "^0.1.2",
+        "underscore": "1.8.3"
     },
     "devDependencies": {
         "gulp": "3.9.1",
@@ -37,10 +46,12 @@
         "gulp-ng-annotate": "2.0.0",
         "gulp-sourcemaps": "2.4.0",
         "gulp-uglify": "1.5.2",
+        "gulp-util": "3.0.8",
         "yargs": "^4.6.0"
     },
     "scripts": {
-        "build": "gulp",
+        "dev": "gulp",
+        "build": "gulp --production",
         "start": "node server.js",
         "client-watch": "gulp watch"
     },

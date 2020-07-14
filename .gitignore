@@ -37,3 +37,6 @@ client/blog/_dist
 
 # environment variables and secrets
 .env
+
+# gulp pipeline assets
+client/_dist/

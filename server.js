@@ -70,6 +70,13 @@ app.use('/admin', require('./controllers/admin.controller'));
 // blog front end
 app.use('/', require('./controllers/blog.controller'));
 
+// serve vendor assets from '/_dist'
+app.use('/_dist/bootstrap',express.static(__dirname+'/node_modules/bootstrap'));
+app.use('/_dist/ckeditor',express.static(__dirname+'/node_modules/ckeditor'));
+app.use('/_dist/jquery-ui/themes',express.static(__dirname+'/node_modules/jquery-ui/themes'));
+app.use('/_dist/jquery-ui',express.static(__dirname+'/node_modules/jquery-ui-dist'));
+app.use('/_dist', express.static('./client/_dist'));
+
 // start server
 var port = process.env.PORT;
 port = port || (process.env.NODE_ENV === 'production' ? 80 : 3000);

@@ -9,6 +9,10 @@
     <link rel="shortcut icon" href="/_content/images/logo.png" type="image/png" />
     <link rel="icon" href="/_content/images/logo.png" type="image/png" />
 
+    <link href="/_dist/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/_dist/app.css" />
+
     <title><%- locals.metaTitle || locals.appName %></title>
     <meta name="description" content="<%- locals.metaDescription || locals.appName %>" />
 
@@ -17,15 +21,9 @@
         <%- include('_content/fonts/montserrat.css') %>
         <%- include('_content/icomoon/style.css') %>
 
-        /* bootstrap */
-        <%- include('_content/bootstrap.css') %>
-
         /* syntax higlighter */
         <%- include('_content/syntaxhighlighter/css/shCore.css') %>
         <%- include('_content/syntaxhighlighter/css/shThemeDefault.css') %>
-
-        /* custom */
-        <%- include('_dist/app.css') %>
     </style>
 
     <% if(!locals.loggedIn) { // don't record traffic if logged in %>
@@ -52,7 +50,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                    <img src="/_content/images/logo.png" width="100" height="100" />
+                    <img src="/_content/images/logo.png" width="50" height="50" />
                     <span><%- locals.appName %></span>
                 </a>
             </div>
@@ -130,7 +128,7 @@
     </script>
 
     <!-- jquery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/_dist/jquery.min.js"></script>
 
     <script>
         $(function () {
@@ -147,11 +145,11 @@
     </script>
 
     <!-- angular -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+    <script src="/_dist/angular.min.js"></script>
+    <script src="/_dist/angular-messages.min.js"></script>
+    <script src="/_dist/angular-ui-router.min.js"></script>
 
     <!-- meanie -->
-    <script src="/_dist/app.min.js"></script>
+    <script src="_dist/app.min.js"></script>
 </body>
 </html>
