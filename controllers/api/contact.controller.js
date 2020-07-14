@@ -1,5 +1,4 @@
-﻿var config = require('config.json');
-var nodemailer = require('nodemailer');
+﻿var nodemailer = require('nodemailer');
 var express = require('express');
 var router = express.Router();
 
@@ -12,7 +11,7 @@ function send(req, res) {
     // email data and options
     var mailOptions = {
         from: req.body.email,
-        to: config.contactEmail,
+        to: process.env.CONTACT_EMAIL,
         subject: req.body.subject,
         text: req.body.message
     };

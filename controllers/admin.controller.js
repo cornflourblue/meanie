@@ -5,9 +5,8 @@ var multer = require('multer');
 var slugify = require('helpers/slugify');
 var fileExists = require('helpers/file-exists');
 var imageService = require('services/image.service');
-var config = require('config.json');
 
-var uploadToMongo = process.env.UPLOAD_IMAGES_TO_MONGO || config.uploadToMongo;
+var uploadToMongo = process.env.UPLOAD_IMAGES_TO_MONGO;
 
 router.use('/', ensureAuthenticated);
 

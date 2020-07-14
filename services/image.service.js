@@ -1,10 +1,9 @@
-﻿var config = require('config.json');
-var _ = require('lodash');
+﻿var _ = require('lodash');
 var Q = require('q');
 var path = require('path');
 var slugify = require('helpers/slugify');
 var mongo = require('mongoskin');
-var db = mongo.db(process.env.MONGODB_URI || config.connectionString, { native_parser: true });
+var db = mongo.db(process.env.MONGODB_URI || process.env.CONNECTION_STRING, { native_parser: true });
 db.bind('images');
 
 var service = {};

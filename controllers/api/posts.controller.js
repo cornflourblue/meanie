@@ -1,7 +1,6 @@
-﻿var config = require('config.json');
-var _ = require('lodash');
+﻿var _ = require('lodash');
 var express = require('express');
-var jwt = require('express-jwt')({ secret: config.secret });
+var jwt = require('express-jwt')({ secret: process.env.SECRET });
 var router = express.Router();
 var postService = require('services/post.service');
 var imageService = require('services/image.service');

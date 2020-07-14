@@ -1,4 +1,5 @@
 ﻿require('rootpath')();
+require('dotenv').config()
 var express = require('express');
 var ejs = require('ejs');
 var app = express();
@@ -6,7 +7,8 @@ var compression = require('compression');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
-var config = require('config.json');
+
+var userService = require('services/user.service');
 
 // enable ejs templates to have .html extension
 app.engine('html', ejs.renderFile);
@@ -22,20 +24,28 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 console.log("process.env.MONGODB_URI: " + process.env.MONGODB_URI);
+console.log("process.env.CONNECTION_STRING: " + process.env.CONNECTION_STRING);
 app.use(session({
-    secret: config.secret,
-    store: new MongoStore({ url: process.env.MONGODB_URI || config.connectionString }),
+    secret: process.env.SECRET,
+    store: new MongoStore({ url: process.env.MONGODB_URI || process.env.CONNECTION_STRING }),
     resave: false,
     saveUninitialized: true
 }));
 
 // redirect to the install page if first time running
 app.use(function (req, res, next) {
-    if (!config.installed && req.path !== '/install') {
-        return res.redirect('/install');
+    //don't redirect if we're already at install page
+    if (req.path === '/install') {
+        next();
+    } else {
+        userService.getAll().then(function (users) {
+            if (!users || users.length == 0) {
+                return res.redirect('/install');
+            } else {
+                next();
+            }
+        });
     }
-
-    next();
 });
 
 // api routes

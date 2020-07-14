@@ -1,10 +1,9 @@
-﻿var config = require('config.json');
-var _ = require('lodash');
+﻿var _ = require('lodash');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var Q = require('q');
 var mongo = require('mongoskin');
-var db = mongo.db(process.env.MONGODB_URI || config.connectionString, { native_parser: true });
+var db = mongo.db(process.env.MONGODB_URI || process.env.CONNECTION_STRING, { native_parser: true });
 db.bind('users');
 
 var service = {};
@@ -26,7 +25,7 @@ function authenticate(username, password) {
 
         if (user && bcrypt.compareSync(password, user.hash)) {
             // authentication successful
-            deferred.resolve(jwt.sign({ sub: user._id }, config.secret));
+            deferred.resolve(jwt.sign({ sub: user._id }, process.env.SECRET));
         } else {
             // authentication failed
             deferred.resolve();

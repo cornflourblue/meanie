@@ -34,3 +34,6 @@ client/blog/_content/uploads
 # processed javascript & css outputs
 client/admin/_dist
 client/blog/_dist
+
+# environment variables and secrets
+.env

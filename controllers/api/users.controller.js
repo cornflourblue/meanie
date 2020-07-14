@@ -1,6 +1,5 @@
-﻿var config = require('config.json');
-var express = require('express');
-var jwt = require('express-jwt')({ secret: config.secret });
+﻿var express = require('express');
+var jwt = require('express-jwt')({ secret: process.env.SECRET });
 var router = express.Router();
 var userService = require('services/user.service');
 

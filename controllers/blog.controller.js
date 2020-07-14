@@ -5,7 +5,6 @@ var path = require('path');
 var router = express.Router();
 var request = require('request');
 var fs = require('fs');
-var config = require('config.json');
 var pageService = require('services/page.service');
 var postService = require('services/post.service');
 var redirectService = require('services/redirect.service');
@@ -19,8 +18,8 @@ var metaTitleSuffix = "";
 var oneWeekSeconds = 60 * 60 * 24 * 7;
 var oneWeekMilliseconds = oneWeekSeconds * 1000;
 
-const disqusApp = process.env.DISQUS_APP || config.disqusApp;
-const appName = process.env.APP_NAME || config.appName;
+const disqusApp = process.env.DISQUS_APP;
+const appName = process.env.APP_NAME;
 
 /* STATIC ROUTES
 ---------------------------------------*/
@@ -32,15 +31,14 @@ router.get('/_content/database_uploads/:fileName', function (req, res, next) {
 
     var fileName = req.params.fileName;
 
-    console.log("image requested:" + fileName);
+    //console.log("image requested:" + fileName);
     imageService.get(fileName).catch( function(error) {
-        console.log("Image not found!: " + error);
+        //console.log("Image not found!: " + error);
         res.status(404).send("image not found");
     }).then(function(image) {
-        console.log("found image: " + image.url );
+        //console.log("found image: " + image.url );
         res.setHeader('content-type', image.contentType);
-        //const download = Buffer.from(image.data, 'base64')
-        console.log("sending file...");
+        //console.log("sending file...");
         res.status(200).send(image.data.buffer);
     }).catch( function(error) {
         console.log("failed to send image!: " + error);
@@ -80,7 +78,7 @@ router.use(function (req, res, next) {
     vm.loggedIn = !!req.session.token;
     vm.domain = req.protocol + '://' + req.get('host');
     vm.url = vm.domain + req.path;
-    vm.googleAnalyticsAccount = config.googleAnalyticsAccount;
+    vm.googleAnalyticsAccount = process.env.GOOGLE_ANALYTICS_ACCOUNT;
 
     postService.getAll()
         .then(function (posts) {
