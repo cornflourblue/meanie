@@ -13,6 +13,9 @@
 
     <link rel="stylesheet" href="/_dist/app.css" />
 
+    <link href="/_dist/prismjs/themes/prism-okaidia.css" rel="stylesheet" />
+    <link href="/_dist/prismjs/plugins/line-numbers/prism-line-numbers.css" rel="stylesheet" />
+
     <title><%- locals.metaTitle || locals.appName %></title>
     <meta name="description" content="<%- locals.metaDescription || locals.appName %>" />
 
@@ -21,9 +24,6 @@
         <%- include('_content/fonts/montserrat.css') %>
         <%- include('_content/icomoon/style.css') %>
 
-        /* syntax higlighter */
-        <%- include('_content/syntaxhighlighter/css/shCore.css') %>
-        <%- include('_content/syntaxhighlighter/css/shThemeDefault.css') %>
     </style>
 
     <% if(!locals.loggedIn) { // don't record traffic if logged in %>
@@ -108,24 +108,9 @@
     </div>
 
     <!-- syntax highlighter -->
-    <script src="/_content/syntaxhighlighter/js/shCore.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushCSharp.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushCss.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushJScript.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushPlain.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushSql.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushVb.js"></script>
-    <script src="/_content/syntaxhighlighter/js/shBrushXml.js"></script>
-    <script>
-        SyntaxHighlighter.defaults['gutter'] = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.defaults['auto-links'] = true;
-        SyntaxHighlighter.defaults['collapse'] = false;
-        SyntaxHighlighter.defaults['light'] = false;
-        SyntaxHighlighter.defaults['tab-size'] = 4;
-        SyntaxHighlighter.defaults['toolbar'] = true;
-        SyntaxHighlighter.defaults['wrap-lines'] = true;
-    </script>
+    <script src="/_dist/prismjs/components/prism-core.min.js"></script>
+    <script src="/_dist/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="/_dist/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
 
     <!-- jquery -->
     <script src="/_dist/jquery.min.js"></script>

@@ -89,7 +89,8 @@
 
             $timeout(function () {
                 // run syntax highlighter plugin
-                SyntaxHighlighter.highlight();
+                //SyntaxHighlighter.highlight();
+                Prism.highlightAll();
             });
 
             window.initialLoad = false;

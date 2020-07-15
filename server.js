@@ -75,6 +75,7 @@ app.use('/_dist/bootstrap',express.static(__dirname+'/node_modules/bootstrap'));
 app.use('/_dist/ckeditor',express.static(__dirname+'/node_modules/ckeditor'));
 app.use('/_dist/jquery-ui/themes',express.static(__dirname+'/node_modules/jquery-ui/themes'));
 app.use('/_dist/jquery-ui',express.static(__dirname+'/node_modules/jquery-ui-dist'));
+app.use('/_dist/prismjs',express.static(__dirname+'/node_modules/prismjs'));
 app.use('/_dist', express.static('./client/_dist'));
 
 // start server
