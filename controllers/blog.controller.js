@@ -18,8 +18,13 @@ var metaTitleSuffix = "";
 var oneWeekSeconds = 60 * 60 * 24 * 7;
 var oneWeekMilliseconds = oneWeekSeconds * 1000;
 
-const disqusApp = process.env.DISQUS_APP;
 const appName = process.env.APP_NAME;
+const disqusApp = process.env.DISQUS_APP;
+const enableComments = disqusApp && (process.env.DISABLE_DISQUS != 'true');
+const googleAnalyticsAccount = process.env.GOOGLE_ANALYTICS_ACCOUNT;
+const enableAnalytics = googleAnalyticsAccount && (process.env.DISABLE_ANALYTICS != 'true');
+const carbonPlacement = process.env.CARBON_PLACEMENT;
+const enableAds = carbonPlacement && (process.env.DISABLE_ADS != 'true');
 
 /* STATIC ROUTES
 ---------------------------------------*/
@@ -78,7 +83,14 @@ router.use(function (req, res, next) {
     vm.loggedIn = !!req.session.token;
     vm.domain = req.protocol + '://' + req.get('host');
     vm.url = vm.domain + req.path;
-    vm.googleAnalyticsAccount = process.env.GOOGLE_ANALYTICS_ACCOUNT;
+
+    vm.appName = appName;
+    vm.enableAnalytics = enableAnalytics;
+    vm.googleAnalyticsAccount = googleAnalyticsAccount;
+    vm.enableAds = enableAds;
+    vm.carbonPlacement = carbonPlacement;
+    vm.enableComments = enableComments;
+    vm.disqusApp = disqusApp;
 
     postService.getAll()
         .then(function (posts) {
@@ -151,7 +163,6 @@ router.get('/', function (req, res, next) {
     var vm = req.vm;
 
     var currentPage = req.query.page || 1;
-    vm.appName = appName;
     vm.pager = pager(vm.posts.length, currentPage);
     vm.posts = vm.posts.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
 
@@ -195,7 +206,6 @@ router.get('/post/:year/:month/:day/:slug', function (req, res, next) {
             });
 
             // meta tags
-            vm.disqusApp = disqusApp;
             vm.metaTitle = vm.post.title + metaTitleSuffix;
             vm.metaDescription = vm.post.summary;
 
@@ -226,7 +236,6 @@ router.get('/posts/tag/:tag', function (req, res, next) {
                 tagFound = true;
 
                 // meta tags
-                vm.disqusApp = disqusApp;
                 vm.metaTitle = 'Posts tagged "' + vm.tag + '"' + metaTitleSuffix;
                 vm.metaDescription = 'Posts tagged "' + vm.tag + '"' + metaTitleSuffix;
             }

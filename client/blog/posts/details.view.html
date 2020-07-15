@@ -21,13 +21,16 @@
         </div>
         <hr />
 
-        <!-- comments -->
-        <div id="disqus_thread"></div>
         <script>
             // update page title
             var metaTitle = '<%- locals.metaTitle.replace(/\'/g, "\\\'") %>';
             document.title = metaTitle;
+        </script>
 
+        <!-- comments -->
+        <% if(locals.enableComments) { %>
+        <div id="disqus_thread"></div>
+        <script>
             var disqus_config = function () {
                 this.page.url = '<%= locals.post.permalink %>';
                 this.page.title = metaTitle;
@@ -50,5 +53,6 @@
                 });
             }
         </script>
+        <% } %>
     </div>
 </div>

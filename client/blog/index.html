@@ -26,7 +26,7 @@
 
     </style>
 
-    <% if(!locals.loggedIn) { // don't record traffic if logged in %>
+    <% if(locals.enableAnalytics && !locals.loggedIn) { // don't record traffic if logged in %>
         <!-- analytics -->
         <script>
             (function (i, s, o, g, r, a, m) {
@@ -101,12 +101,6 @@
         Powered by <a href="http://jasonwatmore.com/meanie" target="_blank">MEANie - The MEAN Stack Blog</a>
     </div>
 
-    <!-- carbon ads -->
-    <div class="carbonads-container">
-        <div class="ad-title">Sponsored by <span class="close-ad icon-cross"></span></div>
-        <script async type="text/javascript" src="/carbonads.js?zoneid=1673&serve=C6AILKT&placement=jasonwatmore&d=<%= new Date().toISOString().slice(0, 13) %>" id="_carbonads_js"></script>
-    </div>
-
     <!-- syntax highlighter -->
     <script src="/_dist/prismjs/components/prism-core.min.js"></script>
     <script src="/_dist/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
@@ -115,6 +109,18 @@
     <!-- jquery -->
     <script src="/_dist/jquery.min.js"></script>
 
+
+    <% if(locals.enableAds) { %>
+    <!-- carbon ads -->
+    <div class="carbonads-container">
+        <div class="ad-title">Sponsored by <span class="close-ad icon-cross"></span></div>
+        <script
+            async
+            type="text/javascript"
+            src="/carbonads.js?zoneid=1673&serve=C6AILKT&placement=<%= locals.carbonPlacement %>&d=<%= new Date().toISOString().slice(0, 13) %>"
+            id="_carbonads_js">
+        </script>
+    </div>
     <script>
         $(function () {
             window.setTimeout(function () {
@@ -128,6 +134,7 @@
             });
         });
     </script>
+    <% } %>
 
     <!-- angular -->
     <script src="/_dist/angular.min.js"></script>

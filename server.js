@@ -1,5 +1,5 @@
 ﻿require('rootpath')();
-require('dotenv').config()
+require('dotenv').config({ silent: process.env.NODE_ENV === 'production' });
 var express = require('express');
 var ejs = require('ejs');
 var app = express();
