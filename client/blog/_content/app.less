@@ -82,6 +82,7 @@ hr {
 }
 
 .navbar-inverse {
+    background-color: teal;
     padding-bottom: 10px;
     padding-top: 10px;
 }
@@ -91,7 +92,7 @@ hr {
     }
 
         .navbar-inverse .navbar-nav > li > a:hover {
-            color: #7b7b7b;
+            color: black;
         }
 
 .navbar-brand {
@@ -102,12 +103,14 @@ hr {
 
 .navbar-brand img {
     border-radius: 0%;
+    float: left;
+    margin-right: 10px;
 }
 
 .navbar-brand span {
     white-space:nowrap;
-    display:inline-block;
-    margin-top:5px;
+    float: left;
+    margin-top:12px;
 }
 
 @media (max-width: 767px) {
@@ -126,6 +129,7 @@ hr {
 
     .container > .navbar-header {
         margin-right:50px;
+        min-height: 70px;
     }
 
     .post-pager {
