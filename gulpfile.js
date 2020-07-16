@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var util = require('gulp-util');
 var ngAnnotate = require('gulp-ng-annotate');
+var sourcemaps = require('gulp-sourcemaps');
 var argv = require('yargs').argv;
 
 var basePath = './client';
@@ -26,9 +27,11 @@ gulp.task('less', function () {
         return gulp.src([
             basePath + '/' + app + '/_content/app.less'
             ])
+            .pipe(sourcemaps.init())
             .pipe(less())
             .pipe(autoprefixer())
             .pipe(isProduction ? minifyCSS() : util.noop())
+            .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(basePath + '/' + app + '/_dist/'));
     }
 });
@@ -45,6 +48,8 @@ gulp.task('vendor_scripts', function () {
         //jquery-ui-dist needs multiple files, so serve from node_modules
         //'node_modules/jquery-ui-dist/jquery-ui.min.js',
         'node_modules/angular/angular.min.js',
+        'node_modules/angular/angular.js',
+        'node_modules/angular/angular.min.js.map',
         'node_modules/angular-messages/angular-messages.min.js',
         'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js'
     ])
@@ -72,9 +77,11 @@ gulp.task('scripts', function () {
                 '!' + basePath + '/' + app + '/_content/**/*.js', 
                 '!' + basePath + '/' + app + '/_dist/**/*.js'
             ])
+            .pipe(sourcemaps.init())
             .pipe(ngAnnotate())
             .pipe(isProduction ? uglify() : util.noop())
             .pipe(concat('app.min.js'))
+            .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(basePath + '/' + app + '/_dist'));
     }
 });
