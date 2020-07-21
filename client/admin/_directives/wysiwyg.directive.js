@@ -27,10 +27,12 @@
                 } else {
                     // regular editor
                     editorOptions = {
-                        filebrowserImageUploadUrl: '/admin/upload',
                         removeButtons: 'About,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Save,CreateDiv,Language,BidiLtr,BidiRtl,Flash,Iframe,addFile,Styles',
                         allowedContent: true
                     };
+                    if (attr.parentId) {
+                        editorOptions.filebrowserImageUploadUrl = '/admin/upload/' + attr.parentId;
+                    }
                 }
 
                 // enable ckeditor

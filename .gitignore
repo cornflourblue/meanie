@@ -28,3 +28,15 @@ node_modules
 
 # file uploads folder
 client/blog/_content/uploads
+
+.nvmrc
+
+# processed javascript & css outputs
+client/admin/_dist
+client/blog/_dist
+
+# environment variables and secrets
+.env
+
+# gulp pipeline assets
+client/_dist/

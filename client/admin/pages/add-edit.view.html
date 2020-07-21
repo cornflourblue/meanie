@@ -14,9 +14,10 @@
             <label for="description">Description</label>
             <textarea id="description" class="form-control" ng-model="vm.page.description" rows="4"></textarea>
         </div>
+        <p ng-if="!vm.post._id">*you must save a page before being able to upload images</p>
         <div class="form-group">
             <label for="body">Body</label>
-            <textarea class="form-control" ng-model="vm.page.body" wysiwyg></textarea>
+            <textarea class="form-control" ng-model="vm.page.body" wysiwyg parent-id="{{vm.page._id}}"></textarea>
         </div>
         <div class="checkbox">
             <label>

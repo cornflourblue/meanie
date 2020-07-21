@@ -1,6 +1,0 @@
-﻿{
-    "connectionString": "mongodb://localhost:27017/meanie",
-    "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
-    "contactEmail": "REPLACE THIS WITH YOUR EMAIL ADDRESS",
-    "googleAnalyticsAccount": "UA-XXXXXXXX-X"
-}
